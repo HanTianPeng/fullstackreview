@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <!-- <input type="text" v-model='something'> -->
+        <!-- <input v-bind:value="something" v-on:input="something = $event.target.value"> -->
+        <!-- input元素本身有一个oninput事件，
+            每当输入框内容发生变化，就会触发oninput事件，把$event最新的value传递给value
+        -->
+        <!-- 在给input元素添加v-model属性时，
+            默认会把value作为元素的属性，然后把input事件作为实时传递value的触发事件。
+            即：v-model是第二行(第三行)代码的语法糖
+        -->
+        <input :value="something" @input="something = $event.target.value">
+        <br>
+        <p>输入框的内容是: {{ something }}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                something: '',
+            },
+            computed: {
+
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</body>
+</html>

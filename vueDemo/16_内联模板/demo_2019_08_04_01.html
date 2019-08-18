@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        内联模板:
+        
+     -->
+    <div id='app'>
+        <child-component inline-template>
+            <div>
+                <h2>在父组件中定义子组件的模板</h2>
+                <p>{{ parentMessage }}</p>
+                <p>{{ childMessage }}</p>
+            </div>
+        </child-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 注册组件
+        Vue.component('child-component', {
+            template: '',
+            data: function(){
+                return {
+                    childMessage: '子组件内容'
+                };
+            },
+        });
+
+        // 创建Vue实例对象
+        var app = new Vue({
+            el: '#app',
+            data: {
+                parentMessage: '父组件内容'
+            },
+            mounted: function(){
+
+            },
+            computed: {
+
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</body>
+</html>

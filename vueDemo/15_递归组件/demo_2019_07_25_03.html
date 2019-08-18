@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        递归组件：
+        
+     -->
+    <div id='app'>
+        <div class='list-detail'>
+            <list :list='list'></list>
+        </div>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('list', {
+            name: 'list',
+            template: "\
+            <div>\
+                <div class='list-item' v-for='(item, index) in list' :key='index'>\
+                    <div class='item-name'>\
+                        <span>\
+                            {{ item.name }}\
+                        </span>\
+                    </div>\
+                    <div v-if='item.children' class='children-item'>\
+                        <list :list='item.children'>\
+                        </list>\
+                    </div>\
+                </div>\
+            </div>\
+            ",
+            data: function(){
+                return {
+
+                }
+            },
+            props: ['list'],
+        });
+        const app = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                    {
+                        name: "经济",
+                        children: [
+                            {
+                                name: "如家",
+                                 children: [
+                                    {
+                                        name: "上江路-如家"
+                                    },
+                                    {
+                                        name: "望江路-如家"
+                                    }
+                                ]
+                            },
+                            {
+                                name: "7天",
+                                children: [
+                                    {
+                                        name: "长江路-7天"
+                                    },
+                                    {
+                                        name: "望江路-7天"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 200px;
+            height: 200px;
+            margin: 100px auto 0;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(-30deg) rotate(57deg);
+        }
+
+        .box > div{
+            width: 200px;
+            height: 200px;
+            opacity: .7;
+            position: absolute;
+            text-align: center;
+        }
+
+        .up{
+            background: red;
+            transform: rotateX(90deg) translateZ(100px);
+        }
+
+        .down{
+            background: orange;
+            transform: rotateX(-90deg) translateZ(100px);
+        }
+
+        .left{
+            background: yellow;
+            transform: rotateY(-90deg) translateZ(100px);
+        }
+
+        .right{
+            background: blue;
+            transform: rotateY(-90deg) translateZ(100px);
+        }
+
+        .before{
+            background:cyan;
+            transform: translateZ(100px);
+        }
+        .after{
+            background:purple;
+            transform: translateZ(-100px);
+        }
+    </style>
+</head>
+<body>
+    <div class='box'>
+        <div class='up'>A</div>
+        <div class='down'>B</div>
+        <div class='left'>C</div>
+        <div class='right'>D</div>
+        <div class='before'>E</div>
+        <div class='after'>F</div>
+    </div>
+</body>
+</html>

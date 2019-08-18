@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./demo_2019_08_11_01.css">
+    <title>问卷调查案例</title>
+</head>
+<body>
+    <div id='app' v-cloak>
+        <question-panel>
+            <!-- 问题组件 -->
+            <question>
+                问题组件
+            </question>
+
+            <!-- 问题底部按钮组件 -->
+            <question-action>
+                <btn>下一步</btn>
+                <btn>上一步</btn>
+                <btn>重置</btn>
+            </question-action>
+        </question-panel>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="btn.js"></script>
+    <script src="question.js"></script>
+    <script src="questionAction.js"></script>
+    <script src="questionPanel.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+        });
+    </script>
+</body>
+</html>

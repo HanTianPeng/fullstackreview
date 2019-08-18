@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        自定义指令:
+            注意事项:
+                1. 指令必须小写，大写会报错。
+
+            自定义指令的选项是由几个钩子函数组成的，每个都是可选的:
+                1. bind: 只调用一次，指令第一次绑定到元素时调用，用这个钩子函数可以定义一个在绑定时执行一次的初始化动作。
+                
+                2. inserted: 被绑定元素插入父节点时调用(父节点存在即可调用，不必存在于document中)。
+                
+                3. update: 被绑定元素所在的模板更新时调用，而不论绑定值是否变化，通过比较更新前后的绑定值，可以忽略不必要的模板更新。
+                
+                4. componentUpdated: 被绑定元素所在模板完成一次更新周期时调用。
+                
+                5. unbind: 只调用一次，指令与元素解除绑定时调用。
+            
+            每一个钩子函数都有几个参数可用:
+                1. el: 指令所绑定的元素，可以用来直接操作DOM。
+                
+                2. binding: 一个对象，包含以下属性:
+                    - name: 指令名，不包含v-前缀。
+
+                    - value: 指令的绑定值。
+
+                    - oldValue: 指令绑定的前一个值，仅在update/componentUpdated钩子中可用，无论值是否改变都可用。
+
+                    - expression: 绑定值的字符串新式。
+
+                    - arg: 传给指令的参数。
+
+                    - modifiers: 一个包含修饰符的对象。
+                
+                3. vnode: Vue编译生成的虚拟节点。
+
+                4. oldVnode: 上一个虚拟节点仅在update/componentUpdate钩子中可用。
+     -->
+    <div id='app'>
+        <input type="text" v-focus name="" id="">
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 注册指令
+        Vue.directive('focus', {
+            // 指令选项
+            inserted: function(el) {
+                // inserted: 在元素插入父节点时就被调用
+                el.focus();   // dom元素设置焦点
+            }
+        });
+
+        // 创建vm实例对象
+        const app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+
+            },
+            computed: {
+
+            }
+        });
+    </script>
+</body>
+</html>

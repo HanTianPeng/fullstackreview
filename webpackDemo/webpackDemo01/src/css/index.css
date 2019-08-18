@@ -1,0 +1,15 @@
+li {
+    list-style: none;
+}
+
+.img-div{
+    background: url('../images/a.jpg');
+    height: 500px;
+    background-size: cover;
+}
+
+.img-div-2{
+    background: url('../images2/a.jpg');
+    height: 500px;
+    background-size: cover;
+}

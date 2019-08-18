@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        除非子组件模板中包含至少一个<slot>插口，否则父组件的内容将会被丢弃。
+        当子组件模板只有一个没有属性的slot时，父组件整个内容片段将插入到slot所在的DOM位置，并替换掉slot标签本身
+        <slot></slot> 如果没有指定该默认slot，父组件内多余的内容片段将会被丢弃
+    -->
+    <div id='app'>
+        <child-component>
+            <h2 slot='header'>标题</h2>
+            <p>正文内容</p>
+            <p>更多内容</p>
+            <div slot='footer'>底部信息</div>
+        </child-component>
+
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 注册组件
+        Vue.component('child-component', {
+            template: "\
+            <div class='container'>\
+                <div class='header'>\
+                    <slot name='header'></slot>\
+                </div>\
+                <div class='main'>\
+                    <slot></slot>\
+                </div>\
+                <div class='footer'>\
+                    <slot name='footer'></slot>\
+                </div>\
+            </div>\
+            ",
+            data: function(){
+                return {
+
+                }
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+
+            },
+            computed: {
+
+            }
+        });
+    </script>
+</body>
+</html>

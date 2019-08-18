@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <select name="" id=""v-model='selected'>
+            <!-- 选择列表中：option是备选项，
+                如果含有value属性,v-model就会优先匹配value得值(包括空字符串),
+                如果没有，会直接匹配text 
+            -->
+            <option>html</option>
+            <option value="js">JavaScript</option>
+            <option value="css">css</option>
+        </select>
+        <p>选择得项是：{{ selected }}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                selected: 'html'
+            },
+            computed: {
+
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</body>
+</html>

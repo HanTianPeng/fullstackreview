@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        for-of循环:
+            首先调用集合的[Symbol.iterator]()方法，紧接着返回一个新的迭代器对象。迭代器对象可以是任意有.next()方法的对象;
+            for-of循环将重复调用这个方法，每次循环调用一次.
+     -->
+    <script>
+        class RangeIterator{
+            constructor(start, stop){
+                this.value = start;
+                this.stop = stop;
+            }
+            // 在Symbol.iterator的属性上部署遍历器生成方法
+            [Symbol.iterator](){
+                return this;
+            }
+
+            next(){
+                var value = this.value;
+                if(value < this.stop){
+                    this.value++;
+                    return {done: false, value: value};
+                }
+                return {done: true, value: undefined};
+            }
+        }
+
+        function range(start, stop){
+            return new RangeIterator(start, stop);
+        }
+
+        for (var value of range(0, 3)){
+            console.log(value);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            .sitebar{
+                width: 200px;
+                background-color: green;
+                float: left;
+            }
+            .content{
+                margin-left: 200px;
+                background-color: red;
+            }
+        </style>
+</head>
+<body>
+    <!-- 必须: 左侧浮动在前，左右自适应在后 -->
+    <div class='sitebar'>左侧顶宽200px区块</div>
+    <div class='content'>右侧主体自适应区块</div>
+</body>
+</html>

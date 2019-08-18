@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background: linear-gradient(270deg, #0E6251, #28B463);
+        }
+        #app {
+            display: flex;
+        }
+        .my-list {
+        flex: 1 1 50%;
+        font-family: Arial;
+        color: white;
+        padding: 20px;
+        border-radius: 4px;
+        margin: 20px;
+        }
+        .title {
+            background: #A93226;
+            padding: 20px;
+            font-weight: bold;
+            font-size: 22px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+        .list {
+            background: #34495E;
+            padding: 20px;
+            font-size: 16px;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .list-item:not(:last-child) {
+            padding-bottom: 20px;
+        }
+
+        .swatch {
+            display: inline-block;
+            width: 15px;
+            height: 10px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        作用域插槽：
+            案例2: 开始使用作用域插槽，复用模板
+     -->
+    <div id='app'>
+        <!-- title items 父组件向子组件传递数据 -->
+        <my-list title="Shapes" :items="shapes">
+            <!-- template内通过scope这个key去定义一个临时变量shape访问子组件插槽中的数据 -->
+            <template scope="shape">
+                <div>
+                    {{ shape.name }}
+                    <small>
+                        ({{ shape.sides }} sides)
+                    </small>
+                </div>
+            </template>
+        </my-list>
+
+        <my-list title="Colors" :items="colors">
+            <template scope="color">
+                <div>
+                    <div class="swatch" :style="{background: color.hex}">
+                    </div>
+                    <span>{{ color.name }}</span>
+                </div>
+            </template>
+        </my-list>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('my-list', {
+            template: '\
+            <div class="my-list">\
+                <div class="title">\
+                    {{ title }}\
+                </div>\
+                <div class="list">\
+                    <div class="list-item" v-for="item in items">\
+                        <slot v-bind="item"></slot>\
+                    </div>\
+                </div>\
+            </div>\
+            ',
+            data: function(){
+                return {
+                   
+                }
+            },
+            props: ['title', 'items'],
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                shapes: [
+                        {
+                            name: 'Square',
+                            sides: 4,
+                        },
+                        {
+                            name: 'Hexagon',
+                            sides: 6,
+                        },
+                        {
+                            name: 'Triangle',
+                            sides: 3
+                        }
+                    ],
+                colors: [ 
+                    { 
+                        name: 'Yellow', 
+                        hex: '#f4d03f' 
+                    }, 
+                    { 
+                        name: 'Green', 
+                        hex: '#229954' 
+                    }, 
+                    { 
+                        name: 'Purple', 
+                        hex: '#9b59b6' 
+                    } 
+                ]
+            },
+            computed: {
+
+            },
+            methods: {
+
+            },
+            created: function(){
+
+            },
+            mounted: function(){
+
+            }
+        });
+    </script>
+</body>
+</html>

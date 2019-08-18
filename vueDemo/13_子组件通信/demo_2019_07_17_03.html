@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <p>总数：{{ total }}</p>
+        <!-- 子组件向父组件传递数据: v-model实现(监听input事件) -->
+        <my-component v-model="total"></my-component>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('my-component', {
+            template: '<button @click="handleClick">+1</button>',
+            data: function(){
+                return {
+                    counter: 0,
+                }
+            },
+            methods: {
+                handleClick: function(){
+                    this.counter++;
+                    // 子组件触发
+                    this.$emit('input', this.counter);
+                }
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                total: 0,
+            },
+            methods: {
+
+            },
+            computed: {
+
+            }
+        });
+    </script>
+</body>
+</html>

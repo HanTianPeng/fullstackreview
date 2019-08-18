@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 注意： 不推荐直接在这里引用任何包和任何css文件，因为会发起二次请求 -->
+
+    <!-- 为什么直接引用main.js不行，因为es6语法或者node语法，浏览器无法识别解析,所以需要webpack -->
+    <!-- <script src="./main.js"></script> -->
+
+    <!-- 测试webpack-dev-server打包的bundle.js在内存中，之前用webpack工具是在本地 -->
+    <!-- <script src="./dist/bundle.js"></script> -->
+
+    <!-- 测试html-webpack-plugin插件 -->
+    <!-- <script src="/bundle.js"></script> -->
+
+    <!-- 不推荐直接在这里面引用css文件，因为也会发起二次请求 -->
+    <!-- <link rel="stylesheet" href="./css/index.css"> -->
+</head>
+<body>
+    <ul>
+        <li>第1行</li>
+        <li>第2行</li>
+        <li>第3行</li>
+        <li>第4行</li>
+        <li>第5行</li>
+        <li>第6行</li>
+        <li>第7行</li>
+        <li>第8行</li>
+    </ul>
+    <div class='img-div'>
+        <img src="./images/a.jpg" alt="">
+    </div>
+
+    <div class='img-div-2'>
+
+    </div>
+    <span>hello world</span>
+    <span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span>
+</body>
+</html>

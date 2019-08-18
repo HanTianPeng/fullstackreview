@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        1. input框双向绑定:
+            :true-value
+            :false-value
+     -->
+    <div id='app'>
+        <input 
+            type="checkbox" 
+            name="" 
+            id="" 
+            v-model='toggle' 
+            :true-value='trueValue' 
+            :false-value='falseValue'>
+            <!-- 勾选时,toggle === :true-value; 未勾选时,toggle === :false-value -->
+        <label>复选框</label>
+        <p>{{ toggle }}</p>
+        <p>{{ trueValue }}</p>
+        <p>{{ falseValue }}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                toggle: false,
+                trueValue: 123,
+                falseValue: 456
+            },
+            computed: {
+
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</body>
+</html>

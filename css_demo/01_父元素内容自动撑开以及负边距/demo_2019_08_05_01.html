@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* 
+        1. 子元素浮动，父元素如何随着子元素内容高度自动撑开:
+            方法1: 父元素设置为: 浮动, 缺点: margin: auto auto;居中失效
+            方法2: 父元素设置为: display: inline-block; 缺点: margin: auto auto;居中失效
+            方法3: 父元素加上clear样式，zoom: 1; 
+            方法4: 父元素设置为: overflow: hidden; 缺点: 超出边界的部分无法显示
+            方法5: 在浮动元素后加: <br clear="all">
+            方法6: 在浮动元素后加: <div class="clear"></div>
+
+        2. 负边距效果:
+             左右负边距表现并不一致，左为负时，是左移；有为负时，是左拉；上下与左右类似.
+         */
+        .bigBox{
+            width: 300px;
+            margin: 150px 150px;
+            border: 2px dashed yellow; 
+            /* display: inline-block; */
+            /* overflow: hidden; */
+        }
+        /***
+        .clear{
+            zoom: 1;
+        }
+
+        .clear:after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+        ***/
+
+        .clear{
+            height: 0px;
+            font-size: 0;
+            clear: both;
+        }
+
+        .box{
+            float: left;
+            background: #00ffff;
+            width: 100px;
+            height: 100px;
+            margin: 3px;
+            border: 2px solid silver;
+        }
+
+        .box:first-child{
+            margin-left: -50px;
+            margin-right: -50px;
+            margin-top: -50px;
+            margin-bottom: -50px;
+        }
+    </style>
+</head>
+<body>
+    <div class='bigBox'>
+        <div class='box'></div>
+        <div class='box'></div>
+        <!-- <br clear="all"> -->
+        <div class='clear'></div>
+    </div>
+    
+</body>
+</html>

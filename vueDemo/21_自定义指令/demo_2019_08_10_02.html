@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <div v-test:msg.a.b='handleClose'>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 注册自定义指令
+        Vue.directive('test', {
+            // bind: 只调用一次，指令第一次绑定到元素时被调用,用这个钩子函数可以定义一个在绑定时执行一次的初始化动作
+            bind: function (el, binding, vnode) {
+                var keys = [];
+                for (var i in vnode) {
+                    keys.push(i);
+                }
+                el.innerHTML = 'name ' + binding.name + '<br>' 
+                + 'value ' + JSON.stringify(binding.value) + '<br>' 
+                + 'value text ' + binding.value.text + '<br>'
+                + 'value name ' + binding.value.name + '<br>'
+                + 'expression ' + binding.expression + '<br>'
+                + 'arg ' + binding.arg + '<br>' 
+                +  'modifiers' + JSON.stringify( binding.modifiers) + '<br><br>' 
+                + 'vnode keys ' + '<br>' 
+                + keys.join(', <br>');
+            }
+        });
+
+        // 创建vm实例对象
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: {
+                    text: 'hello world',
+                    name: 'pht'
+                }
+            },
+            methods: {
+                handleClose (){
+                    this.message.name = 'zzm'
+                }
+            }
+        });
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        v-model: 双向数据流
+          1. 数据picked的值与单选项按钮的value值一直
+    -->
+    <div id='app'>
+        <input type="radio" name="" id="html" value="html" v-model="picked">
+        <!-- for 属性规定 label 与哪个表单元素绑定。(显式关联) -->
+        <label for="html">HTML</label>
+        <br>
+        <!-- label与哪个表单元素绑定。(隐士关联) -->
+        <label><input type="radio" name="" value="js" v-model="picked"> JavaScript</label>
+        <br>
+        <!-- 数据picked的值与单选项按钮的value值一致的，就会选中该项 -->
+        <input type="radio" name="" id="css" value="css" v-model="picked">
+        <label for="css">CSS</label>
+        <br>
+        <p>选择项是: {{ picked }}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                picked: 'js'
+            }, 
+            computed: {
+
+            },
+            methods: {
+
+            }
+        });
+        console.log('v-model====>单选框===>', app.picked);
+    </script>
+</body>
+</html>

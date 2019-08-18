@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        v-bind: 单向数据流
+          1. 用户选中，页面显示为选中状态，但是picked值并未发生改变
+          2. radio单选框，如果单个，选中之后不能取消，多个且name一样时，只能选中其中一个
+     -->
+    <div id='app'>
+        <!-- radio单选框，如果单个，选中之后不能取消，多个且name一样时，只能选中其中一个 -->
+        <input type="radio" id='apple' :checked='picked' name="radioBox">
+        <label for="apple">苹果</label>
+        <input type="radio" id='orange' :checked="picked" name="radioBox">
+        <label for="orange">橘子</label>
+        <input type="radio" id='pink' :checked="picked" name="radioBox2">
+        <label for="pink">粉红色</label>
+        <label for="">选择状态： {{ getPickedId }}</label>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                picked: true,
+            },
+            computed: {
+                getPickedId: function(){
+                    value = document.getElementById('orange').attributes['checked']
+                    return value;
+                }
+            },
+            methods: {
+                
+            }
+        });
+        console.log('v-bind命令====>', app.picked);
+    </script>
+</body>
+</html>

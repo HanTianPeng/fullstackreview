@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>2列右窄左宽、高度自适应且未知高度底部平齐+头部+导航+尾部——<a href="http://www.aa25.cn">标准之路www.aa25.cn</a></title>
+<link href="layout.css" rel="stylesheet" type="text/css" />
+<meta name="Keywords" content="标准之路,www.aa25.cn,网页标准布局,DIV+CSS" />
+<meta name="" content="标准之路,www.aa25.cn,网页标准布局,DIV+CSS" />
+<meta name="author" content"×××,有问题请到www.68css.cn网站留言" />
+<meta name="Description" content="本套网页标准布局模板是由标准之路（www.aa25.cn）制作完成，如果您要转载，请保留版权" />
+</head>
+
+<body>
+<div id="container">
+  <div id="header">This is the Header</div>
+  <br class="clearfloat" />
+  <div id="menu">This is the Menu</div>
+  <br class="clearfloat" />
+  <div id="mainContent">
+    <div id="sidebar">This is the sidebar<br />
+      <br />
+    This is the sidebar<br />
+      <br />
+    This is the sidebar<br />
+      <br />
+This is the sidebar<br />
+<br />
+This is the sidebar<br />
+<br />
+This is the sidebar<br />
+<br />
+This is the sidebar<br />
+<br />
+    </div>
+    <div id="content">2列右窄左宽、高度自适应且未知高度底部平齐+头部+导航+尾部——<a href="http://www.aa25.cn">标准之路www.aa25.cn</a><br />
+      <br />
+      <br />
+      　　此例是当左右侧高度都不固定时，实现底部平齐的方法。目前采用背景图片的方法是最简单和快捷的方法了。<br />
+      <br />
+      　　制作一个和sidebar宽度相同、颜色相同的1px高背景图片，把它应用在mainContent上，然后向y轴方向重复，采用欺骗的方式来实现未知高度底部平齐，当然还有很多种其它的解决方法。细心的朋友可能已经发现，在mainContent样式表里有个 overflow:auto;zoom:1;的属性，overflow:auto;是让mainContent来自适应内部容器的高度，zoom:1;是为了兼容IE6而使用的CSS HACK。zoom:1;通不过W3C的验证，这也是遗憾的一点，幸好IE支持&lt;!--[if IE]&gt;这种写法，可以专门针对IE来写单独的样式，所以可以把这个属性写在页面内的&lt;!--[if IE]&gt;中，这样应该可以通过验证了。<br />
+      <br />
+      　　总之，实现的方法是多种多样的，这只是本人在学习过程中总结的一点经验，权当抛砖引玉，希望能对您有所帮助，当然您有更好的办法和布局，欢迎一块来学习，交流，让web标准在中国得到更好的发展。同时希望您继续关注标准之路(www.aa25.cn)<br />
+      <br />
+      <br />
+    </div>
+  </div>
+  <br class="clearfloat" />
+  <div id="footer">This is the footer</div>
+</div>
+</body>
+</html>

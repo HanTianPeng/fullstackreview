@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <!-- 使用.lazy修饰符，会转变为在change事件中同步,不是实时同步 -->
+        <input type="text" v-model.lazy='msg'>
+        <br>
+        <p>用户输入内容为{{ msg }}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                msg: ''
+            },
+            computed: {
+
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let obj = {
+            data: ['hello', 'world'],
+            [Symbol.iterator](){
+                const self = this;
+                let index = 0;
+                return {next(){
+                    if(index < self.data.length){
+                        return {
+                            value: self.data[index++],
+                            done: false
+                        };
+                    }else{
+                        return {
+                            value: undefined,
+                            done: true
+                        };
+                    }
+                }};
+            }
+        };
+        // Iterator接口的目的，就是为所有数据结构提供了一种统一的访问机制，即for ... of循环
+        for(let a of obj){
+            console.log(a);
+        }
+
+    </script>
+</body>
+</html>

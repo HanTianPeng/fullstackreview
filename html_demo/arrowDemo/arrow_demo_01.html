@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>纯CSS制作的对话框特效代码</title>
+<style>
+.org_box{width:500px; height:80px; line-height:40px; margin:40px auto; padding-left:2em; background:#F3961C;font-size:12px; position:relative; } 
+.org_box_cor{ width:0; height:0; font-size:0;border-style:solid;overflow:hidden; position:absolute; }
+.cor1{border-width:20px;border-color:#f3961c transparent transparent transparent;left:60px; bottom:-40px;}
+.cor2{border-width:20px;border-color:transparent #f3961c transparent transparent;left:-40px; bottom:30px;}
+.cor3{border-width:20px;border-color:transparent transparent #f3961c transparent;left:80px; top:-40px;}
+.cor4{border-width:20px;border-color:transparent transparent transparent #f3961c;right:-40px; bottom:30px;}
+.cor5{border-width:20px 10px;border-color:#f3961c #f3961c transparent transparent;left:60px; bottom:-40px;}
+.cor6{border-width:20px 10px;border-color:#f3961c transparent #f00 transparent;left:-40px; bottom:30px;}
+.cor7{border-width:20px 10px;border-color:transparent #f3961c #f3961c transparent;left:80px; top:-40px;}
+.cor7{border-width:20px 10px;border-color:transparent #f3961c #f3961c transparent;left:80px; top:-40px;}
+.box1{height:40px;background:#000;position:relative;}
+.corner{width:0;height:0;font-size:0;border-width:20px 20px 20px;border-style:solid;border-color:#f00 transparent #f00 #f00  ;_border-color: #f00 white white white ;position:absolute;left:0;bottom:0;overflow:hidden;}
+</style>
+</head>
+
+<body>
+<div class="org_box"> <span class="org_box_cor cor1"></span>还送2本点读哦！</div>
+<div class="org_box"> <span class="org_box_cor cor2"></span>右边框有颜色值,所以箭头冲左 </div>
+<div class="org_box"> <span class="org_box_cor cor3"></span>下边框有颜色,所以箭头冲上</div>
+<div class="org_box"> <span class="org_box_cor cor4"></span>左边框有颜色,所以箭头冲右 </div>
+
+<div class="org_box"> <span class="org_box_cor cor5"></span>上，右有颜色值，（宽度有两个值且不等，大家可以任意排列组合，图案很丰富） </div>
+<div class="org_box"> <span class="org_box_cor cor6"></span>上，下颜色值（颜色值不一样，有惊喜,沙漏？高脚杯）</div>
+<div class="org_box"> <span class="org_box_cor cor7"></span>右下有颜色值</div>
+<p style="color:#f00;">三个颜色值，有时也能用上,同样，改变颜色值顺序，开口方向不同。</p>
+<div class="box1"><em class="corner"></em>地方了宋德福</div>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        异步更新队列:
+            1. Vue在观察到数据变化时，并不是直接更新DOM，而是开启一个队列，并缓冲在同一事件循环中
+                发生的所有数据改变，在缓冲时会去除重复数据，从而避免不必要的计算和DOM操作，然后，
+                在下一个事件循环tick中，Vue刷新队列并执行实际(已去重的)工作。所以如果你用一个for循环
+                来动态改变数据100此，其实它只会应用最后一次改变，如果没有这种机制，DOM就要重绘100次，
+                这固然是一个很大的开销。
+            
+            2. this.showDiv=true，div依然没有被创建出来，直到下一个Vue事件循环时，才开始创建。
+
+            3. $nextTick: 就是用来知道什么时候DOM更新完成的
+     -->
+     <div id='app'>
+        <div id='div' v-if='showDiv'>
+            这是一段文本
+        </div>
+        <button @click='getText'>获取div内容</button>
+     </div>
+     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+     <script>
+         var app = new Vue({
+             el: '#app',
+             data: {
+                 showDiv: false
+             },
+             methods: {
+                 getText: function(){
+                     this.showDiv = true;
+                     this.$nextTick(function(){
+                        var text = document.getElementById('div').innerHTML;
+                        console.log('====>', text);
+                    });
+                 }
+             }
+         });
+     </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type="text" v-focus>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 注册一个全局自定义指令'v-focus'
+        Vue.directive('focus', {
+            // bind 只调用一次，指令第一次绑定到元素时调用，在这里可以进行一次性的初始化设置
+            bind: function (){
+
+            },
+            // 当被绑定的元素插入到父节点时调用(仅保证父节点存在，但不一定已被插入文档中)
+            inserted: function () {
+                // 聚焦元素
+                el.focus();
+            },
+            // 所在组件的VNode更新时调用，但是可能发生在其子VNode更新之前。指令的值可能发生了改变，也可能没有。但是你可以通过比较更新前后来忽略不必要的模板更新
+            update: function () {
+
+            }
+        });
+    </script>
+</body>
+</html>

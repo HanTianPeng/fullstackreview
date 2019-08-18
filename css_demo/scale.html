@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>缩放scale()方法</title>
+    <style>
+        #origin{
+            margin: 200px auto;
+            width: 200px;
+            height: 100px;
+            border:1px dashed gray;
+        }
+
+        #current{
+            width: 200px;
+            height: 100px;
+            background-color: red;
+            transform: scaleX(0.8);
+            -webkit-transform:scaleX(0.8);  /*兼容-webkit-引擎浏览器*/
+            -moz-transform:scaleX(0.8);     /*兼容-moz-引擎浏览器*/
+        }
+
+        /*
+            scaleX(0.8): 元素沿着水平方向(X轴)缩放的倍数
+            scaleY(0.8): 元素沿着垂直方向(Y轴)缩放的倍数
+            scale(0.8, 0.8): 元素沿着水平方向和垂直方向缩放的倍数
+            大于1：放大倍数
+            小于1: 缩小倍数
+
+            浏览器引擎前缀(Vendor Prefix)
+            -moz-: 火狐等使用Mozilla浏览器引擎的浏览器
+            -webkit-: Safari, 谷歌浏览器等使用Webkit引擎的浏览器
+            -o-: Opera浏览器(早期)
+            -ms-: nternet Explorer (不一定)
+        */
+    </style>
+</head>
+<body>
+    <div id='origin'>
+        <div id='current'></div>
+    </div>
+</body>
+</html>

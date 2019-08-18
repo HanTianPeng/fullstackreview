@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script src="http://m.hurongclub.com/Resource/js/swiper-3.2.5.min.js"></script>
+    <link rel="stylesheet" href="http://m.hurongclub.com/Resource/css/base_new.css">
+    <link rel="stylesheet" href="http://m.hurongclub.com/Resource/css/swiper.min.css">
+    <script>
+        //计算根节点HTML的字体大小
+        function htmlFontsize(){
+            var deviceWidth = document.documentElement.clientWidth;
+            if(deviceWidth > 750){
+                deviceWidth = 750;  
+            }
+            document.documentElement.style.fontSize = deviceWidth / 16 + "px";
+        }
+        //根节点HTML的字体大小初始化
+        htmlFontsize();
+        
+        $(window).resize(function(){
+            htmlFontsize();
+        });
+    </script>
+    <!-- 
+        笔记：
+        1. transition
+            transition: all 0.5s ease 0s;
+            -moz-transition: all 0.5s ease 0s; /* Firefox 4 */
+            -webkit-transition: all 0.5s ease 0s; /* Safari 和 Chrome */
+            -o-transition: all 0.5s ease 0s; /* Opera */
+            -moz-transition: all 0.5s ease 0s; /* Firefox 4 */
+            -webkit-transition: all 0.5s ease 0s; /* Safari 和 Chrome */
+            -o-transition: all 0.5s ease 0s; /* Opera */
+
+            1.1 transition-property: 指定CSS属性的name，transition效果，将鼠标悬停在一个div元素上，逐步改变表格的宽度
+                all: 默认值, 所有属性都将获得过渡效果
+                property: 定义在应用过渡效果的css属性名称列表，列表以逗号分隔---'width,height'
+                none: 没有属性会获得过渡效果
+
+            1.2 transition-duration: transition效果需要指定多少秒或毫秒才能完成
+
+            1.3 transition-timing-function: 指定transition效果的转速曲线
+                linear: 规定以相同速度开始至结束的过渡效果(等同于cubic-bezier(0,0,1,1))
+                ease: 规定慢速开始，然后变快，然后慢速结束的过渡效果(cubic-bezier(0.25,0.1,0.25,0.1))
+                ease-in: 规定以慢速开始的过渡效果(等同于cubic-bezier(0.42,0,1,1))
+                ease-out: 规定以慢速结束的过渡效果(等同于cubic-bezier(0,0,0.58,1))
+                ease-in-out: 规定以慢速开始和结束的过渡效果(等同于cubic-bezier(0.42,0,0.48,1))
+                cubic-bezier(n,n,n,n): 在cubic-bezier函数中定义自己的值，可能的值是0-1之间的数值
+
+            1.4 transition-delay: 定义transition效果开始的时候
+     -->
+    <style>
+        .content{
+           width: 100%; 
+        }
+
+        @media (min-width: 768px){
+            .content{
+                width: 800px;
+                margin: auto;
+            }
+        }
+
+        .content-top{
+            position: relative;
+        }
+
+        .big-card-box{
+            position: absolute;
+            top: 230px;
+            width: 100%;
+        }
+
+        .big-card-box .swiper-slide{
+            width: 300px;
+            height: 206px;
+            text-align: center;
+
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;  /*水平居中*/
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;  /*垂直居中*/
+        }
+
+        .swiper-slide .card-box-item{
+            width: 90%;
+            height: 85%;
+            background-size: 100% 100%;
+
+            transition: all 0.5s ease 0s;
+            -moz-transition: all 0.5s ease 0s; /* Firefox 4 */
+            -webkit-transition: all 0.5s ease 0s; /* Safari 和 Chrome */
+            -o-transition: all 0.5s ease 0s; /* Opera */
+            -moz-transition: all 0.5s ease 0s; /* Firefox 4 */
+            -webkit-transition: all 0.5s ease 0s; /* Safari 和 Chrome */
+            -o-transition: all 0.5s ease 0s; /* Opera */
+        }
+
+        .swiper-slide.swiper-slide-active .card-box-item{
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-box-item.banxue-card{
+            background-image: url('./images/swiperDemo02/banxue-card.png');
+        }
+        .card-box-item.vschool-card{
+            background-image: url('./images/swiperDemo02/vschool-card.png');
+        }
+        .card-box-item.vschoolvip-card{
+            background-image: url('./images/swiperDemo02/vschoolvip-card.png');
+        }
+        .card-box-item.vschoolxb-card{
+            background-image: url('./images/swiperDemo02/vschoolxb-card.png');
+        }
+    </style>
+</head>
+<body>
+<div class='content' id='content'>
+    <div class='content-top'>
+        <img src="./images/swiperDemo02/banxue_bg.png" alt="">
+        <div class="swiper-container big-card-box">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="card-box-item banxue-card">
+                        <!-- 内容 -->
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class='card-box-item vschool-card'>
+                        <!-- 内容 -->
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class='card-box-item vschoolvip-card'>
+                        <!-- 内容 -->
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class='card-box-item vschoolxb-card'>
+                        <!-- 内容 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        var mySwiper = new Swiper('.swiper-container', {
+            // autoplay: true,//可选选项，自动滑动
+            slidesPerView: 'auto',  // 设置slider容器能够同时显示的slide数量, 注意：如果在loop模式下，设置为'auto'，必须设置loopedSlides，否则最后一个会卡顿
+            // loop: true,
+            // loopedSlides: 4,  // 设置所要用到的loop个数(一般设置为实际slide的个数)-----复制的slide数量，默认为1
+            initialSlide: 1,  // 设置初始化时slide的索引
+            centeredSlides: true,  // 默认active slide居左，设置为true后居中
+            onSlideChangeEnd: function(swiper){  // 回调函数，swiper从一个slide过渡到另一个slide结束时执行
+                console.log(swiper.activeIndex);  // 返回当前活动块(激活块)的索引，loop模式下注意该值会被加上复制的slide数量.
+            }
+        })
+    </script>
+</body>
+</html>

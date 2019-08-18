@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="demo_2019_08_10_03.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app' v-cloak>
+        <div class='main' v-clickoutside='handleClose'>
+            <button @click='show = !show'>点击显示下拉菜单</button>
+            <div class='dropDown' v-show='show'>
+                <p>下拉框的内容，点击外面区域可以关闭</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="demo_2019_08_10_03.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                show: true
+            },
+            methods: {
+                handleClose (){
+                    this.show = false;
+                },
+            }
+        });
+    </script>
+</body>
+</html>

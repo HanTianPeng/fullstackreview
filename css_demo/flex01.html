@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+    
+        *{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        ul{
+            /* display: flex;
+            border: 1px solid red;
+            margin: 10px; */
+            /* justify-content: flex-start; */
+            /* flex-items: stretch; */
+            /* height: 500px; */
+        }
+
+        li{
+            /* width: 100px; */
+            /* height: 100px; */
+            /* background-color: #8cacea;
+            margin: 8px; */
+        }
+    </style>
+
+        <!-- 
+            Flexbox使用步骤:
+                1. 必须先让父元素变成一个Flex容器。通过显式设置父元素为display: flex; display: inline-flex。
+                2. 显式申明了Flex容器后，一个Flex格式化上下文(Flex formatting context)就立即启动了。
+
+            flex-container: flex容器
+                flex-direction: 控制flex项目沿着主轴(Main Axis)的排列方式进行布局
+                    row: 沿Main-Axis方向，从左至右排列， 默认行为
+                    column: 沿Cross-Axis方向, 从上到下排列
+                    row-reverse: 沿Main-Axis方向，从右至左排列
+                    colunm-reverse: 沿Cross-Axis方向，从下到上排列
+
+                flex-wrap: 
+                    nowrap: (1)flex项目在flex容器内不换行排列，即使浏览器出现了水平滚动条
+                               (Flex容器中添加很多个Flex项目，至使Flex容器的宽度大于视窗宽度)====>默认行为
+                            (2)浏览器出现水平滚动条时候，每一个flex项目的宽度可能就不一致了，
+                               此时的每一个flex项目的宽度为每一个项目内容实际撑开的宽度。
+                    wrap: flex容器中没有足够空间放置flex项目，flex项目换行排列
+                    wrap-reverse: (1)flex项目在容器中多行排列，只是方向相反===>按行方向相反显示，而不是按整体方向相反显示
+                                  (2)如果只有单行，方向不会相反。也就是说，第一行显示放在最后一行。
+
+                flex-flow:
+                    flex-direction与flex-wrap两个属性综合。
+
+                justify-content:
+                    flex-start: 让所有flex项目靠Main-Axis左侧对齐, 默认行为
+                    flex-end: 让所有flex项目靠Main-Axis右侧对齐
+                    center: 让所有flex项目靠Main-Axis居中对齐
+                    space-between: 让除了第一个和最后一个flex项目两两间距相同，两端对齐
+                    space-around: 让每一个flex项目都具有相同的空间。这样结果导致，第一个flex-item与最后一个flex-item距离
+                                  Main-Axis开始边缘和结束边缘的间距是相邻flex-item间间距的一半
+
+                align-items:
+                    stretch: 让所有flex项目高度与flex容器高度一样， 默认行为
+                    flex-start: 让所有flex项目靠Cross-Axis开始边缘对齐，顶部对齐
+                    flex-end: 让所有flex项目靠Cross-Axis结束边缘对齐，底部对齐  
+                    center: 让flex项目在Cross-Axis中间，居中对齐
+                    baseline: 让所有flex项目在Cross-Axis上沿着他们自己的基线对齐
+
+                align-content:
+                    stretch:
+                    flex-start:
+                    flex-end:
+                    center:
+                    
+            flex-items: flex项目==>flex容器内的子元素
+                order: flex-item中order值默认为0，order值越大，越往后进行排列，同时，当两个flex-item的order值一样，按照html文档进行排序.
+
+                flex-grow: flex项目是否会自动增长，填充flex容器可用空间。
+                flex-shrink: flex项目在没有可用额外可用空间是否会随之缩小。
+                flex-basis: 默认值为auto; flex-item的初始宽度值有flex-basis的默认值决定的，Flex-item宽度的计算是基于内容的宽度的多少自动计算出来的
+                            很明显，加上了padding的值。
+                            设置为0时候，也需要写成 0px，即需要写上单位。
+                            给flex-item设置固定宽度。
+
+                flex: flex-grow flex-shrink flex-basis;
+
+         -->
+</head>
+<body>
+    <!-- Flex-container: flex容器===flex-wrap: nowrap; -->
+    <!-- <ul style="display: flex;">
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello1</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">world</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">my</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello2</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello3</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello4</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello5</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello6</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===flex-wrap: wrap; -->
+    <!-- <ul style="display: flex; flex-wrap: wrap;">
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello1</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">world</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">my</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello2</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello3</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello4</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello5</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello6</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===flex-wrap: wrap-reverse; -->
+    <!-- <ul style="display: flex; flex-wrap: wrap-reverse;">
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello1</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">world</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">my</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello2</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello3</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello4</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello5</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello6</li>
+        <li style="width: 100px; height: 100px; margin: 8px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===justify-content: flex-end; 靠右对齐 -->
+    <!-- <ul style="display: flex; border: 1px solid red; background-color: aquamarine; justify-content: flex-end;">
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">world</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">my</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello2</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===justify-content: center; 靠中间对齐 -->
+    <!-- <ul style="display: flex; border: 1px solid red; background-color: aquamarine; justify-content: center;">
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">world</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">my</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello2</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===justify-content: space-between; 两者间间距一致(两端对齐) -->
+    <!-- <ul style="display: flex; border: 1px solid red; background-color: aquamarine; justify-content: space-between;">
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">world</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">my</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello2</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===justify-content: space-around; 第一个flex-item(flex项目)与最后一个flex-item(flex项目)距离
+        Main-Axis开始边缘和结束边缘的间距是相邻Flex项目间距的一半。
+    -->
+    <!-- <ul style="display: flex; border: 1px solid red; background-color: aquamarine; justify-content: space-around;">
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">world</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">my</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello2</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===align-items: stretch; 默认行为，让所有flex-item高度与flex容器高度一致 -->
+    <!-- <ul style="height: 200px; display: flex; border: 1px solid red; background-color: aquamarine; ">
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">my</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===align-items: flex-end; 让所有flex-item沿Cross-Axis结束边缘对齐，底部对齐 -->
+    <!-- <ul style="height: 200px; display: flex; border: 1px solid red; background-color: aquamarine; align-items: flex-end;">
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">my</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===align-items: flex-start; 让所有flex-item沿Cross-Axis开始边缘对齐, 顶部对齐 -->
+    <!-- <ul style="height: 200px; display: flex; border: 1px solid red; background-color: aquamarine; align-items: flex-start;">
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">my</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===align-items: baseline; 让所有flex-item在Cross-Axis沿着自己基线对齐 -->
+    <!-- <ul style="height: 200px; display: flex; border: 1px solid red; background-color: aquamarine; align-items: baseline;">
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world <br> hello1 <br></li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 12px">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 34px;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===align-content: stretch; 默认行为，前提是多行显示flex-item，让所有flex-item沿着Cross-Axis自适应。 -->
+    <!-- <ul style="height: 400px; display: flex; border: 1px solid red; background-color: aquamarine; flex-wrap: wrap;">
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world <br> hello1 <br></li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 12px">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 34px;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world <br> hello1 <br></li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 12px">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 34px;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===align-content: flex-start; 前提是多行显示flex-item，让所有flex-item沿着Cross-Axiss从上到下排列，顶部对齐 -->
+    <!-- <ul style="height: 400px; display: flex; border: 1px solid red; background-color: aquamarine; flex-wrap: wrap; align-content: flex-start;">
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world <br> hello1 <br></li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 12px">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 34px;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world <br> hello1 <br></li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 12px">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 34px;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===align-content: flex-end; 前提是多行显示flex-item, 让所有flex-item沿着Cross-Axiss从下到上排列，底部对齐 -->
+    <!-- <ul style="height: 400px; display: flex; border: 1px solid red; background-color: aquamarine; flex-wrap: wrap; align-content: flex-end;">
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world <br> hello1 <br></li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 12px">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 34px;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world <br> hello1 <br></li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 12px">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 34px;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-container: flex容器===align-content: center; 前提是多行显示flex-item，让所有flex-item沿着Cross-Aixss中间对齐 -->
+    <!-- <ul style="height: 400px; display: flex; border: 1px solid red; background-color: aquamarine; flex-wrap: wrap; align-content: flex-end;">
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world <br> hello1 <br></li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 12px">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 34px;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello1</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">world <br> hello1 <br></li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 12px">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue; font-size: 34px;">hello2</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello3</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-item: flex项目===order: 1; 控制每一个flex-item的排序问题，解决了不改变源代码结构基础上进行排序问题。 -->
+    <!-- <ul style="display: flex; border: 1px solid red; background-color: aquamarine;">
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue; order: 1;">hello1</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello2</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue; order: 2;">hello3</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello4</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello5</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello6</li>
+        <li style="width: 100px; height: 100px; margin: 8px; padding: 4px; background-color: blue;">hello7</li>
+    </ul> -->
+
+    <!-- Flex-item: flex项目===flex-grow: 1; 默认值为0，表示Flex-item不会增长，填充Flex容器可用空间。其实0/1就是一个控制开关。 -->
+    <!-- Flex-item: flex项目===flex-shrink: 0; 默认值为1， 表示flex-item在没有额外空间不会缩小，浏览器会出现对应滚动条，0/1就是一个控制开关. -->
+    <!-- <ul style="display: flex; border: 1px solid red; background-color: aquamarine; ">
+        <li style="width: 800px; height: 100px; margin: 8px; padding: 4px; background-color: blue; flex-grow: 1; flex-shrink: 0;">hello1</li>
+    </ul> -->
+
+    <!-- Flex-item: flex项目===flex-basis: 0px; 弹性项目没有宽度，此时flex-grow值决定了弹性项目的宽度。如果flex-basis有宽度或auto，那么flex-grow只是控制伸展开关 -->
+    <ul style="display: flex; border: 1px solid red; background-color: aquamarine; ">
+        <li style="width: 800px; height: 100px; margin: 8px; padding: 4px; background-color: blue; flex: 3 1 0;">hello1</li>
+        <li style="width: 800px; height: 100px; margin: 8px; padding: 4px; background-color: blue; flex: 1 1 0;">hello1</li>
+    </ul>
+
+    <ul style="display: flex; border: 1px solid red; background-color: aquamarine; ">
+        <li style="width: 800px; height: 100px; margin: 8px; padding: 4px; background-color: blue; flex: 3 ;">hello1</li>
+        <li style="width: 800px; height: 100px; margin: 8px; padding: 4px; background-color: blue; flex: 1 ;">hello1</li>
+    </ul>
+
+    <ul style="display: flex; border: 1px solid red; background-color: aquamarine; ">
+        <li style="width: 800px; height: 100px; margin: 8px; padding: 4px; background-color: blue; flex-grow: 3 ; flex-shrink: 0;">hello1</li>
+        <li style="width: 800px; height: 100px; margin: 8px; padding: 4px; background-color: blue; flex-grow: 1 ; flex-shrink: 0;">hello1</li>
+    </ul>
+
+    <ul style="display: flex; border: 1px solid red; background-color: aquamarine; ">
+        <li style="width: 800px; height: 100px; margin: 8px; padding: 4px; background-color: blue; flex-grow: 3 ; flex-basis: 0;">hello1</li>
+        <li style="width: 800px; height: 100px; margin: 8px; padding: 4px; background-color: blue; flex-grow: 1 ; flex-basis: 0;">hello1</li>
+    </ul>
+</body>
+</html>

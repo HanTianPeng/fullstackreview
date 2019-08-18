@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type="checkbox" v-model='checked' name="" value="html" id='html'>
+        <label for="html">HTML</label>
+        <input type="checkbox" v-model=checked name="" value="css" id="css">
+        <label for="css">CSS</label>
+        <input type="checkbox" v-model=checked name="" value="js" id="js">
+        <label for="js">JavaScript</label>
+        <br>
+        <p>选择的项是:{{ checked }}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                checked: ['js', 'css']
+            },
+            computed: {
+
+            },
+            methods: {
+
+            }
+        });
+        console.log('v-model==多个复选框==当前选中==>', app.checked);
+    </script>
+</body>
+</html>

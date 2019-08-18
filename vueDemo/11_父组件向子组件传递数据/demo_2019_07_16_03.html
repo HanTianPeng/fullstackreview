@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        props:
+            1. 父组件向子组件传递数据
+     -->
+    <div id='app'>
+        <input type="text" v-model='parentMsg'>
+        <input-component :msg='parentMsg'></input-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('input-component', {
+            props: ['msg'],
+            template: '<div>{{ msg }}</div>',
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                parentMsg: '',
+            },
+            computed: {
+
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</body>
+</html>

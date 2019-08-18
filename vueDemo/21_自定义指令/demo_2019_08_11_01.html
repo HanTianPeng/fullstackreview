@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>实时事件自定义指令</title>
+</head>
+<body>
+    <!-- 总结:
+            1. 在编写自定义指令时，给DOM绑定一次性事件等初始动作，建议在bind钩子内完成，同时要在unbind内解除相关绑定。
+
+            2. 在自定义指令里，理论上可以任意操作DOM，但这又违背了Vue.js的初衷，所以相对大幅度的DOM变动，应该使用组件。
+    -->
+    <div id='app' v-cloak>
+        <div v-time='timeNow'></div>
+        <div v-time='timeBefore'></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src='./demo_2019_08_11_01.js'></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                timeNow: (new Date()).getTime(),
+                timeBefore: 1488930695721
+            }
+        });
+    </script>
+</body>
+</html>

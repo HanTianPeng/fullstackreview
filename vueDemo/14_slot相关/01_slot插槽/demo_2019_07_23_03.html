@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        Slot插槽作用域：
+        1. 在slot标签中添加样式无效
+        2. 具名slot具有对应性: 拥有命名slot不能被默认slot(不含slot属性的标签)内容替换，会显示slot的默认值
+     -->
+    <div id='app'>
+        <child-component>
+            <span style="color: red;">
+                父组件内容
+            </span>
+        </child-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('child-component', {
+            template: "\
+            <div class='container'>\
+                <slot></slot>\
+                <slot style='color: blue'>在slot标签添加样式</slot>\
+                <slot name='footer'>命名slot的默认内容</slot>\
+            </div>\
+            ",
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            computed: {
+
+            },
+            methods: {
+
+            },
+            created: function(){
+
+            },
+            mounted: function(){
+
+            }
+        });
+    </script>
+</body>
+</html>

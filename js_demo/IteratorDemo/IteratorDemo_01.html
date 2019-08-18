@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function makeIterator(array){
+            var nextIndex = 0;
+            return {
+                next: function(){
+                    return nextIndex < array.length ?
+                    {value: array[nextIndex++], done: false} : 
+                    {value: undefined, done: true};
+                }
+            };
+        }
+
+        var arr = [1, 2, 3, 4];
+        var iteratorObj = makeIterator(arr);
+        value = iteratorObj.next();
+        console.log(value);  // {value: 1, done: false}
+        value = iteratorObj.next();
+        console.log(value);  // {value: 2, done: false}
+        value = iteratorObj.next();
+        console.log(value);  // {value: 3, done: false}
+        value = iteratorObj.next();
+        console.log(value);  // {value: 4, done: false}
+        value = iteratorObj.next();
+        console.log(value);  // {value: undefined, done: true}
+        value = iteratorObj.next();
+        console.log(value);  // {value: undefined, done: true}
+    </script>
+</body>
+</html>

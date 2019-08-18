@@ -1,0 +1,121 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>Document</title>
+     <style>
+            body {
+                /* CSS linear-gradient() 函数用于创建一个表示两种或多种颜色线性渐变的图片 */
+                background: linear-gradient(270deg, #0E6251, #28B463);
+            }
+            #app {
+                display: flex;
+            }
+            .my-list {
+            flex: 1 1 50%;
+            font-family: Arial;
+            color: white;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px;
+            }
+            .title {
+                background: #A93226;
+                padding: 20px;
+                font-weight: bold;
+                font-size: 22px;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+            }
+            .list {
+                background: #34495E;
+                padding: 20px;
+                font-size: 16px;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+            }
+            .list-item:not(:last-child) {
+                padding-bottom: 20px;
+            }
+    
+            .swatch {
+                display: inline-block;
+                width: 15px;
+                height: 10px;
+                margin-right: 8px;
+            }
+        </style>
+ </head>
+ <body>
+     <!-- 
+        作用域插槽：
+        1. 易错点：在子组件中未书写<div class='my-list'></div>,将报错，原因：只能有一个根元素，不能有多个根元素
+      -->
+     <div id='app'>
+         <!-- title 为父组件想子组件传递数据 -->
+        <my-list title='Shapes'>
+            <div class='list-item' v-for='shape in shapes'>
+                <div>
+                    {{ shape.name }}
+                    <small>
+                        ({{ shape.sides }} sides)
+                    </small>
+                </div>
+            </div>
+        </my-list>
+     </div>
+     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+     <script>
+         // 注册组件
+         Vue.component('my-list', {
+            template: "\
+            <div class='my-list'>\
+                <div class='title'>\
+                    {{ title }}\
+                </div>\
+                <div class='list'>\
+                    <slot></slot>\
+                </div>\
+            </div>\
+            ",
+            data: function(){
+                return {
+
+                }
+            },
+            props: ['title'],
+         });
+         // 创建Vue实例
+         const app = new Vue({
+             el: '#app',
+             data: {
+                shapes: [
+                    {
+                        name: 'Square',
+                        sides: 4
+                    },
+                    {
+                        name: "Hexagon",
+                        sides: 6
+                    },
+                    {
+                        name: 'Triangle',
+                        sides: 3
+                    }
+                ]
+             },
+             mounted: function(){
+
+             },
+             computed: {
+
+             },
+             methods: {
+
+             }
+         });
+     </script>
+ </body>
+ </html>
