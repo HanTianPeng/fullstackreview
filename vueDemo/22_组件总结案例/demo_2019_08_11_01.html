@@ -9,31 +9,48 @@
 </head>
 <body>
     <div id='app' v-cloak>
-        <question-panel>
-            <!-- 问题组件 -->
-            <question>
-                问题组件
-            </question>
-
-            <!-- 问题底部按钮组件 -->
-            <question-action>
-                <btn>下一步</btn>
-                <btn>上一步</btn>
-                <btn>重置</btn>
-            </question-action>
-        </question-panel>
+        <!-- 问题面板 -->
+        <questionpanel @submit='handleSubmit' :questions='questions'>
+            
+        </questionpanel>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="btn.js"></script>
     <script src="question.js"></script>
-    <script src="questionAction.js"></script>
+    <script src="btn.js"></script>
     <script src="questionPanel.js"></script>
     <script>
         const app = new Vue({
             el: '#app',
             data: {
-
+                questions: [
+                    {
+                        type: 'radio',
+                        title: '你的性别',
+                        choices: ['男','女'],
+                        picked: ''
+                    },
+                    {
+                        type: 'multi',
+                        title: '你的爱好',
+                        choices: ['篮球', '足球', '羽毛球'],
+                        picked: ''
+                    },
+                    {
+                        type: 'typetext',
+                        title: '自我介绍',
+                        text: ''
+                    }
+                ]
             },
+            methods: {
+                handleSubmit: function(result){
+                    var text = '';
+                    text += '你是' + result[0].picked + '\n';
+                    text += '你的爱好' + result[1].picked + '\n';
+                    text += '自我介绍' + result[2].text + '\n';
+                    alert(text);
+                }
+            }
         });
     </script>
 </body>
