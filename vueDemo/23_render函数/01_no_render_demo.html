@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <anchor :level='level' :title='title'>特征</anchor>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 注册组件
+        Vue.component('anchor', {
+            template: '\
+                <div>\
+                    <h1 v-if="level === 1">\
+                        <a :href="title">\
+                            <slot></slot>\
+                        </a>\
+                    </h1>\
+                    <h2 v-if="level === 2">\
+                        <a :href="title">\
+                            <slot></slot>\
+                        </a>\
+                    </h2>\
+                    <h3 v-if="level === 3">\
+                        <a :href="title">\
+                            <slot></slot>\
+                        </a>\
+                    </h3>\
+                    <h4 v-if="level === 4">\
+                        <a :href="title">\
+                            <slot></slot>\
+                        </a>\
+                    </h4>\
+                    <h5 v-if="level === 5">\
+                        <a :href="title">\
+                            <slot></slot>\
+                        </a>\
+                    </h5>\
+                </div>\
+            ',
+            props: {
+                level: {
+                    type: Number,
+                    default: 1
+                },
+                title: {
+                    type: String,
+                    default: ''
+                }
+            }
+            
+        });
+        const app = new Vue({
+            el: '#app',
+            data: {
+                level: 3,
+                title: '#特征'
+            }
+        });
+    </script>
+</body>
+</html>
