@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .wrapper{
+            background: linear-gradient(to right, red 50%, rgba(212,12,238) 50%);
+            height: 360px;
+            width: 360px;
+            border: 2px solid rgba(0,0,0,1);
+            border-radius: 50%;
+            margin: 100px auto;
+            position: relative;
+        }
+        .wrapper:before{
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0,0,0,1);
+            background: aquamarine;
+            border-radius: 50%;
+            left: 50%;
+            top: -24px;
+            transform: translateX(-50%);
+        }
+        .wrapper:after{
+            content: '';
+            position: absolute;
+            top: 140px;
+            left: -2px;
+            width: 364px;
+            background-color: #fff;
+            height: 100%;
+            z-index: 3;
+        }
+        .line{
+            border: 2px solid rgba(0,0,0,1);
+            width: 0;
+            height: 330px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+        }
+        .line:before{
+            content: '';
+            border: 1px solid rgba(0,0,0,1);
+            width: 353px;
+            height: 0;
+            position: absolute;
+            top: 138px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .line:after{
+            content: '';
+            height: 60px;
+            width: 16px;
+            border: 2px solid rgba(0,0,0,1);
+            position: absolute;
+            top: 330px;
+            left: -10px;
+            border-radius: 50%;
+            background-color: blueviolet;
+        }
+        .side{
+            border: 2px solid rgba(0,0,0,1);
+            border-radius: 50%;
+            height: 360px;
+            width: 235px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            background: linear-gradient(to right, blue 50%, green 50%);
+        }
+        .side:before{
+            content: '';
+            height: 360px;
+            width: 115px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 0, 0, 1);
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            background: linear-gradient(to right, yellow 50%, rgba(253,126,8) 50%);
+        }
+    </style>
+</head>
+<body>
+    <div class='wrapper'>
+        <div class='line'>
+
+        </div>
+        <div class='side'>
+
+        </div>
+    </div>
+</body>
+</html>
