@@ -410,4 +410,99 @@
 ## this理解
   - 当一个函数被调用时，会创建一个活动记录(有时候也被称为执行上下文)。这个记录会包含函数在哪里被调用(调用栈)、函数的调用方式、传入的参数等信息。this就是记录的其中一个属性，会在函数执行的过程中用到。
 
+### 默认绑定
+  - 无法应用其他规则时候，使用默认规则，在**非严格模式**下，默认规则this绑定全局对象，在**严格模式**下，默认规则this绑定在undefined。
 
+    - 非严格模式下
+
+      ```
+        function test(){
+          console.log(this.a);
+        }
+        var a = 2;
+        test();  // 2
+      ```
+    
+    - 严格模式下
+
+      ```
+        function test(){
+          "use strict";
+          console.log(tis.a);
+        }
+        var a = 2;
+        test();  // this is not undefined
+      ```
+### 隐式绑定
+  - 当函数引用有上下文对象时，隐式绑定规则会把函数调用中的this绑定到这个上下文对象中。
+
+    ```
+      function test(){
+        console.log(this.a);
+      }
+      var obj = {
+        a: 20,
+        test: test
+      };
+      obj.test();  // 20
+    ```
+  
+  - 对象属性引用链只有最顶层或则说最后一层会影响调用位置。
+
+    ```
+      function test(){
+        console.log(this.a);
+      }
+      var obj = {
+        a: 20,
+        test: test
+      };
+      var obj2 = {
+        a: 30,
+        obj: obj
+      };
+      obj2.obj.test(); // 20
+    ```
+  
+  - 隐式丢失，最后会采用默认绑定规则
+    ```
+      function test(){
+        console.log(this.a);
+      }
+      var obj = {
+        a: 20,
+        test: test
+      };
+      var a = 'global';
+      var ttt = obj.test;
+      ttt();  // global
+    ```
+  
+  - 隐式丢失，回调函数
+    ```
+      function test(){
+        console.log(this.a);
+      }
+      var obj = {
+        a: 20,
+        test: test
+      };
+      function foo(fn){
+        fn();
+      }
+      var a = 'global';
+      foo(obj.test);  // global
+    ```
+
+  - 隐式丢失,内置函数
+    ```
+      function test(){
+        console.log(this.a);
+      }
+      var obj = {
+        a: 20,
+        test: test
+      };
+      var a = 'global'
+      setTimeout(obj.test, 100);  // global
+    ```
