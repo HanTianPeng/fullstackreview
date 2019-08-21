@@ -338,19 +338,81 @@
     } // 如果没有闭包，则输出的一直为6
   ```
 
-### 4. 动态作用域
-  &nbsp;动态作用域是在运行时确定的(this就是),关注函数从何调用。
-  ```
-    function foo() {
-      console.log(a); // 3(而不是2)
-    }
+## 动态作用域
+  - 动态作用域是在运行时确定的(this就是),关注函数从何调用。
 
-    function bar() {
-      var a = 3;
-      foo();
-    }
+    ```
+      function foo() {
+        console.log(a); // 3(而不是2)
+      }
 
-    var a = 2;
-    bar();
-  ```
+      function bar() {
+        var a = 3;
+        foo();
+      }
+
+      var a = 2;
+      bar();
+    ```
+  
+  - this词法
+
+    - setTimeout导致函数与this之前的绑定丢失
+      ```
+        var obj = {
+          id: 'awesome',
+          cool: function coolFn(){
+            console.log(this.id);
+          }
+        };
+        var id = 'not awesome';
+        obj.cool();  // awesome
+        setTimeout(obj.cool, 100);  // not awesome
+      ```
+    
+    - 解决方案==申明变量
+      ```
+        var obj = {
+          id: 'awesome',
+          cool: function coolFn(){
+            var self = this,
+            setTimeout(function timer(){
+              console.log(self.id);
+            }, 100);
+          }
+        };
+        obj.cool();  // awesome
+      ```
+    
+    - 解决方案==箭头函数
+      ```
+        var obj = {
+          id: 'awesome',
+          cool: function coolFn(){
+            setTimeout(() => {
+              console.log(this.id);
+            }, 100);
+          }
+        };
+        obj.cool();  // awesome
+        
+        **箭头函数**放弃了所有普通this绑定的规则，取而代之的是用当前的词法作用域覆盖了this本来的值。
+      ```
+
+    - 解决方案==bind
+      ```
+        var obj = {
+          id: 'awesome',
+          cool: function coolFn(){
+            setTimeout(function timer(){
+              console.log(this.id);
+            }.bind(this), 100);
+          }
+        };
+        obj.cool();  // awesome
+      ```
+
+## this理解
+  - 当一个函数被调用时，会创建一个活动记录(有时候也被称为执行上下文)。这个记录会包含函数在哪里被调用(调用栈)、函数的调用方式、传入的参数等信息。this就是记录的其中一个属性，会在函数执行的过程中用到。
+
 
