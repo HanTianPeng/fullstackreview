@@ -506,3 +506,154 @@
       var a = 'global'
       setTimeout(obj.test, 100);  // global
     ```
+
+### 显示绑定
+  - JavaScript提供的绝大多数函数以及你自己创建的所有函数都可以使用call()和apply()方法。
+
+    ```
+      function foo(){
+        console.log(this.a);
+      }
+      var obj = {
+        a: 20
+      };
+      foo.call(obj);  // 20
+    ```
+    - 如果你传入了一个原始值(字符串类型，布尔类型、数字类型)来当做this的绑定对象，这个原始值会被转换成它的对象形式(也就是new String()、new Number()、new Boolean())，这就是通常所称为**装箱**。
+
+    - 显示绑定依然无法解决隐式绑定的丢失问题。
+
+  - 硬绑定
+    ```
+      foo foo(){
+        console.log(this.a);
+      }
+      var obj = {
+        a: 20
+      };
+      var bar = function(){
+        foo.call(obj);
+      };
+      bar();  // 2
+      setTimeout(bar, 10);  // 2
+      bar.call(window);  // 2
+    ```
+      - 强制将foo绑定在obj上，不管外部如何调用，内部总是foo被绑定在obj上，因此我们称之为**硬绑定**。
+
+      - 硬绑定的典型场景就是创建一个包裹函数，传入所有参数并返回接收到的所有值。
+        ```
+          function foo(something){
+            console.log(this.a, something);
+            return this.a + something;
+          }
+          var obj = {
+            a: 20
+          };
+          var bar = function(){
+            return foo.apply(obj, arguments);
+          };
+          var value = bar(10);  // 20 10
+          console.log(value);  // 30
+        ```
+      
+      - 硬绑定的第二种实现方式，创建一个通用的辅助函数。
+        ```
+          function foo(something){
+            console.log(this.a, something);
+            return this.a + something;
+          }
+          var obj = {
+            a: 20
+          };
+          function bind(fn, object){
+            return function(){
+              return fn.apply(object, arguments);
+            };
+          }
+          var bar = bind(foo, obj);
+          var value = bar(10);  // 20 10
+           console.log(value);  // 30
+        ```
+
+      - 硬绑定在ES5中实现Function.prototype.bind
+        ```
+          function foo(something){
+            console.log(this.a, something);
+            return this.a + something;
+          }
+          var obj = {
+            a: 20
+          };
+          var bar = foo.bind(obj);
+          var value = bar(10);  // 20, 10
+          console.log(value);  // 30
+        ```
+
+        - bind()会返回一个硬编码的新函数，它会把参数设置为this的上下文并调用原始函数。
+
+### new绑定
+  - 在JavaScript中，构造函数只是一些使用new操作符时被调用的函数，它们仅仅是被new操作符调用的普通函数而已。
+
+  - new来调用函数，或者说发生构造函数调用时，会自动执行以下步骤
+
+    - 创建或者构造一个全新的对象。
+
+    - 这个新对象会被执行原型连接。
+
+    - 这个新对象绑定到函数调用的this。
+
+    - 如果函数没有返回其他对象，那么new表达式中的函数调用会自动返回一个新对象。
+
+### 判断this指向
+  - 函数是否在new中被调用，如果是的话this绑定的是新创建的对象。
+
+  - 函数是否通过call、apply(显示绑定)或者硬绑定(bind)调用，如果是的话，this绑定的是指定的对象。
+
+  - 函数是否在某个上下文对象中调用(隐式绑定)，如果是的话，this绑定的是上下文对象。
+
+  - 如果都不是，则是默认绑定，在严格模式下，绑定的是undefined；非严格模式下，绑定的是全局对象。
+
+### 特殊场景this指向
+  - 使用**null**来忽略this的指向。
+    ```
+      function foo(a,b){
+        console.log('a: ' + a + ', ' + 'b: ' + b);
+      }
+      foo.apply(null, [2, 3]);  // a: 2, b: 3 
+
+      # 使用bind进行柯里化
+      var bar = foo.bind(null, 2);
+      bar(3);  // a: 2, b: 3
+    ```
+      - 使用null来忽略this的指向，可能会产生副作用，在非严格模式下，this指向window。
+    
+  - 使用**Object.create(null)**来忽略this的指向
+    ```
+      function foo(a, b){
+        console.log('a: ' + a, + ', ' + 'b: ' + b);
+      }
+      var ø = Object.create(null);
+      var bar = foo.bind(ø, 2);
+      bar(3);  // a: 2, b: 3
+    ```
+  
+### ES6的箭头函数this指向
+  - 箭头函数不适用this指向的四种规则，其根据外层(函数或则全局)作用域来决定this的指向。
+
+  - 箭头函数的this绑定无法修改。
+
+    ```
+      function foo(){
+        return (a) => {
+          console.log(this.a);
+        };
+      }
+      var obj1 = {
+        a: 2
+      };
+      var obj2 = {
+        a: 3
+      };
+      var bar = foo.call(obj1);
+      bar.call(obj2);  // 2
+    ```
