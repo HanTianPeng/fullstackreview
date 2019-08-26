@@ -657,3 +657,51 @@
       var bar = foo.call(obj1);
       bar.call(obj2);  // 2
     ```
+
+## 对象
+  - 基本数据类型number、string、number、boolean、unll、undefined，本身不是对象。
+
+  - **typeof null**结果为object，不同对象底层均表示为二进制，在JavaScript中二进制前三位均为0的，均被当做对象，null的二进制全是0，所以会返回object。
+
+  - 内置对象Number、String、Boolean、Object、Function、Array、Date、Error、RegExp
+
+  - 字面量是一个不可改变的值，在必要时候会自动转换成对象。
+
+  - 对象的属性值为函数，但是这并不是其他语言所说的方法，在JavaScript中对象的属性为函数与普通的函数没有什么区别，唯一区别就是可能会发生this隐式绑定，因为最终this绑定取决于函数调用位置。
+
+### 属性描述符
+  - Object.getOwnPropertyDescriptor(obj, key)
+    
+    ```
+      var obj = {
+        a: 2
+      };
+      Object.getOwnPropertyDescriptor(obj, 'a');
+      # 结果
+      {
+        value: 2,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      }
+    ```
+  
+  - Object.defineProperty(obj, key, {})
+    ```
+    var obj = {};
+    Object.defineProperty(obj, key, {
+      value: 2,
+      writable: true,  // 是否可以重新赋值
+      enumerable: true,  // 是否可以枚举,for in 遍历其属性
+      configurable: true, // 是否可以重新定义，一旦为false，就不能重新配置，以及删除该key，单向操作。
+    })
+    `````
+
+  - 对象常量：configurable:false, writable:false
+
+  - 阻止扩展: Object.preventExtensions(obj)
+
+  - 密封: Object.seal(),实质是在阻止扩展基础上加了configurable: false
+
+  - 冻结: Object.freeze(),实质是在seal基础上加了wirtable: false
+  
