@@ -744,6 +744,24 @@
         console.log(obj instanceof Person);
       ```
 
+### 3. 原型对象引入
+  - 解决数据共享，节省内存空间
+    ```
+      function Person(name, age){
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype.eat = function(){
+        console.log('---eating---');
+      };
+      var p1 = new Person('hello', 18);
+      var p2 = new Person('world', 20);
+      console.log(p1 == p2); // false
+      console.log(p1.eat == p2.eat); // true
+      console.dir(p1);
+      console.dir(p2);
+    ```
+
 ### 3. 属性描述符
   - Object.getOwnPropertyDescriptor(obj, key)
     
