@@ -705,3 +705,35 @@
 
   - 冻结: Object.freeze(),实质是在seal基础上加了wirtable: false
   
+### 对象遍历
+  - for...in循环可以用来遍历对象的可枚举属性列表(包括[prototype]链)。
+
+  - for...of实现原理
+    ```
+      var obj = {
+        a: 2,
+        b: 3
+      },
+      Object.defineProperty(obj, Symbol.iterator, {
+        enumerable: false,
+        writable: false,
+        configurable: false,
+        value: function(){
+          var _this = this;
+          var index = 0;
+          var keys = Object.keys(_this);
+          return {
+            next: function(){
+              return {
+                value: _this[keys[index++]],
+                done: (index < keys.length>)
+              };
+            }
+          };
+        }
+      })
+      var iterator = obj[Symbol.iterator]();
+      iterator.next();  // {value: 2, done: false}
+      iterator.next();  // {value: 3, done: false}
+      iterator.next();  // {value: undefined, done: true}
+    ```
