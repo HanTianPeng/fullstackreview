@@ -410,7 +410,7 @@
 ## this理解
   - 当一个函数被调用时，会创建一个活动记录(有时候也被称为执行上下文)。这个记录会包含函数在哪里被调用(调用栈)、函数的调用方式、传入的参数等信息。this就是记录的其中一个属性，会在函数执行的过程中用到。
 
-### 默认绑定
+### 1. 默认绑定
   - 无法应用其他规则时候，使用默认规则，在**非严格模式**下，默认规则this绑定全局对象，在**严格模式**下，默认规则this绑定在undefined。
 
     - 非严格模式下
@@ -433,7 +433,7 @@
         var a = 2;
         test();  // this is not undefined
       ```
-### 隐式绑定
+### 2. 隐式绑定
   - 当函数引用有上下文对象时，隐式绑定规则会把函数调用中的this绑定到这个上下文对象中。
 
     ```
@@ -507,7 +507,7 @@
       setTimeout(obj.test, 100);  // global
     ```
 
-### 显示绑定
+### 3. 显示绑定
   - JavaScript提供的绝大多数函数以及你自己创建的所有函数都可以使用call()和apply()方法。
 
     ```
@@ -591,7 +591,7 @@
 
         - bind()会返回一个硬编码的新函数，它会把参数设置为this的上下文并调用原始函数。
 
-### new绑定
+### 4. new绑定
   - 在JavaScript中，构造函数只是一些使用new操作符时被调用的函数，它们仅仅是被new操作符调用的普通函数而已。
 
   - new来调用函数，或者说发生构造函数调用时，会自动执行以下步骤
@@ -604,7 +604,7 @@
 
     - 如果函数没有返回其他对象，那么new表达式中的函数调用会自动返回一个新对象。
 
-### 判断this指向
+### 5. 判断this指向
   - 函数是否在new中被调用，如果是的话this绑定的是新创建的对象。
 
   - 函数是否通过call、apply(显示绑定)或者硬绑定(bind)调用，如果是的话，this绑定的是指定的对象。
@@ -613,7 +613,7 @@
 
   - 如果都不是，则是默认绑定，在严格模式下，绑定的是undefined；非严格模式下，绑定的是全局对象。
 
-### 特殊场景this指向
+### 6. 特殊场景this指向
   - 使用**null**来忽略this的指向。
     ```
       function foo(a,b){
@@ -637,7 +637,7 @@
       bar(3);  // a: 2, b: 3
     ```
   
-### ES6的箭头函数this指向
+### 7. ES6的箭头函数this指向
   - 箭头函数不适用this指向的四种规则，其根据外层(函数或则全局)作用域来决定this的指向。
 
   - 箭头函数的this绑定无法修改。
@@ -669,7 +669,82 @@
 
   - 对象的属性值为函数，但是这并不是其他语言所说的方法，在JavaScript中对象的属性为函数与普通的函数没有什么区别，唯一区别就是可能会发生this隐式绑定，因为最终this绑定取决于函数调用位置。
 
-### 属性描述符
+### 1. 创建对象的三种方式
+  - 文字形式
+    ```
+      var obj = {
+        name: 'hello',
+        age: 18,
+        eat: function(){
+          console.log('---eating---');
+        }
+      }
+    ```
+
+  - 系统构造函数
+    ```
+      var obj = new Object();
+      obj.name = 'hello';
+      obj.age = 18;
+      obj.eat = function(){
+        console.log('---eat----');
+      }
+    ```
+
+  - 自定义构造函数
+    ```
+      function Person(name, age){
+        this.name = name;
+        this.age = age;
+        this.eat = function(){
+          console.log('---eating---');
+        }
+      }
+      var obj = new Person('hello', 18);
+      obj instanceof Person; // true
+      obj instanceof Object; // true
+    ```
+  
+  - 工厂模式创建对象
+    ```
+      function createObject(name, age){
+        var obj = new Object();
+        obj.name = name;
+        obj.age = age;
+        obj.eat = function(){
+          console.log('---eat---');
+        }
+        return obj;
+      }
+      var obj = createObject('hello', 18);
+    ```
+
+### 2. 构造函数与实例化对象之间关系
+  - 实例对象是通过构造函数来创建的，创建过程称为**实例化**
+
+  - 两种方式判断对象的数据类型
+    - 通过构造函数(构造器)方式
+      ```
+        # 实例对象.构造器 == 构造函数(构造器)名字
+        function Person(name, age){
+          this.name = name;
+          this.age = age;
+          this.eat = function(){
+            console.log('---eating---');
+          }
+        }
+        var obj = new Person('hello', 18);
+        console.log(obj.constructor == Person);
+        console.log(obj.__proto__.constractor == Person);
+        console.log(obj.__proto__.constructor==Person.prototype.constructor);
+      ```
+
+    - 通过instanceof方式(**首选方法**)
+      ```
+        console.log(obj instanceof Person);
+      ```
+
+### 3. 属性描述符
   - Object.getOwnPropertyDescriptor(obj, key)
     
     ```
