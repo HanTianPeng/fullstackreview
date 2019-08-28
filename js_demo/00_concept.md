@@ -778,6 +778,47 @@
 
     ![原型链关系图](./image/原型链关系图.jpeg)  
 
+### 5. 原型语法
+  - 手动修改构造器指向
+    ```
+      function Person(name, age){
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype = {
+        constructor: Person,  // 手动修改构造器指向
+        eye: 2,
+        ear: 2,
+        eat: function(){
+          console.log('---eat---');
+        }
+      }
+    ```
+
+  - 原型中的方法，可以相互访问
+    ```
+      function Person(name, age){
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype.eat = function(){
+        console.log('---eat---');
+        this.drink();
+      }
+      Person.prototype.drink = function(){
+        console.log('---drink---');
+        this.sleep();
+      }
+      Person.prototype.sleep = function(){
+        console.log('---sleep---');
+      }
+    ```
+  - 实例对象使用的属性和方法层层调用关系
+    - 首先**实例中查找**，然后**去创建该实例对象的的构造函数的原型对象中查找**
+  
+  - 
+
+
 ### 3. 属性描述符
   - Object.getOwnPropertyDescriptor(obj, key)
     
