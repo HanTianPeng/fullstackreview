@@ -767,12 +767,16 @@
 
     - 构造函数中有prototype属性，叫做原型对象，程序员使用
 
-    - per.__proto__.constructor == Person.prototype.constructor
+    - per.__ proto__.constructor == Person.prototype.constructor
 
     - __proto__之所以给浏览器使用，因为不同浏览器兼容不一样，ie就没有该属性
 
-### 4. 实例对象、构造函数、实例对象关系图
-  ![原型链关系图](./image/原型链关系图.jpeg)  
+### 4. 实例对象、构造函数、原型对象关系图
+  - 实例对象的原型对象(__ proto__)指向的是构造函数的原型对象
+
+  - 构造函数的原型对象(prototype)中的方法是可以被实例对象直接访问的
+
+    ![原型链关系图](./image/原型链关系图.jpeg)  
 
 ### 3. 属性描述符
   - Object.getOwnPropertyDescriptor(obj, key)
