@@ -762,6 +762,18 @@
       console.dir(p2);
     ```
 
+  - 原型对象
+    -  实例对象中有__proto__属性，叫做原型对象，浏览器使用
+
+    - 构造函数中有prototype属性，叫做原型对象，程序员使用
+
+    - per.__proto__.constructor == Person.prototype.constructor
+
+    - __proto__之所以给浏览器使用，因为不同浏览器兼容不一样，ie就没有该属性
+
+### 4. 实例对象、构造函数、实例对象关系图
+  ![原型链关系图](./image/原型链关系图.jpeg)  
+
 ### 3. 属性描述符
   - Object.getOwnPropertyDescriptor(obj, key)
     
