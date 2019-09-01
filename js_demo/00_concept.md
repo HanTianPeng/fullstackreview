@@ -598,6 +598,8 @@
 
     - 创建或者构造一个全新的对象。
 
+    - 创建一个原型对象---->conk thinking by 2019-09-02
+
     - 这个新对象会被执行原型连接。
 
     - 这个新对象绑定到函数调用的this。
@@ -763,9 +765,9 @@
     ```
 
   - 原型对象
-    -  实例对象中有__proto__属性，叫做原型对象，浏览器使用
+    -  实例对象中有__proto__属性，叫做隐式原型对象，浏览器使用
 
-    - 构造函数中有prototype属性，叫做原型对象，程序员使用
+    - 构造函数中有prototype属性，叫做显式原型对象，程序员使用
 
     - per.__ proto__.constructor == Person.prototype.constructor
 
@@ -775,6 +777,10 @@
   - 实例对象的原型对象(__ proto__)指向的是构造函数的原型对象
 
   - 构造函数的原型对象(prototype)中的方法是可以被实例对象直接访问的
+
+  - **原型链** ：是一种关系，实例对象和原型对象之间的关系，关系是通过原型(__ proto__)来联系的。
+
+  - 构造函数的原型对象(prototype)指向发生改变，实例对象的原型(__ proto__)指向也会发生改变。
 
     ![原型链关系图](./image/原型链关系图.jpeg)  
 
@@ -815,8 +821,39 @@
     ```
   - 实例对象使用的属性和方法层层调用关系
     - 首先**实例中查找**，然后**去创建该实例对象的的构造函数的原型对象中查找**
-  
-  - 
+
+### 6.Object.create()
+  - 返回值: 一个新对象，带着指定的原型对象和属性。
+
+### 7. Object.getPrototypeOf()
+  - 返回指定对象的原型对象
+
+### 8. 属性设置和屏蔽
+  - foo不直接存在obj中，而是存在于原型链上层时obj.foo = 'bar'会出现三种情况
+
+    - 如果在__ proto__上层存在名为foo的普通数据访问属性，并且没有被标记为只读(writable:false)，那就会直接在obj中添加一个名为foo的新属性，它是**屏蔽属性**。
+
+    - 如果在__ proto__上层存在foo，但是它被标记只读(writable:false)，那么无法修改已有属性或则在obj上创建屏蔽属性。如果运行在严格模式下，代码会抛出错误。否则，这条赋值语句会被忽略。总之，不会发生屏蔽。
+
+    - 如果在__ proto__上层存在foo并且它是一个setter，那就一定会调用这个setter。foo不会被添加到(或则说屏蔽于)obj，也不会重新定义foo这个setter。
+
+  - 隐式屏蔽
+    ```
+      var obj1 = {
+        a: 2
+      };
+      var obj2 = Object.create(obj1);
+      console.log(obj2.a);  // 2
+      console.log(obj1.a);  // 2
+      console.log(obj1.hasOwnProperty('a'));  // false
+      console.log(obj1.hasOwnProperty('a'))  // true
+
+      // 隐式屏蔽
+      obj2.a++;  // obj2.a = obj2.a + 1;
+      console.log(obj2.a);  // 3
+      console.log(obj1.a);  // 2
+      console.log(obj2.hasOwnProperty('a'));  // true
+    ```
 
 
 ### 3. 属性描述符
