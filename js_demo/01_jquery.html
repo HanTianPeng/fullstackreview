@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 为什么这里要定义一个undefined，为了保证undefined确实是undefined，因为早期有些浏览器对undefined进行赋值操作，是可以成功的。
+        (function(window, undefined){
+            var jQuery = function(){
+                /* 
+                    jQuery.fn.init() = jQuery
+                    将new的方式，交给别人
+                */
+                return new jQuery.fn.init();
+
+                // jQuery.fn是jQuery.prototype的缩写
+                jQuery.fn = jQuery.prototype = {
+                    init: function(){
+
+                    }
+                };
+                // 将init的prototype指向jQuery.prototype,实现数据共享
+                // eg: jQuery.prototype.pht = 'test',在init里面可以直接通过this.pht来访问，没有这行代码否则不能访问
+                jQuery.fn.init.prototype = jQuery.prototype;
+
+                // jQuery两个扩展
+                /*
+                    jQuery.fn.extend  // 直接对原型链进行操作
+                    $.pht = 'test2';
+
+                    jQuery.extend  // 直接添加静态方法
+                    $('#app').conk = function(){
+                        console.log('----conk----');
+                    }
+                    
+                    $('#app') = jQuery('#app') 就是new的操作。
+                */
+            }
+        })(window);
+
+        /*
+            addMethod:
+              作用: 给obj绑定name属性或方法
+        */
+        function addMethod(obj, name, fn){
+            var old = obj[name];  // 上一次函数的值， 类似数据结构的链表，区别是没有next
+            obj[name] = function(){
+                console.log('----arguments->', arguments.length);
+                if(arguments.length == fn.length){
+                    return fn.apply(this, arguments);
+                }else if(typeof old == 'function'){
+                    console.log('----old----', old);
+                    return old.apply(this, arguments);
+                }
+            };
+            console.log('===addMethod====', obj[name]);
+
+        }
+
+        var data = ['conk', 'pht', 'penghantian'];
+        addMethod(data, 'find', function(){
+            return 0;
+        });
+
+        addMethod(data, 'find', function(firstParam){
+            return 1;
+        });
+
+        addMethod(data, 'find', function(firstParam, secondParam){
+            return 2;
+        });
+
+        addMethod(data, 'find', function(firstParam, secondParam, thirdParam){
+            return 3;
+        });
+
+        /*
+            data.find() 
+            
+            等价于
+
+            function(){
+                // 判断实参个数，是否等于形参个数
+                if(arguments.length == fn.length){
+                    return fn.apply(this, arguments);
+                }else if(typeof old == 'function'){
+                    return old.apply(this, arguments);
+                }
+            }
+
+            old.apply(this, arguments);
+
+            等价于
+
+            function(){
+                if(arguments.lenght == fn.length){
+                    return fn.apply(this, arguments);
+                }else if(typeof old == 'function'){
+                    return old.apply(this, arguments);
+                }
+            }
+
+            知道找到实参个数=形参个数的那个function，并调用
+
+        
+        
+        */
+
+        data.find();  // 通过最后一个，找到倒数第二个，找到倒数第一个，找到第一个
+
+        // data.find('conk');
+
+        // data.find('conk', 'pht');
+
+        // data.find('conk', 'pht', 'penghantian');
+
+
+        var obj = {
+            a: function(){
+                return this;
+            },
+            b: function(){
+                return this;
+            }
+        };
+        obj.a().b();  // jQuery链式调用
+
+        obj.a().b().parent();
+        obj.eq(2);
+        //  堆栈存储 $('#app') ['a', 'b'], 进行for遍历查找
+
+        var obj = Object(this);
+        var length = obj.length >>> 0;
+        console.log('---位运算---', length);
+
+        // 短路语句
+        a && test();  // a为true，则调用test();
+        a || test();  // a为true，不调用test();
+
+        // jQuery的引擎 Sizzle
+
+        // hooks====钩子---映射----表驱动原理
+        var result = 'conk';
+        var hooks = {
+            pht: function(){
+                console.log('---index---');
+            },
+            conk: function(){
+                console.log('----conk-----');
+            }
+        };
+        // 进行短路语句
+        hooks[result] && hooks[result]();
+
+        /*
+            连贯接口:
+                1. 链式调用
+
+                2. 命令查询媒体(重载)
+
+                3. 参数映射
+        */
+
+        document.addEventListener('DOMContentloaded');
+        // 等价于
+        $.ready(function(){
+
+        });
+
+        // ie浏览器模拟ready，就是在能动一下滚动条之前触发需要执行的函数。
+        (function(){
+            function IEContentloaded(){
+                (function(){
+                    try{
+                        document.documentElement.scroll('left');
+                    }catch(e){
+                        setTimeout(arguments.callee, 50);
+                    }
+                });
+            }
+        });
+
+    </script>
+</body>
+</html>
