@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Person(name, age){
+            this.name = name;
+            this.age = age;
+        }
+        Person.prototype.getType = function(){
+            console.log('========Person=======');
+        };
+
+        function Father(height){
+            this.height = height;
+        }
+        Father.prototype = new Person('conk', 18);
+
+        var personPrototypeConstructor = Person.prototype.constructor;
+        console.log('---Person---prototype.constructor===>', personPrototypeConstructor);
+        
+        var fatherPrototyeConstructor = Father.prototype.constructor;
+        console.log('---Father---prototype.constructor===>', fatherPrototyeConstructor);
+
+        console.log('---未修改前====>', personPrototypeConstructor === fatherPrototyeConstructor);
+
+
+        var fatherConstructor = Father.constructor;
+        console.log('---Father---constructor====>', fatherConstructor);
+
+        // 修正
+        Father.prototype.constructor = Father;
+        var f = new Father(180);
+        console.dir('---实例对象---',f);
+
+        /* 
+            疑问点:
+                为什么Father.constructor != Father.prototype.constructor??? 
+        */
+
+        console.dir(Father);
+    </script>
+</body>
+</html>
