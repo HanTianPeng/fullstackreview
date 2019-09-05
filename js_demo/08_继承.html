@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function superType(){
+            this.property = true;
+            this.sameProperty = 'same';
+        }
+        superType.prototype.getSuperValue = function(){
+            return [this.property, this.sameProperty];
+        };
+
+        function subType(){
+            this.subproperty = false;
+            this.sameProperty = 'subSame'
+        }
+        subType.prototype = new superType();
+        subType.prototype.getSubValue = function(){
+            return [this.subproperty, this.sameProperty];
+        };
+
+        var instance = new subType();
+        console.log(instance.getSubValue());
+        console.log(instance.getSuperValue());
+    </script>
+</body>
+</html>
