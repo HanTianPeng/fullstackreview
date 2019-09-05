@@ -18,7 +18,7 @@
 
         function subType(){
             this.subproperty = false;
-            this.sameProperty = 'subSame'
+            this.sameProperty = 'subSame';
         }
         subType.prototype = new superType();
         subType.prototype.getSubValue = function(){
@@ -28,6 +28,10 @@
         var instance = new subType();
         console.log(instance.getSubValue());
         console.log(instance.getSuperValue());
+
+        instance.subInstanceProperty = 'subInstanceProperty';
+
+        console.dir(instance);
     </script>
 </body>
 </html>

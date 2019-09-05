@@ -27,23 +27,72 @@
         var fatherPrototyeConstructor = Father.prototype.constructor;
         console.log('---Father---prototype.constructor===>', fatherPrototyeConstructor);
 
-        console.log('---未修改前====>', personPrototypeConstructor === fatherPrototyeConstructor);
+        console.log('---未修改前====>', personPrototypeConstructor === fatherPrototyeConstructor);  // true
 
 
         var fatherConstructor = Father.constructor;
         console.log('---Father---constructor====>', fatherConstructor);
 
         // 修正
-        Father.prototype.constructor = Father;
+        // Father.prototype.constructor = Father;
         var f = new Father(180);
-        console.dir('---实例对象---',f);
+        console.log('-------实例对象dir-----------');
+        console.dir(f);
+        // console.dir('---Father---', Father);
 
-        /* 
+        console.log('---实例对象的constructor----', f.constructor);
+
+        f.constructor.prototype.fInstanceProperty = 'fInstanceProperty';
+        
+        Father.prototype.fSecondInstanceProperty = 'fSecondInstanceProperty';
+
+        /*  1. f实例对象并没有constructor属性
+            2. 访问f实例对象的原型链__proto__所指向的原型对象----Father.prototype所指向的原型对象
+            3. Father.prototype又是一个实例对象，也没有constructor属性
+            4. 继续访问Father.prototype该实例对象的__proto__所指向的原型对象---Person.prototype所指向的原型对象
+            5. Person.prototype原型对象有一个construtor属性，指向的是Person这个构造函数，所以在此访问到了
+            6. 给f实例对象的constructor.prototype绑定一个属性，其实是给Person.prototype所指向的原型对象，绑定一个属性
+            7. 其实是绑定在父类的原型对象上。
+
+            修改后:
+                1. f实例对象并没有constructor属性
+                2. 访问f实例对象的原型链__proto__所指向的原型对象-----Father.prototype所指向的原型对象
+                3. 发现Father.prototype所指向的原型对象是一个Person的实例对象，但是手动修改了constructor的指向，所以访问到了constructor属性了.
+                4.此时的实例对象的constructor属性的prototype其实就是Father构造函数的prototype，指向的是Father.prototype所指向的原型对象
+                5. 给子类原型对象添加一个属性
+
+            修改前后差别:
+                1. 给子类绑定的共享方法不会污染到父类， 因为有时候子类的实例对象是通过闭包创建，想给子类绑定属性或方法，就得通过constructor进行访问，并且保证不能污染到父类。
+
+                var man;
+                (function(){
+                    function Father (name) {
+                        this.name = name;
+                    }
+
+                    Father.prototype.sayName= function () {
+                        console.log(this.name);
+                    }
+                    man = new Father('aoyo');
+                })()
+                man.sayName();//aoyo
+                
+                // 本来可通过下面进行绑定属性或方法，但是闭包导致无法访问，所以必须借助constructor
+                // Father.prototype.fSecondInstanceProperty = 'fSecondInstanceProperty';
+                console.log(Father); //Father is not defined
+
+
+                man.constructor.prototype.sayAge = function(age){
+                    console.log(age);
+                }
+                man.sayAge('20'); //20
+
+            实例对象的constructor---->Father.prototype
             疑问点:
                 为什么Father.constructor != Father.prototype.constructor??? 
         */
 
-        console.dir(Father);
+        // console.dir(Father);
     </script>
 </body>
 </html>
