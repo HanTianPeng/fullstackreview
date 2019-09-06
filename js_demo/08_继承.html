@@ -7,10 +7,12 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- 
     <script>
         function superType(){
             this.property = true;
             this.sameProperty = 'same';
+            this.colors = ['white', 'red'];
         }
         superType.prototype.getSuperValue = function(){
             return [this.property, this.sameProperty];
@@ -20,6 +22,10 @@
             this.subproperty = false;
             this.sameProperty = 'subSame';
         }
+        /*
+            1. 原型链方法实现继承
+                缺点: 多个实例对引用类型的操作会被篡改
+        */
         subType.prototype = new superType();
         subType.prototype.getSubValue = function(){
             return [this.subproperty, this.sameProperty];
@@ -30,8 +36,85 @@
         console.log(instance.getSuperValue());
 
         instance.subInstanceProperty = 'subInstanceProperty';
+        instance.colors.push('blue');
+
+        var instance2 = new subType();
+        console.log(instance2.colors);
 
         console.dir(instance);
     </script>
+     -->
+     <!--  
+    <script>
+        function Parent(){
+            this.color = ['white', 'red'];
+        }
+        
+        function Child(){
+            /*
+                2. 借用构造函数实现继承
+                    缺点: 
+                        只能继承父类的实例属性和方法，不能继承原型属性和方法
+                        无法实现复用，每个子类都有父类实例函数的副本，影响性能
+            */
+            Parent.call(this);
+        }
+        var instance1 = new Child();
+        instance1.color.push('blue');
+        console.log(instance1.color);
+        console.dir(instance1);
+
+        var instance2 = new Child();
+        console.log(instance2.color);
+        console.dir(instance2);
+    </script>
+    -->
+    <!-- 
+    <script>
+        function Parent(name){
+            this.name = name;
+            this.color = ['red', 'blue'];
+        }
+        Parent.prototype.sayName = function(){
+            console.log('parent----', this.name);
+        };
+        function Child(name, age){
+            // 第二次调用Parent()
+            Parent.call(this, name);
+            this.age = age;
+        }
+        // 第一次调用Parent()
+        Child.prototype = new Parent();
+        Child.prototype.construtor = Child;
+        Child.prototype.sayAge = function(){
+            console.log('child----', this.age);
+        };
+        /*
+            3. 组合继承
+                缺点: 
+                    第一次调用Parent(): 给Child.prototype写入两个属性name, color
+                    第二次调用Parent(): 给instance1写入两个属性name, color
+                    属性赋值: 给实例对象instance1上的两个属性赋值，就屏蔽了其原型对象Child.prototype的两个同名属性。
+                    总结: 在使用子类创建实例对象时，其原型会存在两份相同的属性/方法
+
+        */
+        var instance1 = new Child('conk', 18);
+        instance1.color.push('white');
+        console.log(instance1.color);
+        instance1.sayName();
+        instance1.sayAge();
+        console.dir(instance1);
+
+        var instance2 = new Child('pht', 20);
+        console.log(instance2.color);
+        instance2.sayName();
+        instance2.sayAge();
+        console.dir(instance2);
+    </script>
+     -->
+
+     <script>
+     
+     </script>
 </body>
 </html>
