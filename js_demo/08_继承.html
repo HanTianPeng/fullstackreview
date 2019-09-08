@@ -113,8 +113,175 @@
     </script>
      -->
 
+     <!--
      <script>
-     
+         function CreateObj(obj){
+            function Child(){
+                
+            }
+            Child.prototype = obj;
+            return new Child();
+         }
+
+         var parentInstance = {
+             name: 'conk',
+             colors: ['white', 'blue']
+         };
+         /*
+            4. 原型式继承
+                利用一个空对象做中介，将某个对象直接赋值给空对象构造函数的原型
+                缺点: 
+                    原型链继承多个实例的引用类型属性指向相同，存在篡改可能
+                    无法传递参数
+         */
+         var childInstance = CreateObj(parentInstance);
+         childInstance.name = 'pht';
+         childInstance.colors.push('red');
+
+         parentInstance.name = 'penghantian';
+         parentInstance.colors.push('green');
+
+         console.dir(childInstance);
+
+         var childInstance2 = CreateObj(parentInstance);
+         childInstance2.name = 'child2';
+         childInstance2.colors.push('yellow');
+         console.dir(childInstance2);
      </script>
+      -->
+
+      <!-- 
+     <script>
+         function CreateObj(obj){
+            function Child(){
+
+            }
+            Child.prototype = obj;
+            return new Child();
+         }
+
+        /*
+            寄生式继承
+                在原型式继承的基础上，增强对象。
+
+                缺点: 
+                    原型链继承对个实例的引用类型属性指向相同，存在篡改可能
+                    无法传递参数
+        */
+         function enhanceChild(obj){
+            var childInstance = CreateObj(obj);
+            // 增强对象
+            childInstance.eat = function(){
+                console.log('===eat==');
+            };
+            return childInstance;
+         }
+
+         var parentInstance = {
+             name: 'conk',
+             colors: ['white', 'red'],
+         };
+
+         var childInstance = enhanceChild(parentInstance);
+         childInstance.eat();
+         childInstance.name = 'pht';
+         childInstance.colors.push('green');
+         console.log(childInstance.colors);
+         console.dir(childInstance);
+
+         var childInstance2 = enhanceChild(parentInstance);
+         childInstance2.eat();
+         childInstance2.name = 'penghantian';
+         childInstance.colors.push('yellow');
+         console.log(childInstance2.colors);
+         console.dir(childInstance2);
+     </script>
+     -->
+
+     <!--
+     <script>
+         function Parent(name){
+             this.name = name;
+             this.colors = ['white', 'red'];
+         }
+
+         Parent.prototype.eat = function(){
+             console.log('---eat---');
+         };
+
+         function Child(name, age){
+            // 借用构造函数继承方式，增强子类实例属性====支持传参、避免篡改
+            Parent.call(this, name);
+            this.age = age;
+         }
+
+         // 继承父类构造函数所指向的原型对象的方法和属性===将子类prototype与父类的prototype通过一个中间对象进行关联
+         function inheritParentPrototype(child, parent){
+            var midObj = Object.create(parent.prototype);
+            midObj.constructor = child;
+            child.prototype = midObj;
+         }
+         /*
+            寄生组合式继承
+                
+                    优点: 
+                        只会调用一次Parent
+                        避免在Child.prototype上创建不必要的属性或方法
+                        原型链保持不变
+
+         */
+         inheritParentPrototype(Child, Parent);
+
+         Child.prototype.run = function(){
+             console.log('---run----');
+         };
+
+         var instance1 = new Child('conk', 18);
+         instance1.colors.push('yellow');
+         console.log(instance1.colors); 
+         console.dir(instance1);
+
+         var instance2 = new Child('pht', 20);
+         instance2.colors.push('blue');
+         console.log(instance2.colors);
+         console.dir(instance2);
+     </script>
+      -->
+
+      <script>
+          class Parent {
+            constructor(name, color){
+                this.name = name;
+                this.color = color;
+            }
+
+            get nameColor(){
+                return this.calcNameColor();
+            }
+
+            calcNameColor(){
+                return this.name + '====' + this.color;
+            }
+          }
+
+          class Child extends Parent {
+              constructor(name, color, age){
+                  super(name, color);
+                  this.age = age;
+              }
+
+              get nameColor(){
+                  return this.name + '====' + this.color + '=====' + this.age;
+              }
+          }
+
+          var childInstance = new Child('conk', ['red', 'white'], 18);
+          console.log(childInstance.nameColor);
+          console.dir(childInstance);
+
+          var childInstance2 = new Child('pht', ['red', 'white', 'blue'], 20);
+          console.log(childInstance2.nameColor);
+          console.dir(childInstance2);
+      </script>
 </body>
 </html>
