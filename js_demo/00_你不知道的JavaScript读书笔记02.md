@@ -74,3 +74,92 @@
       a.length;  // 3
       a[1]; // undefined
       ```
+
+  - 类数组
+    - 通过工具函数slice()/from()转换为数组
+      ```
+      function fn(){
+        var newArray = Array.prototype.slice.call(arguments);
+        var newArray2 = Array.from(arguments);
+        return newArray;
+      }
+      fn(1, 2, 3);
+      ```
+
+### 3. 字符串
+  - 字符串通过索引获取元素并非总是合法语法，在老版本ie中就是不支持的，可以使用charAt()
+    ```
+    var a = 'conk';
+    a[0];  // c 注意: 在老版本ie浏览器，该语法会报错
+    ```
+  
+  - 字符串不可变: 字符串的成员函数不会改变其原始值，而是创建并返回一个新的字符串
+    ```
+    var a = 'conk';
+    var b = a.toUpperCase();
+    a;  // conk
+    b;  // CONK
+    ```
+  
+  - 字符串没有一些函数，但是可以借助数组一些函数来处理字符串
+    ```
+    a.join;  // undefined
+    a.map;  // undefined
+    Array.prototype.join.call('conk', '-');  // c-o-n-k
+    Array.prototype.map.call('conk', function(v){
+        return v.toUpperCase();
+      }
+    ).join('-');  // C-O-N-K
+    ```
+
+  - 字符串无法借用数组的成员函数处理
+    ```
+    var c = 'conk'.split('').reverse().join('');  // knoc
+    ```
+
+### 4. 数字
+  - 数字值可以使用Number对象进行封装
+    ```
+    var a = 45;
+    var b = a.toFixed(3);
+    typeof b;  // string
+    b;  // '45.000'
+    ```
+  
+  - 浮点数相加问题
+    ```
+    0.1 + 0.2 === 0.3;  // false
+
+    // polyfill
+    if(!Number.EPSILON){
+      Number.EPSILON = Math.pow(2, -52);
+    }
+
+    function fixEqual(num1, num2){
+      return Math.abs(num1 - num2) < Number.EPSILON;
+    }
+    fixEqual(0.1+0.2, 0.3);  // true
+    ```
+
+  - 整数检测
+    ```
+    // es6语法
+    Number.isInteger(4);  // true
+    Number.isInteger(4.0);  // true
+    Number.isInteger(4.1);  // false
+
+    // polyfill
+    if(!Number.isInteger){
+      Number.isInteger = function(num){
+        return typeof num === 'number' && num % 1 === 0;
+      }
+    }
+    ```
+
+### 5. undefined
+  - void 运算符作用
+    ```
+    function fn(){
+      return void console.log('conk');
+    }
+    ```
