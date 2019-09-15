@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            将空数组[]当作prevArgs的初始实参集合，
+            并且将每次接收到的nextArg同prevArgs连接成args数组，
+            当args.length小于arity(原函数fn(...)被定义和期望的形参数量)时，
+              返回另外一个curried(...)函数，并用其来接收下一个nextArg实参，
+              与此同时将args实参集合作为唯一的preArgs参数传入nextCurried(...)函数。
+            一旦收集了足够长度的args数组，就用这些实参触发原函数fn(...)
+
+            柯里化应用优点:
+              1. 将多元函数转换为一元函数
+              2. 传统函数调用则需要预先确定所有实参，而实际开发过程中，
+                 通常是在代码某一处只获取部分参数，然后在另外一处确定另外一部分参数，
+                 这个时候柯里化应用就很好体现出来了。
+        */
+       // 严格柯里化=>fn(1)(2)(3)(4)(5);
+        function curry(fn, arity=fn.length){
+            return (function nextCurried(prevArgs){
+                return function curried(nextArg){
+                    var args = prevArgs.concat([nextArg]);
+
+                    if(args.length >= arity){
+                        return fn(...args);
+                    }else{
+                        return nextCurried(args);
+                    }
+                };
+            })([]);
+        }  
+
+        
+        
+        // 松散柯里化=>fn(1)(2, 3)(4, 5)
+        function looseCurry(fn, arity=fn.length){
+            return (function nextCurried(preArgs){
+                return function curried(...nextArgs){
+                    var args = preArgs.concat(nextArgs);
+
+                    if(args.length >= arity){
+                        fn(...args);
+                    }else{
+                        return nextCurried(args);
+                    }
+                }
+            })([]);
+        }
+    </script>
+</body>
+</html>

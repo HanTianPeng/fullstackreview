@@ -15,6 +15,45 @@
             }   
         }    
 
+        /*
+            使用偏函数实现以下三个函数: 
+
+            function getPerson(data, callback){
+                ajax('http://some.api/person', data, callback);
+            }
+
+            function getOrder(data, callback){
+                ajax('http://some.api/order', data, callback);
+            }
+
+            function getCurrentUser(callback){
+                getPerson({user: current_user_id}, callback);
+            }
+        */
+
+       var getPerson = partial(ajax, 'http://some.api/person');
+       /*
+            var getPerson = function partiallyApplied(...laterArgs){
+                return ajax('http://some.api/person', ...laterArgs);
+            }
+       */
+
+       var getOrder = partial(ajax, 'http://some.api/order');
+       /*
+            var getOrder = function partiallyApplied(...laterArgs){
+                return ajax('http://some.api/order', ...laterArgs);
+            }
+       */
+        
+       var getCurrentUser = partial(getPerson, {user: 12708967});
+       /*
+            var getCurrentUser = function OuterPartiallyApplied(...outerLaterArgs){
+                var getPerson = function innerPartiallyApplied(...innerLaterArgs){
+                    return ajax('http://some.api/person', ...innerLaterArgs);
+                };
+                return getPerson({user: 12708967}, ...outerLaterArgs);
+            }
+       */
         var partiallyAppliedFun = partial(function(){console.log('----');}, 1,2,3);
         // partiallyAppliedFun(4,5,6);
 
