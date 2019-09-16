@@ -37,8 +37,6 @@
             })([]);
         }  
 
-        
-        
         // 松散柯里化=>fn(1)(2, 3)(4, 5)
         function looseCurry(fn, arity=fn.length){
             return (function nextCurried(preArgs){
@@ -46,13 +44,86 @@
                     var args = preArgs.concat(nextArgs);
 
                     if(args.length >= arity){
-                        fn(...args);
+                        return fn(...args);
                     }else{
                         return nextCurried(args);
                     }
-                }
+                };
             })([]);
         }
+
+        /*
+            反柯里化=>将类似f(1)(2)(3)的函数变回类似g(1)(2)(3)
+
+            理解思路: 
+              柯里化后，可以通过一个一个参数进行传递，直到参数个数与arity长度相同，便执行函数；
+              反柯里化: 应该就是一次性将所有参数传递给fn，这样在柯里化函数中就可以直接执行原函数
+              总结: 反柯里化是建立在原函数已经被柯里化后的函数
+              反思: 为什么称之为类似?
+                当args的长度不够时候，返回的任然是部分柯里化后的函数
+        */ 
+        function uncurry(fn){
+            return function uncurried(...args){
+                var ret = fn;
+                for(let i=0; i<args.length; i++){
+                    ret = ret(args[i]);
+                }
+                return ret;
+            };
+        }
+
+        function sum(...args){
+            var sum = 0;
+            for(let i=0; i<args.length; i++){
+                sum += args[i];
+            }
+            return sum;
+        }
+
+        var curriedSum = curry(sum, 5);
+        console.log('---柯里化---', curriedSum);
+
+        var curriedSum4 = curriedSum(1)(2)(3)(4);
+        console.log('---柯里化4---', curriedSum4);
+
+        var curriedSum5 = curriedSum4(5);
+        console.log('---柯里化5---', curriedSum5);  // 15
+
+        var uncurriedSum = uncurry(curriedSum);
+        console.log('---反柯里化---', uncurriedSum);  
+
+        var uncurriedSum4 = uncurry(curriedSum)(1, 2, 3, 4);  
+        console.log('---反柯里化4---', uncurriedSum4);
+
+        var uncurriedSum5 = uncurry(curriedSum)(1, 2, 3, 4, 5);  // 15
+        console.log('---反柯里化5---', uncurriedSum5);
+
+        /*
+            只要一个实参
+            补充知识:
+            3 + [1, 2, 3, 4, 5]  // '41,2,3,4,5'
+            5 + [1, 2, 3, 4, 5]  // '61,2,3,4,5'
+        */ 
+        var adder = looseCurry(sum, 2);
+        // 出现问题，这个时候就必须强制传入一个实参
+        var newArrBad = [1, 2, 3, 4, 5].map(adder(3));  // ['41,2,3,4,5', '61,2,3,4,5', '81,2,3,4,5', '101,2,3,4,5', '121,2,3,4,5']
+        console.log('---newArrBad---', newArrBad);
+        function unary(fn){
+            // 为什么arg这能获取是一个参数，因为传入的时候是通过...args,利用解构
+            return function onlyOneArg(arg){
+                return fn(arg);
+            };
+        }
+        var newArr = [1, 2, 3, 4, 5].map(unary(adder(3)));
+        console.log('---newArr---', newArr);
+
+        /*
+            案例2: 只要一个实参
+        */
+        ['1', '2', '3'].map(parseFloat);
+        ['1', '2', '3'].map(parseInt);
+        parseInt('1', 2);  // 这个时候unary作用就很明显
+        
     </script>
 </body>
 </html>
