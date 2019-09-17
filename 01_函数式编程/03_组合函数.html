@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function words(str){
+            return String(str)
+                .toLocaleLowerCase()
+                .split(/\s|\b/)
+                .filter(function alpha(v){
+                    return /^[\w+]+$/.test(v);
+                });
+        }
+
+        function unique(list){
+            var uniqueList = [];
+            for(let i=0; i<list.length; i++){
+                if(uniqueList.indexOf(list[i]) === -1){
+                    uniqueList.push(list[i]);
+                }
+            }
+            return uniqueList;
+        }
+
+        var text = 'To compose two functions together, pass the \
+                    output of the first function call as the input of the \
+                    second function call.'
+        var wordsFound = words(text);
+        var wordsUsed = unique(wordsFound);
+        console.log('---wordsUsed----', wordsUsed);
+
+        // 组合函数
+        function uniqueWords(str){
+            return unique(words(str));
+        }
+        var wordsUsed2 = uniqueWords(text);
+        console.log('---wordsUsed2----', wordsUsed2);
+
+        // 组合函数升级版
+        function compose2(fn2, fn1){
+            return function composed(originValue){
+                return fn2(fn1(originValue));
+            };
+        }
+
+        // 组合函数高级版
+        function compose(...fns){
+            return function composed(result){
+                // 拷贝一份保存函数的数组
+                var list = fns.slice();
+
+                while (list.length > 0){
+                    // 将最后一个函数从列表尾部拿出，并执行它
+                    result = list.pop()(result);
+                }
+                return result;
+            };
+        }
+    </script>
+</body>
+</html>
