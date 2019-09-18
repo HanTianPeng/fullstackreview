@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            arr.reduce(callback, [initalValue])
+                .callback(执行数组中每个值的回调函数，包含四个参数)
+                    previousValue: 上一次调用回调返回的值，或者是提供的初始值(initialValue)
+                    currentValue: 数组中当前被处理的元素
+                    index: 当前元素在数组中的索引
+                    array: 调用reduce的数组
+
+                initialValue: 作为第一次调用callback的第一个参数
+        */
+
+
+        /*
+            easy demo:
+             reduce函数根据初始值0，不断的进行叠加，完成最简单的总和的实现。
+        */ 
+
+        var arr = [1, 2, 3];
+
+        // reducer 
+        function reducer(sumSoFar, item){
+            return sumSoFar + item;
+        }
+        var total = arr.reduce(reducer, 0);  // 0 + 1 + 2 + 3 
+        console.log('---easy-demo---', total);  // 6
+        
+        /*
+            init-type the same as return-type
+        */
+        function reducer2(sumSoFar, item){
+            sumSoFar.sum = sumSoFar.sum + item;
+            return sumSoFar;
+        }
+        var total2 = arr.reduce(reducer2, {sum: 0});
+        console.log('---second-demo---', total2);  // {sum: 6}
+
+        /*
+            by reduce change object
+        */
+        var obj = {price: 10, num: 100};
+        var formatFunction = {
+            price: function formatPrice(item){
+                return item.price += 10;
+            },
+            num: function formatNum(item){
+                return item.num += 20;
+            }
+        }
+        var formatObj = Object.keys(obj).reduce(
+            function reducer4(nextObj, key){
+                formatFunction[key](obj);
+                return obj;
+            }, 
+            {}
+        );
+        console.log('---reduce-change-obj---', formatObj);  // {price: 20, num: 120}
+
+        /*
+            multi dimension
+        */
+        var reducers = {
+            totalPrice: function totalPrice(state, item){
+                return state.price +=  item.price;
+            },
+            totalNum: function totalNum(state, item){
+                return state.num += item.num;
+            }
+        }
+        function manageMltiReducer(reducers){
+            return function manageReducer(state, item){
+                return Object.keys(reducers).reduce(
+                    function reduce3(nextState, key){
+                        reducers[key](state, item);
+                        return state;
+                    },
+                    {}
+                );
+            };
+        }
+        var initState = {price: 0, num: 0};
+        var items = [{price: 10, num: 100}, {price: 20, num: 200}, {price: 30, num: 300}];
+        var totalState = items.reduce(manageMltiReducer(reducers), initState);
+        console.log('---multi-dimension---', totalState);  // {price: 60, num: 600}
+
+        /*
+            案例1： 统计一串字符串中每一个字符出现的次数
+        */
+        var text = 'abcdbskrhiewsasda';
+        var countText = text.split('').reduce(function countWord(result, item){
+            result[item] ? result[item] += 1 : result[item] = 1;
+            return result;
+        }, {});
+        console.log('---count-text-demo---', countText);
+
+        /*
+            案例2: koa的only模块
+        */
+        function only(obj, keys){
+            obj = obj || {};
+            if(typeof keys === 'string') keys = keys.split(/ +/);
+            return keys.reduce(
+                function reducer5(result, key){
+                    if(obj[key] === null) return result;
+                    result[key] = obj[key];
+                    return result;
+                },
+                {}
+            );
+        }
+        var newObj = {
+            env: 'product',
+            proxy: false,
+            debug: true
+        };
+        var onlyNewObj = only(newObj, ['env', 'debug']);
+        console.log('---koa---', onlyNewObj);  // {env: 'product', debug: true}
+
+        
+    </script>
+</body>
+</html>

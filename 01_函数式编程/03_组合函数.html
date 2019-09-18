@@ -48,6 +48,23 @@
             };
         }
 
+        /*
+            compose function better version
+        */
+        var head = function(x){
+            return x[0];
+        };
+        var reverse = function reverse(x){
+            return x.reduce(
+                function reducer(result, item){
+                    return [item].concat(result);
+                },
+                []
+            );
+        };
+        var reverseResult = compose2(head, reverse)(['hello', 'world', 'javascript']);
+        console.log('---compose function better version---', reverseResult);  // javascript
+
         // 组合函数高级版
         function compose(...fns){
             return function composed(result){
