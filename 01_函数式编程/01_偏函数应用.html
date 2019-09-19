@@ -8,9 +8,16 @@
 </head>
 <body>
     <script>
+        function ajax(url, data, callback){
+
+        }
+
+        /*
+            创建一个能够减少参数个数的实用函数，用来包装原函数
+        */
         function partial(fn, ...presetArgs){
             return function partiallyApplied(...laterArgs){
-                console.log(presetArgs, laterArgs);
+                // console.log(presetArgs, laterArgs);
                 return fn(...presetArgs, ...laterArgs);
             }   
         }    
@@ -54,8 +61,71 @@
                 return getPerson({user: 12708967}, ...outerLaterArgs);
             }
        */
-        var partiallyAppliedFun = partial(function(){console.log('----');}, 1,2,3);
-        // partiallyAppliedFun(4,5,6);
+        var partiallyAppliedFun = partial(function test(){console.log('---come---');}, 1,2,3);
+        console.log('---test---', partiallyAppliedFun);
+        /*
+            function partiallyApplied(...laterArgs){
+                return fn(...presetArgs, ...laterArgs);
+            }
+        */
+        partiallyAppliedFun(4,5,6);  // ---come---
+
+        /*
+            创建一个可以颠倒实参顺序的实用函数，用来包装原函数
+        */
+        function reverseArgs(fn){
+            return function argsReversed(...args){
+                return fn(...args.reverse());
+            }
+        }
+
+        var cache = {};
+        
+        var cacheResult = reverseArgs(
+            // reverseArgs(ajax)  ajax(callback, data, url)
+            partial(reverseArgs(ajax), function onResult(obj){
+                cache[obj.id] = obj
+            }) // ajax的偏应用函数，预设callback为第一个参数, 其中data/url为后续需要传入的参数
+        );  // 再次逆序，ajax(url, data, callback),其中callback已经实现预设
+        cacheResult('http://some.api/person', {user: 12708967});
+
+        /*
+            创建一个从右边开始偏应用实参的实用函数，用来包装原函数
+        */
+        function partialRight(fn, ...presetArgs){
+            return reverseArgs(
+                partial(reverseArgs(fn), ...presetArgs.reverse())
+            );
+        }  // fn(x, y, z, 'beforeApplied')
+
+        var cacheResultNew = partialRight(ajax, function onResult(obj){
+            cache[obj.id] = obj;
+        });
+        cacheResultNew('http:some.api/person', {user: 12708967});
+
+        /*
+            partialRight缺陷:
+              不能保证让一个特定的形参接收特定的被偏应用的值，
+              它只能确保将这些值(一个或几个)当做原函数最右边的实参(一个或几个)传入
+
+            
+        */
+        function foo(x, y, z){
+            result = [].slice.call(arguments, 3);
+            console.log('---partialRight---badResult---', x, y, z, result);
+        }
+        var partialRightFoo = partialRight(foo, 'z is 3');
+
+        /*
+            只有在传入两个参数是，才能正确的将被偏应用的值传入指定的位置
+        */
+        partialRightFoo(1, 2);  // 1, 2, 'z is 3', []
+
+        partialRightFoo(1);  // 1, 'z is 3', undefined, []
+
+        partialRightFoo(1, 2, 3);  // 1, 2, 3, ['z is 3']
+
+        partialRightFoo(1, 2, 3, 4);  // 1, 2, 3, [4, 'z is 3']
 
         function fn(x, y){
             return x + y;

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            arguments.length get the Function arguments(获取函数实参个数)
+            
+            arguments[0] is never use for your project
+
+            Function.length get the Function arity may wrong(获取函数期望参数个数，但是可能出现偏差)
+        */
+        function Fun1(x, y=1){
+            console.log('---Fun1---arguments---', arguments.length);
+        }
+
+        function Fun2(x, ...args){
+            console.log('---Fun2---arguments---', arguments.length);
+        }
+
+        function Fun3({x, y}){
+            console.log('---Fun3---arguments---', arguments.length);
+        }
+        console.log('---Fun1---', Fun1.length);  // 1
+        console.log('---Fun2---', Fun2.length);  // 1
+        console.log('---Fun3---', Fun3.length);  // 1
+
+        Fun1(1);  // 1
+
+        Fun1(1, 2);  // 2
+
+        Fun2(1);  // 1
+
+        Fun2(1, 2);  // 2
+
+        Fun3(1);  // 1
+
+        Fun3(1, 2);  // 2
+
+
+        /*
+            数组解构
+        */
+        function Fun4([x, y, ...args] = []){
+            console.log('---Fun4---', x, y, args);  // 1, 2, [3]
+        }
+        Fun4([1, 2, 3]);
+
+        /*
+            对象解构
+        */
+        function Fun5({x, y} = {}){
+            console.log('---Fun5---', x, y);
+        }
+        Fun5({y: 3});  // undefined, 3
+
+        Fun5(undefined, 3);  // undefined, undefined
+
+        Fun5(3, undefined);  // undefined, undefined
+    </script>
+</body>
+</html>
