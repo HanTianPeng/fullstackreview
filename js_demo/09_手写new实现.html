@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+            手写new实现
+        */
+        function create() {
+            // 创建一个空对象
+            var obj = new Object();
+            // 获得构造函数，arguments中去除第一个参数
+            var constructorFun = [].shift.call(arguments);
+            // 链接原型, obj可以访问到构造函数原型中的属性
+            obj.__proto__ = constructorFun.prototype;
+            // 绑定this实现继承，obj可以访问到构造函数中的属性
+            var ret = constructorFun.apply(obj, arguments);
+            // 有限返回构造函数返回的对象
+            return ret instanceof Object ? ret : obj;
+        }
+    </script>
+</body>
+
+</html>

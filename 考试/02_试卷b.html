@@ -17,7 +17,7 @@
         function curry(fn, arity = fn.length) {
             return (function nextCurried(prevArgs) {
                 return function curried(nextArg) {
-                    var args = args.concat([nextArg])
+                    var args = prevArgs.concat([nextArg])
                     if (arity > args.length) {
                         return nextCurried(args);
                     } else {
@@ -131,6 +131,28 @@
         /*
             手写实现一个基本的Event Bus
         */
+    </script>
+
+    <script>
+        /*
+            显示绑定无法解决隐式丢失-----问题
+        */
+        var a = 'window';
+        function foo(){
+            console.log(this.a);
+        }
+        var test = {
+            a: 'test',
+        };
+
+        // 隐式丢失
+        // setTimeout(test.foo, 1000);
+
+        // 通过显示绑定，仍然无法解决隐式丢失
+        // setTimeout(foo.apply(test), 1000);
+
+        var applyTest = foo.apply(test);
+        setTimeout(applyTest, 1000);
     </script>
 </body>
 

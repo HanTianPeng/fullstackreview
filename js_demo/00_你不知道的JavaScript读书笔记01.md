@@ -415,7 +415,7 @@
 
     - 非严格模式下
 
-      ```
+      ```js
         function test(){
           console.log(this.a);
         }
@@ -425,7 +425,7 @@
     
     - 严格模式下
 
-      ```
+      ```js
         function test(){
           "use strict";
           console.log(tis.a);
@@ -436,7 +436,7 @@
 ### 2. 隐式绑定
   - 当函数引用有上下文对象时，隐式绑定规则会把函数调用中的this绑定到这个上下文对象中。
 
-    ```
+    ```js
       function test(){
         console.log(this.a);
       }
@@ -449,7 +449,7 @@
   
   - 对象属性引用链只有最顶层或则说最后一层会影响调用位置。
 
-    ```
+    ```js
       function test(){
         console.log(this.a);
       }
@@ -465,7 +465,7 @@
     ```
   
   - 隐式丢失，最后会采用默认绑定规则
-    ```
+    ```js
       function test(){
         console.log(this.a);
       }
@@ -479,7 +479,7 @@
     ```
   
   - 隐式丢失，回调函数
-    ```
+    ```js
       function test(){
         console.log(this.a);
       }
@@ -495,7 +495,7 @@
     ```
 
   - 隐式丢失,内置函数
-    ```
+    ```js
       function test(){
         console.log(this.a);
       }
@@ -505,12 +505,41 @@
       };
       var a = 'global'
       setTimeout(obj.test, 100);  // global
+
+      // JS环境下内置的setTimeout()函数实现和下面的伪代码类似:
+      function setTimeout(fn, delay){
+        // 等待delay毫秒后
+        fn();  // <----调用位置---->所以导致隐式丢失
+      }
+    ```
+
+  - 间接引用
+    ```js
+    function foo(){
+      console.log(this.a);
+    }
+    var a = 4;
+
+    var obj = {
+      a: 100,
+      foo: foo
+    };
+
+    obj.foo();  // 100
+    var objFoo = obj.foo;
+    objFoo();  // 4
+
+    /*
+      fun.foo = obj.foo的返回值是目标函数的引用，所以调用位置是foo()而不是fun.foo()或则obj.foo()
+    */
+    var fun = {a: 200};
+    (fun.foo = obj.foo)();  // 4
     ```
 
 ### 3. 显示绑定
   - JavaScript提供的绝大多数函数以及你自己创建的所有函数都可以使用call()和apply()方法。
 
-    ```
+    ```js
       function foo(){
         console.log(this.a);
       }
@@ -524,8 +553,8 @@
     - 显示绑定依然无法解决隐式绑定的丢失问题。
 
   - 硬绑定
-    ```
-      foo foo(){
+    ```js
+      function foo(){
         console.log(this.a);
       }
       var obj = {
@@ -541,7 +570,7 @@
       - 强制将foo绑定在obj上，不管外部如何调用，内部总是foo被绑定在obj上，因此我们称之为**硬绑定**。
 
       - 硬绑定的典型场景就是创建一个包裹函数，传入所有参数并返回接收到的所有值。
-        ```
+        ```js
           function foo(something){
             console.log(this.a, something);
             return this.a + something;
@@ -557,7 +586,7 @@
         ```
       
       - 硬绑定的第二种实现方式，创建一个通用的辅助函数。
-        ```
+        ```js
           function foo(something){
             console.log(this.a, something);
             return this.a + something;
@@ -565,6 +594,8 @@
           var obj = {
             a: 20
           };
+
+          // 创建一个辅助函数
           function bind(fn, object){
             return function(){
               return fn.apply(object, arguments);
@@ -576,7 +607,7 @@
         ```
 
       - 硬绑定在ES5中实现Function.prototype.bind
-        ```
+        ```js
           function foo(something){
             console.log(this.a, something);
             return this.a + something;
@@ -589,16 +620,40 @@
           console.log(value);  // 30
         ```
 
-        - bind()会返回一个硬编码的新函数，它会把参数设置为this的上下文并调用原始函数。
+        - bind()会返回一个硬绑定的新函数，它会把参数设置为this的上下文并调用原始函数。
+
+      - API调用的``上下文``
+        - js许多内置函数提供了一个可选参数，被称为``上下文(context)``，其作用和bind()一样，确保回调函数使用指定的this。这些函数实际上通过call()和apply()实现了显示绑定
+          ```js
+          function foo(el){
+            console.log(el + '----' + this.id);
+          }
+
+          var obj = {
+            id: 'obj'
+          };
+
+          var arr = [1, 3, 5];
+          arr.forEach(foo, obj);
+          /*
+            1----obj
+            3----obj
+            5----obj
+          */
+          ````
 
 ### 4. new绑定
   - 在JavaScript中，构造函数只是一些使用new操作符时被调用的函数，它们仅仅是被new操作符调用的普通函数而已。
+
+  - 包括内置对象函数(比如Number())在内的所有函数都可以用new来调用，这种函数调用被称为``构造函数调用``
+
+  - 实际上并不存在所谓的``构造函数``，只有对于函数的``构造调用``
 
   - new来调用函数，或者说发生构造函数调用时，会自动执行以下步骤
 
     - 创建或者构造一个全新的对象。
 
-    - 实例对象的__ proto被自动创建
+    - 实例对象的__ proto__被自动创建
 
     - 这个新对象会被执行原型连接。
 
@@ -616,8 +671,8 @@
   - 如果都不是，则是默认绑定，在严格模式下，绑定的是undefined；非严格模式下，绑定的是全局对象。
 
 ### 6. 特殊场景this指向
-  - 使用**null**来忽略this的指向。
-    ```
+  - 使用**null**来忽略this的指向，通常将``null``或则``undefined``作为this的绑定对象传入call、apply或则bind，这些值在调用时会被忽略，实际应用的是默认绑定。
+    ```js
       function foo(a,b){
         console.log('a: ' + a + ', ' + 'b: ' + b);
       }
@@ -627,10 +682,10 @@
       var bar = foo.bind(null, 2);
       bar(3);  // a: 2, b: 3
     ```
-      - 使用null来忽略this的指向，可能会产生副作用，在非严格模式下，this指向window。
+      - 使用null来忽略this的指向，可能会产生**副作用**，在非严格模式下，this指向window。
     
   - 使用**Object.create(null)**来忽略this的指向
-    ```
+    ```js
       function foo(a, b){
         console.log('a: ' + a, + ', ' + 'b: ' + b);
       }
