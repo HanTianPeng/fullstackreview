@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var num = 1;
+        var myObject = {
+            num: 2,
+            add: function () {
+                this.num = 3;
+                (function () {
+                    console.log(num);
+                    console.log(this.num);
+                    this.num = 4;
+                })();
+                console.log(this.num);
+            },
+            sub: function () {
+                console.log(this.num)
+            }
+        }
+        myObject.add();
+        console.log(myObject.num);
+        console.log(num);
+        var sub = myObject.sub;
+        sub();
+        /*
+            // 闭包不能能访问父级
+            1  // 严格模式就报错
+            1
+            3
+            3
+            4
+            4
+
+            // 闭包能访问父级---错误思想----因为闭包可以访问num，但是不能通过this访问父级num
+            3
+            4
+            4
+            4
+            1
+        */
+    </script>
+</body>
+
+</html>

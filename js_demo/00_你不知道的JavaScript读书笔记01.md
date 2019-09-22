@@ -693,13 +693,71 @@
       var bar = foo.bind(ø, 2);
       bar(3);  // a: 2, b: 3
     ```
+
+### 7. 软绑定
+  - 硬绑定可以把this强绑定到指定的对象(new除外)，防止函数调用默认绑定规则。但是会降低函数的灵活性，使用``硬绑定之后就无法使用隐式或则显示绑定来修改this``
+
+  - 如果给默认绑定指定一个全局对象或则undefined以外的值，那就可以实现和硬绑定相同的效果，同时保留隐式绑定或者显示绑定修改this的能力
+
+    ```js
+    /*
+    
+    */
+    if(!Function.prototype.softBind){
+      Function.prototype.softBind = function(obj){
+        var fn = this;
+        // 不会所有curried参数
+        var curried = [].slice.call(arguments, 1);
+        var bound = function(){
+          return fn.apply(
+            (!this || this === (window || global)) ? obj : this,
+            curried.concat.apply(curried, arguments)  // 有疑问???
+          );
+        };
+        bound.prototype = Object.create(fn.prototype);
+        return bound;
+      }
+    }
+
+    function foo(){
+      console.log('name:' + this.name);
+    }
+
+    var obj = {
+      name: 'obj'
+    },
+    obj2 = {
+      name: 'obj2'
+    },
+    obj3 = {
+      name: 'obj3'
+    };
+
+    // 默认绑定
+    var fooObj = foo.softBind(obj);
+    fooObj();  // obj
+
+    // 隐式绑定
+    obj2.foo = foo.softBind(obj);
+    obj2.foo();  // obj2
+
+    // 显示绑定
+    fooObj.call(obj3);  // obj3
+
+    // 隐式丢失
+    setTimeout(obj2.foo, 10);  // obj
+    ```
   
 ### 7. ES6的箭头函数this指向
   - 箭头函数不适用this指向的四种规则，其根据外层(函数或则全局)作用域来决定this的指向。
 
   - 箭头函数的this绑定无法修改。
 
-    ```
+    ```js
+      /*
+       foo()内部创建的箭头函数会捕获调用时foo()的this。
+        由于foo()的this绑定到obj1，bar(引用箭头函数)的this也会绑定到obj1
+      */
       function foo(){
         return (a) => {
           console.log(this.a);
@@ -713,6 +771,13 @@
       };
       var bar = foo.call(obj1);
       bar.call(obj2);  // 2
+
+      function fooES5(){
+        var self = this;
+        setTimeout(function(){
+          console.log(self.a);
+        }, 1000);
+      }
     ```
 
 ## 对象
