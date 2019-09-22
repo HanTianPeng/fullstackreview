@@ -9,18 +9,14 @@
 </head>
 
 <body>
-    <!-- 
     <script>
-        var regex = '/yideng/g';
-        console.log(regex.test('yideng'));
-
-    </script>
-
-    -->
-    <script>
-
         /*
             写出JavaScript面向对象编程的混合类继承，并写出ES6版本的继承
+
+            要求:
+                汽车是父类，Cruze是子类。
+                父类有颜色，价格属性，有售卖方法。
+                子类实现父类颜色是红色，价格14000，售卖方法实现输出如下语句: 将红色的Cruze卖给了小王价格是14万
 
         */
         
@@ -40,20 +36,27 @@
         // 将子类的prototype与父类的prototype通过中间对象进行关联
         function inheritCarPrototype(Cruze, Car){
             var midObj = Object.create(Car.prototype);
+            midObj.sale = function (){
+                console.log('---' + this.color + '---' + this.price);
+            }
             midObj.constructor = Cruze;
             Cruze.prototype = midObj;
         }
 
         inheritCarPrototype(Cruze, Car);
         var cruze = new Cruze();
+        console.dir(cruze);
         console.log(cruze.color);
         console.log(cruze.price);
-
-
-
-
+        cruze.sale();
     </script>
 
+    <script>
+        /*
+            请你写出如何利用es6/7(小demo)优化多步异步嵌套的代码？
+        */
+        
+    </script>
 
 </body>
 

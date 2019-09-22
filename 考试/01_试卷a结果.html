@@ -9,84 +9,6 @@
 </head>
 
 <body>
-    <script>
-        var yideng = function yideng() {
-            yideng = 1;
-            console.log(typeof yideng);
-        }
-
-        yideng();
-        yideng = 1;
-        console.log(typeof yideng);
-                /*
-        函数申明与变量申明
-        number  -----> function
-        number
-        */
-    </script>
-
-    <script>
-        /*
-            请用一句话遍历a
-        */
-        var a = 'abcde';
-        a.split('').map(function (valule) {
-            console.log(valule);
-        });
-    </script>
-
-    <script>
-        /*
-            请用一句话算出0-100之间学生的学生等级，如90-100输出为1等生，80-90为2等生
-        */
-        function getLevel(num) {
-            return parseInt(num / 10) === 10 ? 1 : 10 - parseInt(num / 10)
-        }
-        console.log(getLevel(100));
-        console.log(getLevel(90));
-        console.log(getLevel(80));
-        console.log(getLevel(0));
-        console.log(getLevel(10));
-    </script>
-
-    <script>
-        function yideng() {
-            console.log(1);
-        }
-
-        (function () {
-            if (false) {
-                function yideng() {
-                    console.log(2);
-                }
-            }
-            yideng();
-        })();
-
-        /*
-            作用域范围
-            google: 2===> yideng is not a function  失败
-
-            ie: 1 ===> 暂时不知道  失败
-        */
-    </script>
-
-    <script>
-        function test(m) {
-            m = { v: 5 }
-        }
-        var m = { k: 30 };
-        test(m);
-        alert(m.v);
-        /*
-            undefined
-
-            1. window中m所指向的内存地址没有发生改变
-            2. 函数中m是新的变量，指向一块新的内存地址
-        */
-    </script>
-
-
     <ul>
         <li>1</li>
         <li>2</li>
@@ -96,6 +18,15 @@
         <li>6</li>
     </ul>
     <script>
+        /*
+            闭包考点:
+
+            for循环考点:
+
+            es6考点:
+
+            事件代理考点:
+        */
         var listLi = document.getElementsByTagName('li');
         for (var i = 0; i < listLi.length; i++) {
             listLi[i].onclick = function () {
@@ -127,84 +58,55 @@
                 console.log(this.innerHTML);
             }
         }
-
-
     </script>
 
     <script>
-        this.a = 20;
-        function go() {
-            console.log(this.a);  // new go()=>40  test.init(go)=> 20  p()=>20
-            this.a = 30;
-        }
-        go.prototype.a = 40;
-        var test = {
-            a: 50,
-            init: function (fn) {
-                fn();
-                console.log(this.a);  // 50
-                return fn;
-            }
-        }
-        console.log((new go()).a);  // 30
-        test.init(go);
-        var p = this.init(go);
-        p();
         /*
-            40
-            30
+            函数申明与函数表达式考点:
 
-            20 
-            50
-
-            30
-            50
-            30
+            var考点:
         */
-
-        function yideng() {
-            "use strict";
-            console.log(this.num++);
+        var yideng = function yideng() {
+            yideng = 1;
+            console.log(typeof yideng);  // function
         }
 
-        function yideng2() {
-            console.log(++this.num);
+        yideng();
+        yideng = 1;
+        console.log(typeof yideng);  // number
+    </script>
+
+    <script>
+        /*
+            作用域考点:
+
+            ie浏览器与google浏览器是否存在块元素的区别:
+        */
+        function yideng() {
+            console.log(1);
         }
 
         (function () {
-            "user strict";
-            yideng2();
+            if (false) {
+                function yideng() {
+                    console.log(2);
+                }
+            }
+            yideng();
         })();
-        yideng();
+
         /*
-            ====> 失败
-            NaN ---->yideng2()执行结果
+            google: 2===> yideng is not a function  失败
 
-            cannot read property 'num' of undefined----->yideng()执行结果
-
-            需要了解闭包、严格模式、左右查询
+            ie: 1 ===> 暂时不知道  失败
         */
-
-        function C1(name) {
-            if (name) this.name = name;
-        }
-
-        function C2(name) {
-            this.name = name;
-        }
-
-        function C3(name) {
-            this.name = name || 'fe';
-        }
-        C1.prototype.name = 'yideng';
-        C2.prototype.name = 'lao';
-        C3.prototype.name = 'yuan';
-        console.log((new C1().name) + (new C2().name) + (new C3().name));   // yideng undefined fe
-
-
     </script>
 
     <script>
+        /*
+            作用域考点: 
+
+        */
         alert(a);  // function a(){alert(10)}
         a();  // 10
         var a = 3;
@@ -216,8 +118,8 @@
         a();  // a is not function
 
         var x = 1;
-        y = 0,
-            z = 0;
+        var y = 0;
+        var z = 0;
         function add(x) {
             return (x = x + 1);
         }
@@ -228,10 +130,13 @@
         }
         z = add(x);
         console.log(z);  // 4===>失败
-
     </script>
 
     <script>
+        /*
+            this考点: 
+
+        */
         var length = 10;
         function fn() {
             console.log(this.length);
@@ -255,7 +160,112 @@
     </script>
 
     <script>
+        /*
+            this考点:
+        */
+        this.a = 20;
+        function go() {
+            console.log(this.a);  // new go()=>40  test.init(go)=> 20  p()=>20
+            this.a = 30;
+        }
+        go.prototype.a = 40;
+        var test = {
+            a: 50,
+            init: function (fn) {
+                fn();
+                console.log(this.a);  // 50
+                return fn;
+            }
+        }
+        console.log((new go()).a);  // 30
+        test.init(go);
+        var p = this.init(go);
+        p();
+        /*
+            40
+            30
 
+            20
+            50
+
+            30
+            50
+            30
+        */
+    </script>
+
+    <script>
+        /*
+            this考点:
+
+            闭包考点:
+
+            作用域考点:
+        */
+        var num = 10;
+        function yideng() {
+            "use strict";
+            console.log(this.num++);  // 报错
+        }
+
+        function yideng2() {
+            console.log(++this.num);  // 11
+        }
+
+        (function () {
+            "user strict";
+            yideng2();
+        })();
+        yideng();
+    </script>
+
+    <script>
+        /*
+            原型链考点:
+        */
+
+        function C1(name) {
+            if (name) this.name = name;
+        }
+
+        function C2(name) {
+            this.name = name;
+        }
+
+        function C3(name) {
+            this.name = name || 'fe';
+        }
+        C1.prototype.name = 'yideng';
+        C2.prototype.name = 'lao';
+        C3.prototype.name = 'yuan';
+        console.log((new C1().name) + (new C2().name) + (new C3().name));   // yideng undefined fe
+
+
+    </script>
+
+    <script>
+        /*
+            内存引用指向考点:
+        */
+        function test(m) {
+            m = { v: 5 }
+        }
+        var m = { k: 30 };
+        test(m);
+        alert(m.v);
+        /*
+            undefined
+
+            1. window中m所指向的内存地址没有发生改变
+            2. 函数中m是新的变量，指向一块新的内存地址
+        */
+    </script>
+
+    <script>
+        /*
+            正则表达式考点:
+
+        */
         var regex = /yideng/g;
         console.log(regex.test('yideng'));
         console.log(regex.test('yideng'));
@@ -263,6 +273,31 @@
         console.log(regex.test('yideng'));
     </script>
 
+    <script>
+        /*
+            请用一句话遍历a
+        */
+        var a = 'abcde';
+        a.split('').map(function (valule) {
+            console.log(valule);
+        });
+    </script>
+
+    <script>
+        /*
+            避免is switch考点；
+
+            请用一句话算出0-100之间学生的学生等级，如90-100输出为1等生，80-90为2等生
+        */
+        function getLevel(num) {
+            return parseInt(num / 10) === 10 ? 1 : 10 - parseInt(num / 10)
+        }
+        console.log(getLevel(100));
+        console.log(getLevel(90));
+        console.log(getLevel(80));
+        console.log(getLevel(0));
+        console.log(getLevel(10));
+    </script>
 </body>
 
 </html>
