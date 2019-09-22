@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+    <script>
+        var regex = '/yideng/g';
+        console.log(regex.test('yideng'));
+
+    </script>
+
+    -->
+    <script>
+
+        /*
+            写出JavaScript面向对象编程的混合类继承，并写出ES6版本的继承
+
+        */
+        
+        // 父类: 汽车
+        function Car(color, price){
+            this.color= color;
+            this.price = price;
+        }
+        Car.prototype.sale = function(){
+
+        }
+        // 子类
+        function Cruze(){
+            Car.call(this, 'red', 14000);
+        }
+
+        // 将子类的prototype与父类的prototype通过中间对象进行关联
+        function inheritCarPrototype(Cruze, Car){
+            var midObj = Object.create(Car.prototype);
+            midObj.constructor = Cruze;
+            Cruze.prototype = midObj;
+        }
+
+        inheritCarPrototype(Cruze, Car);
+        var cruze = new Cruze();
+        console.log(cruze.color);
+        console.log(cruze.price);
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>

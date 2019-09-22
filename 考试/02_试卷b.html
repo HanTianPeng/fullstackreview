@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+            柯里化:
+
+        */
+        function curry(fn, arity = fn.length) {
+            return (function nextCurried(prevArgs) {
+                return function curried(nextArg) {
+                    var args = args.concat([nextArg])
+                    if (arity > args.length) {
+                        return nextCurried(args);
+                    } else {
+                        return fn(...args);
+                    }
+                };
+            })([]);
+        }
+
+        function sum(x, y, z) {
+            return x + y + z;
+        }
+
+        var curriedSum = curry(sum);
+        var result = curriedSum(1)(2)(3);
+        console.log(result);
+
+        /*
+            反柯里化
+        */
+       function uncurry(fn){
+           return function unCurried(...args){
+               var ret = fn;
+                for(let i=0; i<args.length; i++){
+                    ret = fn(args[i]);
+                }
+                return ret;
+           }
+       }
+    </script>
+</body>
+
+</html>

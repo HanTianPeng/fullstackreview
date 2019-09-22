@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
 <body>
     <script>
+        /*
+            柯里化函数:
+                明确返回一个期望只接收下一个实参的函数
+            偏应用函数:
+                返回一个接收所有剩余实参的函数
+        */
         /*
             将空数组[]当作prevArgs的初始实参集合，
             并且将每次接收到的nextArg同prevArgs连接成args数组，
@@ -22,30 +30,15 @@
                  通常是在代码某一处只获取部分参数，然后在另外一处确定另外一部分参数，
                  这个时候柯里化应用就很好体现出来了。
         */
-       // 严格柯里化=>fn(1)(2)(3)(4)(5);
-        function curry(fn, arity=fn.length){
-            return (function nextCurried(prevArgs){
-                return function curried(nextArg){
+        // 严格柯里化=>fn(1)(2)(3)(4)(5);
+        function curry(fn, arity = fn.length) {
+            return (function nextCurried(prevArgs) {
+                return function curried(nextArg) {
                     var args = prevArgs.concat([nextArg]);
 
-                    if(args.length >= arity){
+                    if (args.length >= arity) {
                         return fn(...args);
-                    }else{
-                        return nextCurried(args);
-                    }
-                };
-            })([]);
-        }  
-
-        // 松散柯里化=>fn(1)(2, 3)(4, 5)
-        function looseCurry(fn, arity=fn.length){
-            return (function nextCurried(preArgs){
-                return function curried(...nextArgs){
-                    var args = preArgs.concat(nextArgs);
-
-                    if(args.length >= arity){
-                        return fn(...args);
-                    }else{
+                    } else {
                         return nextCurried(args);
                     }
                 };
@@ -53,7 +46,37 @@
         }
 
         /*
-            反柯里化=>将类似f(1)(2)(3)的函数变回类似g(1)(2)(3)
+            es6版本
+        */
+        var curryES6 = (fn, arity = fn.length, nextCurried) =>
+            (nextCurried = prevArgs =>
+                nextArg => {
+                    var args = prevArgs.concat([nextArg]);
+                    if (arity < args.length) {
+                        return fn(...args);
+                    } else {
+                        return nextCurried(args);
+                    }
+                }
+            )([]);
+
+        // 松散柯里化=>fn(1)(2, 3)(4, 5)
+        function looseCurry(fn, arity = fn.length) {
+            return (function nextCurried(preArgs) {
+                return function curried(...nextArgs) {
+                    var args = preArgs.concat(nextArgs);
+
+                    if (args.length >= arity) {
+                        return fn(...args);
+                    } else {
+                        return nextCurried(args);
+                    }
+                };
+            })([]);
+        }
+
+        /*
+            反柯里化=>将类似f(1)(2)(3)的函数变回类似g(1, 2, 3, 4)
 
             理解思路: 
               柯里化后，可以通过一个一个参数进行传递，直到参数个数与arity长度相同，便执行函数；
@@ -61,20 +84,24 @@
               总结: 反柯里化是建立在原函数已经被柯里化后的函数
               反思: 为什么称之为类似?
                 当args的长度不够时候，返回的任然是部分柯里化后的函数
-        */ 
-        function uncurry(fn){
-            return function uncurried(...args){
+            
+            注意:
+                不要以为uncurry(curry(fn))与fn函数的行为一样，如果你少传了实参，就会得到一个
+                仍然在等待传入更多实参的部分柯里化函数
+        */
+        function uncurry(fn) {
+            return function uncurried(...args) {
                 var ret = fn;
-                for(let i=0; i<args.length; i++){
+                for (let i = 0; i < args.length; i++) {
                     ret = ret(args[i]);
                 }
                 return ret;
             };
         }
 
-        function sum(...args){
+        function sum(...args) {
             var sum = 0;
-            for(let i=0; i<args.length; i++){
+            for (let i = 0; i < args.length; i++) {
                 sum += args[i];
             }
             return sum;
@@ -90,9 +117,9 @@
         console.log('---柯里化5---', curriedSum5);  // 15
 
         var uncurriedSum = uncurry(curriedSum);
-        console.log('---反柯里化---', uncurriedSum);  
+        console.log('---反柯里化---', uncurriedSum);
 
-        var uncurriedSum4 = uncurry(curriedSum)(1, 2, 3, 4);  
+        var uncurriedSum4 = uncurry(curriedSum)(1, 2, 3, 4);
         console.log('---反柯里化4---', uncurriedSum4);
 
         var uncurriedSum5 = uncurry(curriedSum)(1, 2, 3, 4, 5);  // 15
@@ -103,14 +130,14 @@
             补充知识:
             3 + [1, 2, 3, 4, 5]  // '41,2,3,4,5'
             5 + [1, 2, 3, 4, 5]  // '61,2,3,4,5'
-        */ 
+        */
         var adder = looseCurry(sum, 2);
         // 出现问题，这个时候就必须强制传入一个实参
         var newArrBad = [1, 2, 3, 4, 5].map(adder(3));  // ['41,2,3,4,5', '61,2,3,4,5', '81,2,3,4,5', '101,2,3,4,5', '121,2,3,4,5']
         console.log('---newArrBad---', newArrBad);
-        function unary(fn){
+        function unary(fn) {
             // 为什么arg这能获取是一个参数，因为传入的时候是通过...args,利用解构
-            return function onlyOneArg(arg){
+            return function onlyOneArg(arg) {
                 return fn(arg);
             };
         }
@@ -120,10 +147,114 @@
         /*
             案例2: 只要一个实参
         */
-        ['1', '2', '3'].map(parseFloat);
-        ['1', '2', '3'].map(parseInt);
+        ['1', '2', '3'].map(parseFloat);  // [1, 2, 3]
+        ['1', '2', '3'].map(parseInt);  // [1, NaN, NaN]
         parseInt('1', 2);  // 这个时候unary作用就很明显
-        
+
+        /*
+            传一个返回一个函数:
+                作用:
+                 作为转换函数的默认函数, map的默认转换函数， reduce的初始值 
+        */
+        function identity(v) {
+            return v;
+        }
+
+        function output(msg, format = identity) {
+            return format(msg);
+        }
+
+        function upper(text) {
+            return text.toUpperCase();
+        }
+
+        var upperOutput = output('hello world', upper);
+        console.log('---upper---', upperOutput);
+        var defaultOutput = output('hello world');
+        console.log('---default---', defaultOutput);
+
+        /*
+            恒定参数
+              禁止直接给方法传值，而要求传入一个函数，就算是这个函数只是一个返回值
+              js中的Promise中的then()方法就是一个恒定参数
+        */
+        function constant(v) {
+            return function value() {
+                return v;
+            }
+        }
+        var constant = v => () => v;
+        p1.then(fo0).then(() => p2).then(bar);
+        p1.then(constant(p2)).then(bar);  // 第二种方法更加减少副作用
+
+        /*
+            扩展参数:
+        */
+        function spreadArgs(fn) {
+            return function spreadFu(argsArr) {
+                return fn(...argsArr);
+            }
+        }
+        function foo(x, y) {
+            return x + y;
+        }
+
+        function bar(fn) {
+            return fn([3, 9]);
+        }
+        bar(spreadArgs(fo));
+
+        /*
+          聚焦参数:
+        */
+        function gatherArgs(fn) {
+            return function gatherFn(...argsArr) {
+                return fn(argsArr);
+            }
+        }
+
+        function combineFirstTwo([v1, v2]) {
+            return v1 + v2;
+        }
+        [1, 2, 3, 4, 5].reduce(gatherArgs(combineFirstTwo));
+
+        /*
+            解决参数顺序问题
+        */
+        function partialProps(fn, presetArgsObj) {
+            return function partiallyApplied(laterArgs) {
+                return fn(Object.assign({}, presetArgsObj, laterArgs));
+            };
+        }
+
+        function curryProps(fn, arity = 1) {
+            return (function nextCurried(prevArgsObj) {
+                return function curried(nextArgObj = {}) {
+                    var [key] = Object.keys(nextArgObj);
+                    var allArgsObj = Object.assign(
+                        {},
+                        prevArgsObj,
+                        { [key]: nextArgObj[key] }
+                    );
+
+                    if (Object.keys(allArgsObj).length >= arity) {
+                        return fn(allArgsObj);
+                    } else {
+                        return nextCurried(allArgsObj);
+                    }
+                };
+            })({});
+        }
+
+        function foo({ x, y, z } = {}) {
+            console.log(`x:${x} y:${y} z: ${z}`);
+        }
+        var curriedFoo = curryProps(foo, 3);
+        curriedFoo({ y: 1 })({ x: 2 })({ z: 3 });
+
+        var partialFoo = partialProps(foo, { y: 2 });
+        partialFoo({ z: 3, x: 1 });
     </script>
 </body>
+
 </html>
