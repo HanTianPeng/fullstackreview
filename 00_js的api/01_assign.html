@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            Object.assign():
+                将所有可枚举睡醒的值从一个或多个源对象复制到目标对象。
+                return: 返回目标对象
+
+                注意事项:
+                    如果目标对象中的属性具有相同的键，则属性将被源对象中的属性覆盖，后面的源对象的属性将类似地覆盖前面的源对象的属性。
+
+                    再次强调: 返回值就是目标对象，即目标对象发生合并
+                    
+                深浅拷贝问题:
+                    源对象的属性值是一个对象的引用，那么它也只能指向那个引用。
+
+                
+        */
+        var obj1 = {
+            a: 1, 
+            b: 2,
+            c: 3
+        };
+        var obj2 = {
+            c: 4,
+            d: 5, 
+            e: 6
+        };
+        var obj3 = {
+            e: 7,
+            f: 8
+        };
+        var newObj = Object.assign(obj1, obj2, obj3);
+        console.log(newObj);  // {a: 1, b: 2, c: 4, d: 5, e: 7, f: 8}
+        console.log(obj1);  // {a: 1, b: 2, c: 4, d: 5, e: 7, f: 8}
+    </script>
+</body>
+</html>

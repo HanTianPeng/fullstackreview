@@ -136,8 +136,9 @@
         var newArrBad = [1, 2, 3, 4, 5].map(adder(3));  // ['41,2,3,4,5', '61,2,3,4,5', '81,2,3,4,5', '101,2,3,4,5', '121,2,3,4,5']
         console.log('---newArrBad---', newArrBad);
         function unary(fn) {
-            // 为什么arg这能获取是一个参数，因为传入的时候是通过...args,利用解构
+            // 为什么arg这能获取是一个参数，因为它只接收第一个参数
             return function onlyOneArg(arg) {
+                console.log('unary=====>', arg, arguments.length);
                 return fn(arg);
             };
         }
@@ -184,8 +185,8 @@
             }
         }
         var constant = v => () => v;
-        p1.then(fo0).then(() => p2).then(bar);
-        p1.then(constant(p2)).then(bar);  // 第二种方法更加减少副作用
+        // p1.then(fo0).then(() => p2).then(bar);
+        // p1.then(constant(p2)).then(bar);  // 第二种方法更加减少副作用
 
         /*
             扩展参数:
@@ -202,7 +203,7 @@
         function bar(fn) {
             return fn([3, 9]);
         }
-        bar(spreadArgs(fo));
+        bar(spreadArgs(foo));
 
         /*
           聚焦参数:
@@ -217,6 +218,30 @@
             return v1 + v2;
         }
         [1, 2, 3, 4, 5].reduce(gatherArgs(combineFirstTwo));
+
+        /*
+            属性扩展:
+                采用正则表达式，准确度只能达到80%
+        */
+        function spreadArgProps(
+            fn,
+            propOrder =
+                fn.toString()
+                    .replace(/^(?:(?:function.*\(([^]*?)\))|(?:([^\(\)]+?)\s*=>)|(?:\(([^]*?)\)\s*=>))[^]+$/, "$1$2$3")
+                    .split(/\s*,\s*/)
+                    .map(v => v.replace(/[=\s].*$/, ""))
+        ) {
+            return function spreadFn(argsObj) {
+                return fn(...propOrder.map(key => argsObj[key]));
+            };
+        }
+
+        function bar(x, y, z){
+            console.log(`x: ${x} y: ${y} z: ${z}`);
+        }
+
+        var spreadBar = spreadArgProps(bar);
+        spreadBar({y: 2,x: 3, z: 1});  // x: 3 y: 2 z: 1
 
         /*
             解决参数顺序问题
@@ -234,7 +259,7 @@
                     var allArgsObj = Object.assign(
                         {},
                         prevArgsObj,
-                        { [key]: nextArgObj[key] }
+                        nextArgObj
                     );
 
                     if (Object.keys(allArgsObj).length >= arity) {
@@ -250,10 +275,15 @@
             console.log(`x:${x} y:${y} z: ${z}`);
         }
         var curriedFoo = curryProps(foo, 3);
-        curriedFoo({ y: 1 })({ x: 2 })({ z: 3 });
+        curriedFoo({ y: 1 })({ x: 2 })({ z: 3 });  // {x: 2, y: 1, z: 3}
+        curriedFoo({ y: 1, x: 2 })({ z: 3 });
 
         var partialFoo = partialProps(foo, { y: 2 });
         partialFoo({ z: 3, x: 1 });
+
+        /*
+            无形参:
+        */
     </script>
 </body>
 
