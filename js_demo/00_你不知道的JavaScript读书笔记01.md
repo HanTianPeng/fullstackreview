@@ -661,6 +661,55 @@
 
     - 如果函数没有返回其他对象，那么new表达式中的函数调用会自动返回一个新对象。
 
+  - new的小测试
+    
+    ```js
+    /*
+        使用new操作符调用构造函数，实际上经历了4步骤:
+            创建一个新对象
+
+            将构造函数的作用域给新对象(this指向了这个对象)
+
+            执行构造函数中的代码
+
+            返回新对象
+    */
+    var name = 'window';
+
+    function Person(name){
+        this.name = name;
+        this.show1 = function (){
+            console.log(this.name);
+        };
+        this.show2 = () => console.log(this.name);
+        this.show3 = function (){
+            return function(){
+                console.log(this.name);
+            };
+        };
+        this.show4 = function (){
+            return () => console.log(this.name);
+        }
+    }
+
+    var personA = new Person('personA');
+    var personB = new Person('personB');
+
+    personA.show1();  // personA  隐式调用，调用者personA
+    personA.show1.call(personB);  // personB  显示绑定，调用者personB
+
+    personA.show2();  // personA  首先，personA是new绑定，产生了新的构造函数作用域，然后箭头函数绑定，this指向外层作用域即personA函数作用域
+    personA.show2.call(personB);  // personA 箭头函数指向父级作用域
+
+    personA.show3()();  // window  默认绑定，调用者window
+    personA.show3().call(personB);  // personB 显示绑定，调用者是personB
+    personA.show3.call(personB)();  // window  默认绑定，调用者window
+
+    personA.show4()();  // personA  箭头函数绑定， this指向父级作用域
+    personA.show4().call(personB);  // personA  箭头函数绑定， this指向父级作用域
+    personA.show4.call(personB)();  // personB  箭头函数绑定，this指向父级作用域
+    ```
+
 ### 5. 判断this指向
   - 函数是否在new中被调用，如果是的话this绑定的是新创建的对象。
 
@@ -751,7 +800,11 @@
 ### 7. ES6的箭头函数this指向
   - 箭头函数不适用this指向的四种规则，其根据外层(函数或则全局)作用域来决定this的指向。
 
-  - 箭头函数的this绑定无法修改。
+  - 箭头函数不绑定this，箭头函数中的this相当于普通变量。
+
+  - 箭头函数的this寻值行为与普通变量相同，在作用域中逐级寻找。
+
+  - 箭头函数的this无法通过bind、call、apply来直接修改。
 
     ```js
       /*
@@ -778,6 +831,62 @@
           console.log(self.a);
         }, 1000);
       }
+    ```
+
+  - 改变作用域中this的指向可以改变箭头函数的this。
+
+    ```js
+    function foo(){
+      name = 'foo';
+      return () => (console.log(this.name));
+    }
+
+    var obj = {
+      name: 'obj'
+    };
+
+    foo.bind(obj)()();  // obj
+    ```
+
+  - 箭头函数小测试
+    ```js
+    /*
+        非严格模式
+    */
+    var name = 'window';
+    var person1 = {
+        name: "person1",
+        show1: function(){
+            console.log(this.name);
+        },
+        show2: () => console.log(this.name),
+        show3: function(){
+            return function(){
+                console.log(this.name);
+            };
+        },
+        show4: function(){
+            return () => console.log(this.name);
+        }
+    };
+
+    var person2 = {
+        name: "person2"
+    };
+
+    person1.show1();  // person1  隐式绑定， this指向调用者
+    person1.show1.call(person2);  // person2 显示绑定，this指向person2
+
+    person1.show2();  // window  箭头函数绑定，this指向外层作用域，即全局作用域
+    person1.show2.call(person2);  // window 箭头函数绑定，this指向外层作用域，即全局作用域
+
+    person1.show3()();  // person1----window  默认绑定，这个是一个高阶函数，调用者是window
+    person1.show3().call(person2);  // person2  显示绑定，this指向person2
+    person1.show3.call(person2)();  // person2---window  默认绑定，调用者是window
+
+    person1.show4()();  // person1  箭头函数绑定，this指向外层作用域，即person1函数作用域
+    person1.show4().call(person2);  // person1  箭头函数绑定， 指向person1函数作用域
+    person1.show4.call(person2)();  // person2  将show4的函数作用域显示绑定为person2，箭头函数绑定指向父级作用域
     ```
 
 ## 对象

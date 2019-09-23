@@ -47,6 +47,19 @@
             4
             1
         */
+
+
+        function foo() {
+            name = 'foo';
+            console.log('=======');
+                return () => {console.log('=======>', this.name)};
+        }
+
+        var obj = {
+            name: 'obj'
+        };
+
+        foo.bind(obj)()();  // obj        
     </script>
 </body>
 
