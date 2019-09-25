@@ -32,26 +32,18 @@
         var sub = myObject.sub;
         sub();
         /*
-            // 闭包不能能访问父级
+            // 闭包不能能访问父级----因为闭包可以访问num，但是不能通过this访问父级num
             1  // 严格模式就报错
             1
             3
             3
             4
             4
-
-            // 闭包能访问父级---错误思想----因为闭包可以访问num，但是不能通过this访问父级num
-            3
-            4
-            4
-            4
-            1
         */
 
 
         function foo() {
             name = 'foo';
-            console.log('=======');
                 return () => {console.log('=======>', this.name)};
         }
 
