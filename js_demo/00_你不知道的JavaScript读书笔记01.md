@@ -354,7 +354,7 @@
   - this词法
 
     - setTimeout导致函数与this之前的绑定丢失
-      ```
+      ```js
         var obj = {
           id: 'awesome',
           cool: function coolFn(){
@@ -367,7 +367,7 @@
       ```
     
     - 解决方案==申明变量
-      ```
+      ```js
         var obj = {
           id: 'awesome',
           cool: function coolFn(){
@@ -382,7 +382,7 @@
     
     - 解决方案==箭头函数
       - **箭头函数**放弃了所有普通this绑定的规则，取而代之的是用当前的词法作用域覆盖了this本来的值。
-      ```
+      ```js
         var obj = {
           id: 'awesome',
           cool: function coolFn(){
@@ -395,7 +395,7 @@
       ```
 
     - 解决方案==bind
-      ```
+      ```js
         var obj = {
           id: 'awesome',
           cool: function coolFn(){
@@ -534,6 +534,33 @@
     */
     var fun = {a: 200};
     (fun.foo = obj.foo)();  // 4
+    ```
+
+  - 隐式绑定的小测试
+
+    ```js
+    var num = 1;
+    var myObject = {
+        num: 2,
+        add: function () {
+            this.num = 3;  // 隐式绑定  修改myObject.num = 3
+            (function () {
+                // "use strict";
+                console.log(num);  // 默认绑定 非严格模式: 输出1 
+                console.log(this.num);  // 默认绑定  非严格模式: 输出1 严格模式: 报错
+                this.num = 4;   // 默认绑定 修改window.num = 4;
+            })();
+            console.log(this.num);  // 隐式绑定 3
+        },
+        sub: function () {
+            console.log(this.num);  
+        }
+    }
+    myObject.add();
+    console.log(myObject.num);
+    console.log(num);
+    var sub = myObject.sub;
+    sub();  // 丢失隐式绑定 4
     ```
 
 ### 3. 显示绑定
