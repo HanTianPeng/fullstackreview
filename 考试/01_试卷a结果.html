@@ -19,6 +19,7 @@
     </ul>
     <script>
         /*
+            ***易错题***
             闭包考点:
 
             for循环考点:
@@ -43,7 +44,7 @@
             }
         }
 
-        // 第二种方式, 闭包--->失败
+        // 第二种方式, 闭包
         for (var i = 0; i < listLi.length; i++) {
             listLi[i].onclick = (function (i) {
                 return function (i) {
@@ -52,7 +53,7 @@
             })(i);
         }
 
-        // 第三种方式, 改变指向
+        // 第三种方式, innerHTML
         for (var i = 0; i < listLi.length; i++) {
             listLi[i].onclick = function () {
                 console.log(this.innerHTML);
@@ -62,6 +63,7 @@
 
     <script>
         /*
+            ***易错题***
             函数里面无法对该函数名称进行重新赋值
         */
         var yideng = function yideng() {
@@ -84,6 +86,7 @@
 
     <script>
         /*
+            ***易错题***
             作用域考点:
 
             ie浏览器与google浏览器是否存在块元素的区别:
@@ -102,9 +105,7 @@
         })();
 
         /*
-            google: 2===> yideng is not a function  失败
-
-            ie: 1 ===> 暂时不知道  失败
+            报错：yideng is not a function 
         */
     </script>
 
@@ -122,7 +123,15 @@
         alert(a)  // 3
         a = 6;
         a();  // a is not function
+    </script>
 
+    <script>
+        /*
+            ***易错题***
+            1. 形参与实参:
+
+            2. 重复函数申明会被覆盖
+        */
         var x = 1;
         var y = 0;
         var z = 0;
@@ -135,7 +144,7 @@
             return (x = x + 3);
         }
         z = add(x);
-        console.log(z);  // 4===>失败
+        console.log(z);  // 4
     </script>
 
     <script>
@@ -202,11 +211,13 @@
 
     <script>
         /*
-            this考点:
-
+            ***易错题***
             闭包考点:
 
-            作用域考点:
+            严格模式:
+              this指向undefined
+
+            先加与后加:
         */
         var num = 10;
         function yideng() {
@@ -245,8 +256,6 @@
         C2.prototype.name = 'lao';
         C3.prototype.name = 'yuan';
         console.log((new C1().name) + (new C2().name) + (new C3().name));   // yideng undefined fe
-
-
     </script>
 
     <script>
@@ -270,23 +279,59 @@
     <script>
         /*
             正则表达式考点:
-
         */
         var regex = /yideng/g;
         console.log(regex.test('yideng'));
         console.log(regex.test('yideng'));
         console.log(regex.test('yideng'));
         console.log(regex.test('yideng'));
+
+        // var allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined;
+        // function cloneBuffer(buffer, isDeep) {
+        //     if (isDeep) {
+        //         return buffer.slice();
+        //     }
+        //     var length = buffer.length,
+        //         resut = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
+        //     buffer.copy(resut);
+        //     return resut;
+        // }
+        // var buf = Buffer.from("laoyuan");
+        // // var buf2 = buf;
+        // var buf2 = cloneBuffer(buf,true);
+        // buf2.write("nodejs");
+        // console.log("buf", buf.toString("utf-8"));
+        // console.log("buf2", buf2.toString("utf-8"));
+
+        // {
+        //     obj:Buffer.from("laoyuan")
+        // }
+
+        function cloneReg(target, isDeep) {
+            var regFlag = /\w*$/;
+            // target.constructor == Regexp
+            const result = new target.constructor(target.source, regFlag.exec(target));
+            if (isDeep) {
+                result.lastIndex = target.lastIndex;
+            }
+            return result;
+        }
+        var regex = /yideng/g;
+        const reg2 = cloneReg(regex);
+        console.log(reg2);
     </script>
 
     <script>
         /*
-            请用一句话遍历a
+            勤用Array.prototype.slice这种方式
         */
         var a = 'abcde';
         a.split('').map(function (valule) {
             console.log(valule);
         });
+
+        Array.prototype.slice.apply(a);
+        Array.prototype.slice.call(a);
     </script>
 
     <script>
