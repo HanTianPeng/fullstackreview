@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            Object.entries(obj):
+              返回一个给定对象自身可枚举属性的键值对数组，
+              其排列与使用for...in循环遍历该对象时返回的顺序一致(区别在于for...in循环也枚举原型链中的属性)
+
+            参数: 
+                obj: 一个实例对象
+
+            返回值:
+                返回该对象可枚举属性的键值对构成的数组
+        */
+        var obj = {a: 10, name: 'conk', eat: function(){
+            console.log('---eat---');
+        }};
+        var entiesObj = Object.entries(obj);
+        console.log(entiesObj);  // [["a", 10], ["name", "conk"], ["eat", f]]  其中f为函数的指向引用
+
+        // polifill
+        if(!OBject.entries){
+            Object.entries = function(obj){
+                var allProps = Object.keys(obj);
+                var i = allProps.length;
+                resultArray = new Array(i);
+                while (i--)
+                    resultArray[i] = [allProps[i], obj[allProps[i]]];
+                return resultArray;
+            }
+        }
+    </script>
+</body>
+</html>
