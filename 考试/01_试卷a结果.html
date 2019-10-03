@@ -62,9 +62,7 @@
 
     <script>
         /*
-            函数申明与函数表达式考点:
-
-            var考点:
+            函数里面无法对该函数名称进行重新赋值
         */
         var yideng = function yideng() {
             yideng = 1;
@@ -74,6 +72,14 @@
         yideng();
         yideng = 1;
         console.log(typeof yideng);  // number
+
+        var otherName = function yideng2(){
+            yideng2 = 1;
+            console.log(typeof yideng2);  // function
+        }
+        otherName();
+        yideng2 = 1;
+        console.log(typeof yideng2);  // number
     </script>
 
     <script>
