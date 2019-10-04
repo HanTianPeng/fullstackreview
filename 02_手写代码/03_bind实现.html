@@ -182,7 +182,7 @@
 
                 7. 调用bind不是函数
         */
-        Function.prototype.bin4 = function(context){
+        Function.prototype.bind4 = function(context){
             if (typeof this !== 'function'){
                 throw new TypeError('not function');
             }
@@ -205,10 +205,27 @@
 
             fNOP.prototype = this.prototype;
 
-            fBound.prototype = new fNOP();
+            fBound.prototype = new fNOP();  // 
 
             return fBound;
         }
+
+        var a = 1;
+        var obj2 = {
+            a: 2
+        };
+        function Parent(name, age){
+            this.color = "yellow";
+            console.log('bind4----name', name);  // conk
+            console.log('bind4----age', age);  // undefined
+            console.log('bind4----a', this.a);  // undefined
+        }
+        Parent.prototype.weight = 100;
+        var bind4Parent = Parent.bind4(obj2, 'conk');
+        var bind4ParentObj = new bind4Parent(20);
+        console.dir(bind4ParentObj);  // 见 bind4手写.png
+        bind4ParentObj.__proto__.weight = 200;
+        console.log(Parent.prototype.weight);  // 100
     
     </script>
 </body>
