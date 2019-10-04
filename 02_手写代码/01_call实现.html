@@ -117,6 +117,8 @@
                 4. 函数是可以有返回值
 
                 5. 函数支持传参
+
+                6. 必须保证context.**fn的唯一性，这一步没有实现**
         */
         Function.prototype.myCall = function(context){
             // 第一步: 判断this是否为函数

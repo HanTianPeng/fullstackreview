@@ -8,11 +8,206 @@
 </head>
 <body>
     <script>
-        Function.prototype.bind2 = function(context){
+        /*
+            bind():
+                会创建一个新函数，当这个新函数被调用时，它的this值是传递给bind()的第一个参数，
+                传入bind方法的第二个以及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。
+
+                bind返回的绑定函数也能使用new操作符创建对象，这种欣慰就像把原函数当成构造器，提供的this值被忽略，同时调用时的参数被提供给模拟函数
+        */
+
+        /*
+            原型
+        */
+        var value = 2;
+        var foo = {
+            value: 1
+        };
+
+        function bar(name, age){
+            return {
+                value: this.value,
+                name: name,
+                age: age
+            };
+        }
+
+        var bindBar1 = bar.bind(foo, 'conk', 18);
+        var bindBar1Result = bindBar1();
+        console.log(bindBar1Result);  // {name: 'conk', age: 18, value: 1}
+
+        var bindBar2 = bar.bind(foo, 'pht');
+        var bindBar2Result = bindBar2(20);
+        console.log(bindBar2Result);  // {name: 'pht', age: 20, value: 1};
+
+        /*
+            应用场景
+        */
+        var nickName = 'pht';
+        function Person(name){
+            this.nickName = name;
+            this.printNickName = function(){
+                setTimeout(function(){
+                    console.log(this.nickName);
+                }, 500);
+            }
+        }
+        var per = new Person('conk');
+        per.printNickName();  // pht
+
+        /*
+            针对上述问题: 解决办法一  缓存this
+        */
+        function Person1(name){
+            this.nickName = name;
+            this.printNickName = function(){
+                var self = this;
+                setTimeout(function(){
+                    console.log(self.nickName);
+                }, 500);
+            }
+        }
+        var per1 = new Person1('conk');
+        per1.printNickName();  // conk
+
+        /*
+            针对上述问题: 解决办法二 使用bind
+        */
+        function Person2(name){
+            this.nickName = name;
+            this.printNickName = function(){
+                setTimeout(function(){
+                    console.log(this.nickName);
+                }.bind(this), 500);
+            }
+        }
+        var per2 = new Person2('conk');
+        per2.printNickName();  // conk
+
+
+        /*
+            模拟实现:
+                1. 使用call、apply指定this
+
+                2. 使用return返回一个新函数
+        */
+        Function.prototype.bind1 = function(context){
             var self = this;
             return function(){
                 return self.apply(context);
             }
+        }
+
+        /*
+            模拟实现:
+                3. 使用arguments获取参数数组，并作为self.apply()的第二个参数
+
+                4. 获取返回函数的参数，然后同第三点的参数进行合并，形成一个参数数组，并作为self.apply()的第二个参数
+        */
+        Function.prototype.bind2 = function(context){
+            // 获取调用者
+            var self = this;
+            
+            // 获取参数
+            var args = Array.prototype.slice.call(arguments, 1);
+
+            // 返回一个新函数
+            return function(){
+                // 获取新函数的参数
+                var bindArgs = Array.prototype.slice.call(arguments);
+
+                // 执行并返回结果
+                return self.apply(context, args.concat(bindArgs));
+            }
+        }
+
+        var bind2Result = bar.bind2(foo, 'penghantian', 18);
+        console.log(bind2Result());  // {name: 'penghantian', age: 18, value: 1}
+
+        /*
+            模拟实现：
+                5. 一个绑定函数也能使用new操作符创建对象: 这种欣慰就像把原函数当成构造器，提供的this值被忽略，同事调用时的参数被提供给模拟函数
+        */
+        Function.prototype.bind3 = function(context){
+            // 获取调用者
+            var self = this;
+
+            // 获取参数
+            var args = Array.prototype.slice.call(arguments, 1);
+
+            // 返回一个新函数
+            var fBound = function(){
+                var bindArgs = Array.prototype.slice(arguments);
+
+                // 当作为构造函数: this指向实例，不需要强制修改this指向
+                // 当作为普通函数: this指向window，需要修正this指向
+                return self.apply(
+                    this instanceof fBound ? this : context,
+                    args.concat(bindArgs)
+                );
+            };
+
+            // 修改原型，保证实例可以继承绑定函数的原型中的值
+            fBound.prototype = this.prototype;
+            return fBound;
+        }
+
+        var test = 2;
+
+        var obj = {
+            test: 1
+        };
+
+        function fun(name, age){
+            this.color = 'blue';
+            console.log('bind3----test',this.test);  // undefined
+            console.log('bind3----name', name);  // 'conk'
+            console.log('bind3----age', age);  // undefined
+        }
+        fun.prototype.height = 100;
+
+        var bind3Fun = fun.bind3(obj, 'conk');
+        var bind3FunObj = new bind3Fun(20);
+
+        console.log('bind3FunObj.color----', bind3FunObj.color);
+
+        console.log('bind3FunObj.height---', bind3FunObj.height);
+
+        bind3FunObj.__proto__.height = 200;
+        console.log('fun.prototype.height', fun.prototype.height);  // 200
+
+        /*
+            模拟实现:
+                6. 解决修改原型问题
+
+                7. 调用bind不是函数
+        */
+        Function.prototype.bin4 = function(context){
+            if (typeof this !== 'function'){
+                throw new TypeError('not function');
+            }
+            var self = this;
+
+            var args = Array.prototype.slice.call(arguments, 1);
+
+            var fNOP = function(){
+
+            };
+
+            var fBound = function(){
+                var bindArgs = Array.prototype.slice(arguments);
+
+                return self.apply(
+                    this instanceof fBound ? this : context,
+                    args.concat(bindArgs)
+                )
+            };
+
+            fNOP.prototype = this.prototype;
+
+            fBound.prototype = new fNOP();
+
+            return fBound;
         }
     
     </script>
