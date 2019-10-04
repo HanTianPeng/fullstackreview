@@ -93,14 +93,51 @@
             return result;
         }
 
+    
         /*
-            1. 指定this
-            2. 返回一个函数
-            3. 可以传入参数
-            4. 柯里化
-        */
-        
+            完美实现方案:
+                1. 将要改变this指向的方法挂接到目标this上，执行并返回
 
+                2. this传入null或则undefined，此时this指向window
+
+                3. this参数可以传基本类型数据，原生的call会自动调用Object()进行转换
+
+                4. 函数是可以有返回值
+
+                5. 函数支持传参
+        */
+        Function.prototype.myCall = function(context){
+            // 第一步: 判断this是否为函数
+            if(typeof this !== "function"){
+                throw new TypeError("not function");
+            }
+
+            // 第二步: 1. 解决this为null或则undefined，此时指向window  2. 解决this为基本数据类型，原生call会自动用Object()进行转换
+            context = context ? Object(context) : window;
+
+            // 第三步: 获取fn
+            context.fn = this;
+
+            // 第四步: 获取函数参数
+            var args = [...arguments].slice(1);
+
+            // 第五步: 执行fn
+            var result = context.fn(...args);
+
+            // 第六步: 删除绑定
+            delete context.fn;
+            return result;
+        }
+
+        function fn(a, b){
+            console.log(this.c, a, b);
+            return this.c + a + b;
+        }
+        var obj1 = {
+            c: 1
+        };
+        var result = fn.call(obj1, 1, 2);  // 1, 1, 2
+        console.log(result);  // 4
     </script>
 </body>
 </html>
