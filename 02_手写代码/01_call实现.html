@@ -77,24 +77,37 @@
         bar.call3(foo, 'conk', 18);
 
         /*
-            1. this传入null或者undefined，此时this指向window
-            2. this参数可以传基本类型数据， 原生的call会自动用Object()转换
-            3. 函数是可以有返回值的
+            es3完美解决方案
         */
         Function.prototype.call4 = function(context){
+            // 第一步: 判断this是否为函数
+            if(typeof this !== 'function'){
+                throw new TypeError('not function');
+            }
+
+            // 第二步: 获取this的挂接目标
             context = context ? Object(context) : window;
+
+            // 第三步: 将函数绑定到目标上
             context.fn = this;
+
+            // 第四步: 获取函数的所有参数
             var args = [];
             for(var i=1, len=arguments.length; i<len; i++){
                 args.push('arguments[' + i + ']');
             }
+
+            // 第五步: 执行并返回结果
             var result = eval('context.fn(' + args + ')');
+
+            // 第六步: 删除绑定的函数
             delete context.fn;
+
             return result;
         }
 
         /*
-            完美实现方案:
+            es6完美实现方案:
                 1. 将要改变this指向的方法挂接到目标this上，执行并返回
 
                 2. this传入null或则undefined，此时this指向window
@@ -119,10 +132,10 @@
             context.fn = this;
 
             // 第四步: 获取函数参数
-            var args = [...arguments].slice(1);
+            let args = [...arguments].slice(1);
 
             // 第五步: 执行fn
-            var result = context.fn(...args);
+            let result = context.fn(...args);
 
             // 第六步: 删除绑定
             delete context.fn;
