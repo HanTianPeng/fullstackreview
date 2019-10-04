@@ -93,7 +93,6 @@
             return result;
         }
 
-    
         /*
             完美实现方案:
                 1. 将要改变this指向的方法挂接到目标this上，执行并返回
@@ -112,7 +111,8 @@
                 throw new TypeError("not function");
             }
 
-            // 第二步: 1. 解决this为null或则undefined，此时指向window  2. 解决this为基本数据类型，原生call会自动用Object()进行转换
+            // 第二步: 获取指定this的挂接目标 
+            //1. 解决this为null或则undefined，此时指向window  2. 解决this为基本数据类型，原生call会自动用Object()进行转换
             context = context ? Object(context) : window;
 
             // 第三步: 获取fn
