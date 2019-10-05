@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            原型:
+        */
+        function Person(name){
+            this.name = name;
+        }
+
+        Person.prototype.run = function(){
+            console.log(this.name + 'is running');
+        }
+
+        var per =  new Person('conk');
+
+        per.name;  // conk  访问构造函数的属性
+
+        per.run();  // conk is running  访问原型的属性
+
+        /*
+            模拟实现:
+                1. 返回一个新对象
+
+                2. 通过per.__proto__ = Person.prototype继承构造函数的原型
+
+                3. 通过Person.apply(obj, arguments)调用父构造函数实现继承，获取构造函数上的属性
+        */
+        function myNew1(){
+            // 第一步； 创建一个空对象
+            var obj = new Object();
+
+            // 第二步: 获得构造函数，并从arguments中去除该参数
+            Person1 = [].shift.call(arguments);
+
+            // 第三步: 链接到原型，保证obj能够访问到构造函数原型中的属性
+            obj.__proto__ = Person1.prototype;
+
+            // 第四步: 绑定this实现继承，使其obj能够访问构造函数中的属性
+            Person1.apply(obj, arguments);
+
+            // 第五步: 返回对象
+            return obj;
+        }
+
+        /*
+            模拟实现:
+                4. 构造函数自身有返回值
+                    (1): 返回一个对象
+
+                    (2): 没有return，即返回undefined
+
+                    (3): 返回undefined以外的基本类型----相当于没有return，返回undefined
+        */
+        function myNew2(){
+            // 第一步: 创建一个空对象
+            var obj = new Object();
+
+            // 第二步: 获取构造函数，并从arguments去除该构造函数参数
+            var Person2 = [].shift.call(arguments);
+
+            // 第三步: 链接到原型，保证obj能够访问到构造函数原型中的属性
+            obj.__proto__ = Person2.prototype;
+
+            // 第四步: 绑定this实现继承，使其obj能够访问到构造函数中的属性
+            var result = Person2.apply(obj, arguments);
+
+            return result instanceof Object ? result : obj;
+        }
+
+        /*
+            完美实现:
+                1. 创建一个新对象
+
+                2. 链接原型，保证新对象能够访问到构造函数原型中的属性或方法
+
+                3. 绑定this实现继承，保证新对象能够访问到构造函数中的属性或方法
+
+                4. 返回对象，如果构造函数自身已返回对象则返回构造函数返回的对象，否则返回新对象。
+        */
+        function myNew(fn){
+            return function(){
+                // 第一步: 创建一个空对象
+                var obj = {};
+
+                // 第二步: 链接原型，保证obj能够访问到构造函数原型中的属性
+                obj.__proto__ = fn.prototype;
+
+                // 第三步: 绑定this实现继承，使其obj能够访问到构造函数中的属性
+                var result = fn.apply(obj, arguments);
+
+                // 第四步: 返回对象
+                return result instanceof Object ? result : obj;
+
+            }
+        }
+        var per3 = myNew(Person)('conk');
+        console.log(per3.name);  // conk
+        per3.run();  // conk is running
+    </script>
+</body>
+</html>
