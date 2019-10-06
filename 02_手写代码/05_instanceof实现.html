@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /*
+        在JS中，判断一个变量的类型，常常会用到typeof运算符，但当用typeof来判断引用类型变量时，无论是什么类型的变量，都会返回object
+    */
+    console.log(typeof [1, 2, 3]);  // object
+
+    console.log(typeof {});  // object
+
+    /*
+        instanceof用于检测对象是否属于哪个class，同时，检测过程中也会将继承关系考虑在内。
+    */
+    // 类
+    class Person {
+
+    }
+    var per = new Person();
+    console.log(per instanceof Person);  // true
+
+    // 构造函数
+    function People(){
+
+    }
+    var peo = new People();
+    console.log(peo instanceof People);  // true
+
+    /*
+        instanceof在继承关系中： 可以判断一个实例是否属于它的父类型
+    */
+    // 原型继承----缺点: 多个实例对父类的引用类型属性，会造成篡改
+    function Parent(){
+
+    }
+    function Child(){
+
+    }
+    Child.prototype = new Parent();
+    var child = new Child();
+    console.log(child instanceof Child);
+    console.log(child instanceof Parent);
+
+    /*
+        复杂案例:
+            Object、Function instanceof 自己均为true，其他的instanceof 自己均为false
+    */
+    console.log(Object instanceof Object);  // true
+    console.log(Function instanceof Function);  // true
+    console.log(Number instanceof Number);  // false
+    console.log(String instanceof String);  // false
+    console.log(Array instanceof Array);  // false
+    console.log(Function instanceof Object);  // true
+    console.log(Child instanceof Function);  // true
+    console.log(Child instanceof Child);  // false
+
+    /*
+        instanceof的内部实现机制:
+            判断对象的原型链上是否能找到对象的prototype，来确定instanceof 返回值
+    */
+    function myInstanceof(obj, constructor){
+        // 获取constructor的显示原型对象
+        var constructorPrototype = constructor.prototype;
+        
+        // 获取obj的隐式原型对象
+        var objProto = obj.__proto__;
+
+        while(true){
+            // 直到原型链查找完毕
+            if(objProto === null){
+                return false;
+            }
+
+            // 判断显示原型与隐式原型是否相等
+            if(constructorPrototype === objProto){
+                return true;
+            }
+
+            // 不相等，继续原型链查找
+            objProto = objProto.__proto__;
+        }
+    }
+
+    /*
+        instanceof 并不是关心构造函数，而是原型链，即真正决定类型的是prototype，而不是构造函数
+    */
+    function Car(){
+
+    }
+    function BMW(){
+
+    }
+    Car.prototype = BMW.prototype = {};
+    var car = new Car();
+    console.log(car instanceof BMW);  // true
+
+    /*
+        推算:
+            1. ObjectRight.prototype
+
+            2.ObjectLeft.__proto__ = Function.prototype
+
+            3. Function.prototype !== ObjectRight.prototype
+
+            4. Function.prototype.__proto__ = Object.prototype  成立
+    */
+    Object instanceof Object;
+
+    /*
+        推算:
+            1. FunctionRight.prototype
+
+            2. FunctionLeft.__proto__ = Function.prototype  成立
+    */
+    Function instanceof Function;
+
+    /*
+        推算:
+            1. ChildRight.prototype
+
+            2. Child.left.__proto__ = Function.prototype
+
+            3. Function.prototype !== ChildRight.prototype
+
+            3. Function.prototype.__proto__ = Object.prototype
+
+            4. Object.prototype !== ChildRight.prototype
+
+            5. Object.prototype.__proto__ = null  失败
+    */
+    Child instanceof Child;
+
+    /*
+        instanceof 与 isPrototypeOf
+            isPrototypeOf: 判断一个对象是否存在与另一个对象的原型链上
+
+            instanceof: 针对于Child.prototype
+
+            isPrototypeOf: 针对于 Child
+    */
+    console.log(Child.prototype.isPrototypeOf(child));
+    console.log(Parent.prototype.isPrototypeOf(child));
+    </script>
+</body>
+</html>

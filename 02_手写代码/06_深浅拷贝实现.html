@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            展开语法: 浅拷贝
+                与Object.assign()实际效果一样
+        */
+        let obj1 = {
+            a: 1,
+            b: {
+                name: 'conk',
+                age: 18
+            },
+            c: 3
+        };
+        let obj2 = {...obj1};
+
+        obj1.b.name = 'penghantian';
+        console.log(obj2);  // {a: 1, b: {name: "penghantian", age: 18}, c: 3}
+
+        /*
+            Array.prototype.slice(): 浅拷贝
+                与之类似的还有concat等
+        */
+        var arr1 = [1, 2, [3, 4]];
+        var arr2 = Array.prototype.slice.call(arr1, 1);
+        arr1[2][0] = 'conk';
+        console.log(arr2);  // [2, ["conk", 4]]
+    </script>
+</body>
+</html>
