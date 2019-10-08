@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            JSON.stringfy():
+                将一个JavaScript值(对象或则数组)转换成一个JSON字符串。
+
+                参数: 
+                    value: 将要被序列化成一个JSON字符串的值
+
+                    replacer:
+
+                    space: 指定缩进用的空白字符串
+                
+                规则:
+                    1. 布尔值、数组、字符串的包装对象在序列化过程中会自动转换成对应的原始值
+
+                    2. undefined、任意的函数、symbol值，在序列化过程中会被忽略(出现在非数组对象的属性值中时)，或则被转换成null(出现在数组中时)
+
+                    3. undefined、任意的函数、symbol值被单独转换时，会返回undefined
+
+                    4. null、NaN、Infinity数值都会被转换为null
+
+                    5. 对包含循环引用的对象(对象之间相互引用，形成无限循环)，会抛出错误
+
+                    6. 转换值如果有toJSON()方法，该方法定义什么值就将被序列化
+
+                    7. 非数组对象的属性不能保证以特定的顺序出现在序列化后的字符串
+
+                    8. 所有以symbol为属性键的属性都会被忽略，即便replacer参数中强制指定包含了它们
+
+                    9. Map、Set、WeakMap、WeakSet等，仅仅会序列化可枚举的属性
+        */
+
+        // 布尔值、数字、字符串的包装对象在序列化过程中会自动转换成对应的原始值
+
+        // undefined、任意的函数、symbol值，在序列化过程中会被忽略
+
+        function myJSONStringfy(obj){
+            let objType = typeof obj;
+            
+            if(objType !== 'object' || obj === null){
+                if(objType === 'undefined' || objType === 'function' || objType === 'symbol'){
+                    return undefined;
+                }else if(obj === null || obj === Infinity || Number.isNaN(obj)){
+                    return String('null');
+                }else if(objType === 'string'){
+                    return String('"'+ obj + '"');
+                }else{
+                    return String(obj);
+                }
+            }else{
+                if(obj.toJSON && typeof obj.toJSON === 'function'){
+                    return myJSONStringfy(obj.toJSON());
+                }else if(obj instanceof Array){
+                    let result = [];
+                    obj.forEach(function(item, index){
+                        if(typeof item === 'undefined' || typeof item === 'function' || typeof item === 'symbol'){
+                            result[index] = "null";
+                        }else{
+                            result[index] = myJSONStringfy(item);
+                        }
+                    });
+                    return ("[" + result + "]").replace(/'/g, '"');
+                }else{
+                    let result = [];
+                    Object.keys(obj).forEach(function(key, index){
+                        if(typeof key !== 'symbol'){
+                            if(typeof obj[key] !== 'undefined' && typeof obj[key] !== 'function' && typeof obj[key] !== 'symbol'){
+                                result.push('"' + key + '"' + ":" + myJSONStringfy(obj[key]));
+                            }
+                        }
+                    });
+                    return ("{" + result + "}").replace(/'/g, '"');
+                }
+            }
+        }
+        console.log(myJSONStringfy(undefined));
+        console.log(myJSONStringfy(Symbol("foo")));
+        console.log(myJSONStringfy(function(){}));
+        
+        console.log(myJSONStringfy([1, "name", undefined, null]));
+
+        var obj1 = {
+            name: "conk",
+            age: NaN,
+            color: [
+                1, 
+                "name",
+                undefined,
+                null
+            ]
+        }
+        console.log(myJSONStringfy(obj1));
+
+        var obj1ToJson = myJSONStringfy(obj1);
+        console.log(JSON.parse(obj1ToJson));
+    </script>
+</body>
+</html>

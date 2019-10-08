@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            JSON.parse():
+                用来解析JSON字符串
+
+                参数:
+                    text: json字符串
+
+                    reviver: 
+
+                注意事项:
+                    不允许用逗号作为结尾，报错: SyntaxError
+
+                    JSON.parse("[1, 2, 3, 4, ]")
+                    JSON.parse('{"name": "conk", }')  
+        */
+
+        var jsonStr = '{"name": "conk", "age": 18}';
+        var jsonToObj = JSON.parse(jsonStr);
+        console.log(jsonToObj);
+        console.log(typeof jsonToObj);
+
+        var jsonStr2 = '{"name": "penghantian", "age": 19}';
+        var jsonToObj2 = JSON.parse(jsonStr2, function(key, value){
+            if(key === 'name'){
+                return {};
+            }
+            return value;
+        });
+        console.log(jsonToObj2);
+
+    </script>
+</body>
+</html>
