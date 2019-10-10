@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+    /*
+        normal:
+            默认，设置合理的行高
+            浏览器使用1.0-1.2，不同浏览器对normal解释有细微差别
+
+        number:
+            设置数字，此数字会与当前的字体尺寸相乘来设置行高
+            经验: 
+                所有内容被定义为1.5，标题被重新定义为1.2
+
+        length:
+            设置固定的行高
+
+        % :
+            基于当前字体尺寸的百分比设置行高
+            计算出来的值会被层叠下去的元素所继承
+
+        inherit:
+            规定应该从父元素继承line-height属性的值
+
+        顶线
+
+        中线
+
+        基线
+
+        底线
+
+        行高:
+            上下文本行的基线之间的垂直距离
+
+            为什么一行文字也有行高?
+        
+        行距:
+            一行底线到下一行顶线的垂直距离
+
+        内容区域:
+            底线到顶线包裹的区域
+
+        content area: 内容区域
+
+        line boxes: 行内框
+
+        inline boxes: 行框
+
+        containing boxes
+
+        
+
+
+        行内框:
+            每一个行内元素会生成一个行内框，行内框是一个浏览器渲染模型中的一个概念，无法显示出来。
+            在没有其他因素影响(padding)，行内框=内容区域，这里面仅仅代表宋体
+        
+        line-height:
+
+    */
+    </script>
+    <style>
+        body{
+            font-size: 16px;
+            line-height: 120%;
+        }
+        .text1{
+            font-size: 16px;
+            /* line-height: 1.6; */
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <span class="text1">你好</span>
+    </div>
+    
+</body>
+</html>

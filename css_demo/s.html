@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    /*
+        vertical=-align:
+            默认值是baseline(基线对齐)
+
+        文字的高度: 
+            由行高决定
+
+        解决问题办法:
+            1. 让vertical-align实现:
+                vertical-align对块状水平的元素无感，可以直接设置display或则浮动/绝对定位等
+
+                疑问点:
+                    浮动/绝对定位此时为块状元素吗？
+
+            2. 下面空隙高度，实际上是文字计算后的行高和和文字下边缘的距离，因此，只要行高足够小，实际文字占据的高度的底部就会在文字的上面
+
+        
+    */
+    </script>
+    <div style="background-color: #e5edff;">
+        <img style="display: block;" src="https://image.zhangxinxu.com/image/study/s/s256/mm1.jpg" alt="">
+        <span style="background-color: white;">hello</span>
+    </div>
+</body>
+</html>
