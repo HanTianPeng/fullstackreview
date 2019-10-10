@@ -6,17 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>EM单位案例</title>
     <style>
+        /* 
+            em: 相对于父元素
+
+                1. 子元素字体大小的em是相对于父元素字体大小
+
+                2. 元素的width、height、padding、margin用em是相对于该元素的font-size
+         */
         html{
             font-size: 18px;
         }
         div {
             font-size: 40px;
-            width: 10em; /* 400px */
+            width: 10em; /* 400px----> 元素的width、height、padding、margin用em是相对于该元素的font-size */
             height: 10em;
             border: solid 1px black;
         }
         p {
-            font-size: 0.5em; /* 20px */ 
+            font-size: 0.5em; /* 20px----> 子元素字体大小的em是相对父元素字体的大小 */ 
             width: 10em; /* 200px */
             height: 10em;
             border: solid 1px red;
