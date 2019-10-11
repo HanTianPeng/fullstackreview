@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+            setTimeout不是setInterval:
+                用setTimeout计时到后就会去执行，然后执行一段时间后，才会继续setTimeout，中间就多了误差(误差多少与代码执行时间有关)
+
+                setInterval则是每次都精确的隔一段时间推入一个事件(但是，事件的实际执行时间不一定就准确，还有可能是这个事件还没有执行完毕，下一个事件就来了)
+
+            setInterval的致命问题:
+                如果setInterval代码在(setInterval)再次添加到队列之前还没有完成执行，就会导致定时器代码连续运行好几次，而之间没有间隔。
+                就算正常间隔执行，多个setInterval的代码执行时间可能会比预期小(因为代码执行需要一定时间)
+        */
+        // 可避免setInterval因执行时间导致的间隔执行时间不一致
+        function mySetInterval() {
+            var args = arguments;
+            mySetInterval.timer = setTimeout(function () {
+                // 执行功能
+                args[0]();
+                // 定时执行
+                mySetInterval(...args);
+            }, args[1]);
+        }
+
+        mySetInterval.clear = function () {
+            clearTimeout(mySetInterval.timer);
+        }
+
+        // 测试
+        mySetInterval(function () {
+            console.log(111);
+        }, 1000);
+
+        setTimeout(function () {
+            // 5s后清理
+            mySetInterval.clear();
+        }, 5000);
+    </script>
+</body>
+
+</html>

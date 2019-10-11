@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*  
+            问题1：一行文字有行高吗？
+
+                1. 行高由于其继承性，影响无处不在，即使单行文本也不例外
+
+                内联元素的高度是由line-height决定的?
+                2. 行高只是幕后黑手，高度的表现不是行高，而是内容区域和行间距
+                    只不过刚好: 
+                        内容区域高度(content area) + 行间距(vertical spacing) = 行高(line-height)
+
+                        在simsum(宋体)下 font-size + 行间距 = 行高
+
+                总结: 行高决定内联盒子高度；行间距墙头草，可大、可小、可为负值，作用是保证高度正好等同于行高。
+
+            
+            问题2：如果行框盒子里面有多个不同行高的内联盒子？
+
+                网络大部分说法: 由行高最高的那个盒子决定？
+
+
+
+            多行文本的高度就是单行文本高度累加
+
+
+
+            问题3：如果行框盒子里面混入inline-block水平元素(如图片等)，高度如何表现？
+
+
+
+            问题4: line-height: 1.5  line-height: 150%  line-height: 1.5em之间区别？
+
+                body全局数值行高使用经验:
+                    body {font-size: 14px; line-height: 1.42}
+
+                    匹配20像素的使用经验----方便心算
+                        line-height = 20px / 14px = 1.42857 / 1.4286(chorme)
+
+
+
+            问题5: 行高会不会影响图片实际占据的高度？
+
+                行高不会影响图片实际占据的高度
+
+                消除图片底部间隙的方法:
+                    1. 图片块状话，无基线对齐
+
+                    2. 图片底线对齐
+                        vertical-align: bottom;
+
+                    3. 行高足够小---基线位置上移
+                        line-height: 0;
+
+
+            line-box的高度 >= content-box的高度 >= em-square的高度
+
+            内容区域: content area
+                只与字号以及字体有关，与line-height没有任何关系
+
+                在simsum(宋体)字体下，内容区域高度等于文字大小值
+            
+            内联盒子: inline boxes
+                内联盒子，不会让内容成块显示，而是排成一行。如果外部含有inline水平的标签(span、a、em等)则属于内联盒子，
+                如果是一个光秃秃的文字，则属于匿名内联盒子。
+
+            匿名内联盒子
+
+            行框盒子: line boxes
+                每一行就是一个行框盒子，每个行框盒子又是由一个一个内联盒子组成
+
+            包含盒子: containing box
+                p标签所在的包含盒子，此盒子由一行一行的行框盒子组成
+        */
+    </script>
+    <span style="background: lightblue;">
+        内容区域
+    </span>
+</body>
+</html>

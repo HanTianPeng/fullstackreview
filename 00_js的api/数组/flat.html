@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            Array.prototype.flat():
+                数组的成员有时还是数组，此方法用于将嵌套的数组拉平，变成一维数组
+
+                参数:
+                    depth:
+                        可选，指定要提取嵌套数组的结构深度，默认值为1
+
+                        Infinity：作为深度，展示任意深度的嵌套数组
+                返回值；
+                    返回一个新的数组，对原始数据没有影响
+
+                注意事项:
+                    会移除数组中的空项
+
+        */
+        var arr = [1, 2, 3, , 5];
+        newArr = Array.prototype.flat.call(arr, 1);
+        console.log('newArr===>', newArr);  // [1, 2, 3, 5]
+    </script>
+</body>
+</html>

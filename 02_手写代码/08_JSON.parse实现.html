@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
 <body>
     <script>
         /*
@@ -26,18 +28,50 @@
 
         var jsonStr = '{"name": "conk", "age": 18}';
         var jsonToObj = JSON.parse(jsonStr);
-        console.log(jsonToObj);
-        console.log(typeof jsonToObj);
+        console.log(jsonToObj);  // {name: "conk", age: 18}
+        console.log(typeof jsonToObj);  // object
 
         var jsonStr2 = '{"name": "penghantian", "age": 19}';
-        var jsonToObj2 = JSON.parse(jsonStr2, function(key, value){
-            if(key === 'name'){
+        var jsonToObj2 = JSON.parse(jsonStr2, function (key, value) {
+            if (key === 'name') {
                 return {};
             }
             return value;
         });
-        console.log(jsonToObj2);
+        console.log(jsonToObj2);  // {name: {}, age: 18}
+
+        function jsonParse(opt) {
+            return eval('(' + opt + ')');
+        }
+        jsonParse(jsonStringify({ x: 5 }))
+        // Object { x: 5}
+        jsonParse(jsonStringify([1, "false", false]))
+        // [1, "false", falsr]
+        jsonParse(jsonStringify({ b: undefined }))
+        // Object { b: "undefined"}
+
+        //对付xss
+        // var rx_one = /^[\],:{}\s]*$/;
+        // var rx_two = /\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g;
+        // var rx_three = /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g;
+        // var rx_four = /(?:^|:|,)(?:\s*\[)+/g;
+        // if (
+        //     rx_one.test(
+        //         json
+        //             .replace(rx_two, "@")
+        //             .replace(rx_three, "]")
+        //             .replace(rx_four, "")
+        //     )
+        // ) {
+        //     var obj = eval("(" +json + ")");
+        // }
+        // Function版本
+        var jsonStr = '{ "age": 20, "name": "jack" }'
+        var json = (new Function('return ' + jsonStr))();
+//状态机版见PDF
+// https://github.com/youngwind/blog/issues/115
 
     </script>
 </body>
+
 </html>
