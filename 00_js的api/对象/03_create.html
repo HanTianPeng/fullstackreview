@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Parent(name, age){
+            this.name = name;
+            this.age = age;
+        }
+
+        Parent.prototype.eat = function(){
+            console.log('---eat----');
+        };
+
+        var parent = new Parent('conk', 18);
+        console.dir(parent);
+
+        function Child(height){
+            this.height = height;
+        }
+
+        Child.prototype = parent;
+
+        var child = new Child(180);
+        child.fristName = 'pht';
+        // child.prototype.secondName = 'penghantian';
+        console.log('====================================');
+        console.dir(child);
+
+        console.log('===================================');
+        /*
+            Object.create():
+                1. 创建一个新对象，并将其__proto__指向该参数对象。
+        */
+        var newObj = Object.create(parent);
+        newObj.wight = 100;
+        // stu.prototype.ss = 'ss';
+
+        console.dir(newObj);
+    
+    </script>
+</body>
+</html>
