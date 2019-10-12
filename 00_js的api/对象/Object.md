@@ -18,7 +18,7 @@
  obj.printName();  // conk, true
  ```
 
-  ![create结构图](../js_demo/image/create结构.png)
+  ![create结构图](../../js_demo/image/create结构.png)
 
 - polyfill
 
