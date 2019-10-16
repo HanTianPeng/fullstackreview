@@ -34,14 +34,14 @@
         var wordsUsed = unique(wordsFound);
         console.log('---wordsUsed----', wordsUsed);
 
-        // 组合函数
+        // 组合函数----包装
         function uniqueWords(str){
             return unique(words(str));
         }
         var wordsUsed2 = uniqueWords(text);
         console.log('---wordsUsed2----', wordsUsed2);
 
-        // 组合函数升级版
+        // 组合函数升级版----制造专门生成组合设备的机器
         function compose2(fn2, fn1){
             return function composed(originValue){
                 return fn2(fn1(originValue));
@@ -65,7 +65,7 @@
         var reverseResult = compose2(head, reverse)(['hello', 'world', 'javascript']);
         console.log('---compose function better version---', reverseResult);  // javascript
 
-        // 组合函数高级版
+        // 组合函数高级版---任意n个函数的组合
         function compose(...fns){
             return function composed(result){
                 // 拷贝一份保存函数的数组
@@ -78,6 +78,21 @@
                 return result;
             };
         }
+
+        /*
+            不同的实现:
+                
+        */
+        function composeReduce(...fns){
+            return function composeReduceEnd(result){
+                return fns.reverse().reduce(function reducer(result, fn){
+                    return fn(result);
+                }, result);
+            }
+        }
+        var fns = [function(x){return }]
+        var composeReduceResult = composeReduce(fns)([1, 2, 3, 4, 5]);
+        console.log('===>composeReduceResult', composeReduceResult());
     </script>
 </body>
 </html>

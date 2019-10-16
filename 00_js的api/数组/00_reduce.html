@@ -125,7 +125,17 @@
         var onlyNewObj = only(newObj, ['env', 'debug']);
         console.log('---koa---', onlyNewObj);  // {env: 'product', debug: true}
 
-        
+        /*
+            缩减操作注意事项:
+                缩减操作的列表中一个值都没有，也没有指定初始值，会引起报错
+        */
+        var noData = [].reduce(function(x, y){
+            console.log(x, y);
+            return x;
+        }, 1);
+        console.log(noData);
+
+
     </script>
 </body>
 </html>
