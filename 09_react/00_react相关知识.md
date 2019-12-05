@@ -1,21 +1,4 @@
 ### React生态圈
-  
-  - JSX: 扩展的JS，React强依赖
-
-    - JavaScript + XML
-
-    - 自定义组件，首字母一定要大写，小写字母，为html语言
-
-    ```js
-    <ul className="my-list">
-      <li>hello python</li>
-      <li>hello world</li>
-    </ul>
-
-    var childLi1 = React.createElement('li', null, 'hello python');
-    var childLi2 = React.createElement('li', null, 'hello world');
-    var root = React.createElement('ul', {className: 'my-list'}, childLi1, childLi2);
-    ```
 
   - 生命周期
 
@@ -154,7 +137,30 @@
 
       - ``npm start``
 
+  - 項目目录结构
+
     - ``PWA``与移动端开发、serverWorker.js，相当于有了离线浏览的功能
+
+    - manifest.json文件
+
+      - 与 ``PWA`` 结合使用
+
+  - JSX语法: 扩展的JS，React强依赖
+
+    - JavaScript + XML
+
+    - 自定义组件，首字母一定要大写，小写字母会被为html语言
+
+      ```js
+      <ul className="my-list">
+        <li>hello python</li>
+        <li>hello world</li>
+      </ul>
+
+      var childLi1 = React.createElement('li', null, 'hello python');
+      var childLi2 = React.createElement('li', null, 'hello world');
+      var root = React.createElement('ul', {className: 'my-list'}, childLi1, childLi2);
+      ```
 
   - ``Eslint检测ES6规范配置``
 

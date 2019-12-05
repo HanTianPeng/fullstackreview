@@ -1,5 +1,5 @@
 import React, {Component} from 'react';  // import React from 'react'; const Component = React.Component es6的解构赋值
-import './index.css';
+import './index.css';  // all in js
 
 
 function Square(props) {
