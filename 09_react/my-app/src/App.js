@@ -40,7 +40,7 @@ class Board extends Component {
 
     render() {
         return (
-            // 注意事项: 当使用flex布局的时候，有时候外面不需要这层div，此时可以采用<Fragment><Fragment>进行包裹
+            // 注意事项: 当使用flex布局的时候，有时候外面不需要这层div，此时可以采用<Fragment><Fragment>进行包裹  import React, { Fragment } from 'react';
             <div>
                 <div className="board-row">
                     {this.renderSquare(0)}

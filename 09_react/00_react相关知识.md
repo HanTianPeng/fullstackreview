@@ -1,12 +1,12 @@
 ### React生态圈
 
-  - 生命周期
+  - 生命周期: 在某一时刻组件会自动调用执行的函数
 
     - Initialization: 初始化阶段
 
     - Mounting: 挂载阶段
 
-      - componentWillMount: 在组件即将被挂载到页面的时刻执行
+      - componentWillMount: 在组件即将被挂载到页面的时刻执行 
 
       - render: 页面state或props发生变化时执行
 
@@ -139,11 +139,13 @@
 
   - 項目目录结构
 
-    - ``PWA``与移动端开发、serverWorker.js，相当于有了离线浏览的功能
+    - ``PWA (Progression Web Application)``与移动端开发、serverWorker.js，相当于有了离线浏览的功能
 
     - manifest.json文件
 
       - 与 ``PWA`` 结合使用
+
+      - registerServiceWorker
 
   - JSX语法: 扩展的JS，React强依赖
 
@@ -161,6 +163,38 @@
       var childLi2 = React.createElement('li', null, 'hello world');
       var root = React.createElement('ul', {className: 'my-list'}, childLi1, childLi2);
       ```
+  
+  - 虚拟DOM
+
+    - JSX ---> createElement ---> 虚拟DOM(JS对象) ---> 真实的DOM
+
+    - 渲染步骤:
+
+      - state数据
+
+      - JSX模板
+
+      - 数据 + 模板 + 生成虚拟DOM(虚拟DOM就是一个JS对象，用它来描述真实DOM) (损耗了性能)
+
+        - ['div', {id: 'adc'}, ['span'， {}, 'hello world']]
+
+      - 用虚拟DOM的结构生成真实的DOM，来显示页面
+
+      - state发生改变
+
+      - 数据 + 模板 生成新的虚拟DOM(极大的提升了性能)
+
+        - ['div', {id: 'adc'}, ['span'， {}, 'hello python']]
+
+      - 比较原始虚拟DOM和新的虚拟DOM的区别，找到区别是中的内容(极大的提升性能)
+
+      - 直接操作DOM，改变span中的内容
+
+    - 优点:
+
+      - 性能提升
+
+      - 它使得跨端应用得以实现，React Native
 
   - ``Eslint检测ES6规范配置``
 
