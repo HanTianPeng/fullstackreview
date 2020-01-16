@@ -158,8 +158,8 @@ class GirlComponent extends Component {
     // 组件被挂载到页面之后，自动被执行
     componentDidMount() {
         console.log('componentDidMount---在组件被挂载到页面之后，自动被执行');
-        axios.get('https://wweb.namibox.com/appnative/pschool')
-            .then((res) => {alert(JSON.stringify(res.data.ip_info))})
+        axios.get('/api/mock_data')
+            .then((res) => {alert(JSON.stringify(res))})
             .catch(() => {alert('error')});
     };
 }
