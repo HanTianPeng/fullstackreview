@@ -51,6 +51,8 @@ Menu.propTypes = {
     content: PropTypes.string.isRequired,  // 必须传递，不是代表不能为空
     deleteItem: PropTypes.func,
     index: PropTypes.number
+    // PropTypes.arrayOf(propTypes.number, propTypes.string)  必须为数组,数组里面内容为number或则字符串
+    // PropTypes.oneOfType([propTypes.number, propTypes.string]) 必须为number或则字符串
 }
 
 // 默认值

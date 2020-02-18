@@ -165,11 +165,7 @@
       ```
   
   - 虚拟DOM
-
-    - JSX ---> createElement ---> 虚拟DOM(JS对象) ---> 真实的DOM
-
     - 渲染步骤:
-
       - state数据
 
       - JSX模板
@@ -190,11 +186,19 @@
 
       - 直接操作DOM，改变span中的内容
 
+    - JSX ---> React.createElement('div', {}, 'item') ---> 虚拟DOM(JS对象) ---> 真实的DOM
+    
     - 优点:
-
       - 性能提升
 
-      - 它使得跨端应用得以实现，React Native
+      - 它使得跨端应用得以实现，React Native (虚拟DOM是JS对象,可以将JS对象转换成原生组件)
+
+    - DIFF算法
+      - 同层比对
+
+      - key值比对
+
+      - setState异步函数可以将多次state修改合并成一次,就行一次虚拟DOM比对
 
   - ``Eslint检测ES6规范配置``
 
