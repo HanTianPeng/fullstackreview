@@ -11,7 +11,7 @@ class GirlComponent extends Component {
         super(props);
         this.state = {
             inputValue: 'World',
-            data: ['Orange', 'Apple']
+            data: []  // 'Orange', 'Apple'
         };
         this.getInputChange = this.getInputChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -101,7 +101,7 @@ class GirlComponent extends Component {
 
     }
 
-    // 在组件即将被挂载到页面的时刻自动执行
+    // 在组件即将被挂载到页面的时刻自动执行(只会在第一次会执行)
     componentWillMount() {
         console.log('componentWillMount---在组件即将被挂载页面的时刻自动执行');
     };
@@ -120,7 +120,7 @@ class GirlComponent extends Component {
     }
 
     render() {
-        console.log('证明state或则props发生改变的时候，render函数重新执行');
+        // console.log('证明state或则props发生改变的时候，render函数重新执行');
         // 注意事项: 当使用flex布局的时候，有时候外面不需要这层div，此时可以采用<Fragment><Fragment>进行包裹  import React, { Fragment } from 'react';
         return (
             <div>
@@ -164,7 +164,7 @@ class GirlComponent extends Component {
         );
     };
 
-    // 
+    // 组件即将从页面中移除的时候，自动执行
     componentWillUnmount() {
         console.log('componentWillUnmount----');
     }
@@ -175,11 +175,21 @@ class GirlComponent extends Component {
         console.log('componentDidUpdate----组件更新完成后，自动执行');
     }
 
-    // 组件被挂载到页面之后，自动被执行
+    // 组件被挂载到页面之后，自动被执行(只会在第一次会执行)
     componentDidMount() {
         console.log('componentDidMount---在组件被挂载到页面之后，自动被执行');
         axios.get('/api/mock_data')
-            .then((res) => {alert(JSON.stringify(res))})
+            .then((res) => {
+                console.log('axios---返回的结果', res);
+                // this.setState(() => {
+                //     return {
+                //         data: res.data.data
+                //     }
+                // });
+                this.setState(() => ({
+                    data: [...res.data.data]
+                }));
+            } )
             .catch(() => {alert('error')});
     };
 }

@@ -8,6 +8,7 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-scripts": "^3.3.0",
+    "react-transition-group": "^4.3.0",
     "redux": "^4.0.5"
   },
   "scripts": {

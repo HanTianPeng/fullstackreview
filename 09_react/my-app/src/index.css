@@ -50,16 +50,19 @@ ol, ul {
 
 }
 
+/*CSS过度动画效果*/
 .hide-div{
     opacity: 0;
     transition: all 1s ease-in;
 }
 
+/*forwards能够保存动画最后一帧的样式*/
 .show-div{
     opacity: 1;
     animation: show-item 1s ease-in forwards;
 }
 
+/*CSS动画效果*/
 @keyframes show-item {
     0% {
         opacity: 0;
@@ -75,4 +78,32 @@ ol, ul {
         opacity: 1;
         color: blue;
     }
+}
+
+/*入场动画第一帧: fade-appear与appear有关*/
+.fade-enter, .fade-appear {
+    opacity: 0;
+}
+
+/*入场动画第二帧: fade-appear-active与appear有关*/
+.fade-enter-active .fade-appear-active {
+    opacity: 1;
+    transition: opacity 1s ease-in;
+}
+
+.fade-enter-done {
+    opacity: 1;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
+.fade-exit-done {
+    opacity: 0;
 }
