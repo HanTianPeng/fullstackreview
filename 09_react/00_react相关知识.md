@@ -50,6 +50,7 @@
   - Flux
 
   - Redux
+    - Reducer + Flux
 
   - React-Native: 开发移动应用
 
