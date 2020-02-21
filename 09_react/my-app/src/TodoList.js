@@ -3,7 +3,9 @@ import "antd/dist/antd.css";
 import store from './store/index.js';
 import TodoListUI from './TodoListUI.js';
 // import axios from 'axios';
-import { getTodoListAction, getChangeInputAction, getSubmitInputAction, getDeleteListItemAction } from './store/actionCreators';
+// import { getTodoListAction, getChangeInputAction, getSubmitInputAction, getDeleteListItemAction } from './store/actionCreators';
+import { getToListSagaAction, getChangeInputAction, getSubmitInputAction, getDeleteListItemAction } from './store/actionCreators';
+
 // import { CHANGE_INPUT_VALUE, SUBMIT_INPUT_VALUE, DELETE_LIST_ITEM } from './store/actionTypes.js';
 
 
@@ -39,7 +41,11 @@ class TodoList extends Component {
         //         store.dispatch(action);
         //     })
         //     .catch();
-        const action = getTodoListAction();
+
+        // Redux-thunk
+        // const action = getTodoListAction();
+
+        const action = getToListSagaAction();
         store.dispatch(action);
     }
 

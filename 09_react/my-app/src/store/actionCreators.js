@@ -1,5 +1,5 @@
-import { CHANGE_INPUT_VALUE, DELETE_LIST_ITEM, SUBMIT_INPUT_VALUE, INIT_LIST_VALUE } from './actionTypes.js';
-import axios from 'axios';
+import { CHANGE_INPUT_VALUE, DELETE_LIST_ITEM, SUBMIT_INPUT_VALUE, INIT_LIST_VALUE, INIT_LIST_VALUE_SAGA } from './actionTypes.js';
+// import axios from 'axios';
 
 
 export const getChangeInputAction = (value) => ({
@@ -21,17 +21,20 @@ export const getInitListAction = (list) => ({
     list
 });
 
-export const getTodoListAction = () => {
-    return (dispatch) => {
-        axios.get('/api/mock_data')
-            .then((res) => {
-                const initValueList = res.data.data;
-                const action = getInitListAction(initValueList);
-                dispatch(action);
-            })
-            .catch((err) => {
-                console.log('--请求后台api报错--');
-            });
-    }
-   
-}
+// export const getTodoListAction = () => {
+//     return (dispatch) => {
+//         axios.get('/api/mock_data')
+//             .then((res) => {
+//                 const initValueList = res.data.data;
+//                 const action = getInitListAction(initValueList);
+//                 dispatch(action);
+//             })
+//             .catch((err) => {
+//                 console.log('--请求后台api报错--');
+//             });
+//     }
+// }
+
+export const getToListSagaAction = () => ({
+    type: INIT_LIST_VALUE_SAGA
+});

@@ -1,6 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import reducer from './reducer.js';
-import ReduxThunk from 'redux-thunk';
+// import ReduxThunk from 'redux-thunk';
+import TodoListSaga from './sagas.js';
+import createSagaMiddleware from 'redux-saga';
+
 
 /*
     store是唯一的
@@ -26,10 +29,18 @@ const composeEnhancers =
       // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
     }) : compose;
 
+// const enhancer = composeEnhancers(
+//   applyMiddleware(...[ReduxThunk]),
+//   // other store enhancers if any
+// );
+// const store = createStore(reducer, enhancer);
+
+// Redux-saga  github
+const sagaMiddleware = createSagaMiddleware();
 const enhancer = composeEnhancers(
-  applyMiddleware(...[ReduxThunk]),
-  // other store enhancers if any
+    applyMiddleware(...[sagaMiddleware])
 );
 const store = createStore(reducer, enhancer);
+sagaMiddleware.run(TodoListSaga);
 
 export default store;
