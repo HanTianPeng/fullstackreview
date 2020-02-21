@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import "antd/dist/antd.css";
 import store from './store/index.js';
 import TodoListUI from './TodoListUI.js';
-import axios from 'axios';
-import { getChangeInputAction, getSubmitInputAction, getDeleteListItemAction, getInitListAction } from './store/actionCreators';
+// import axios from 'axios';
+import { getTodoListAction, getChangeInputAction, getSubmitInputAction, getDeleteListItemAction } from './store/actionCreators';
 // import { CHANGE_INPUT_VALUE, SUBMIT_INPUT_VALUE, DELETE_LIST_ITEM } from './store/actionTypes.js';
 
 
@@ -32,13 +32,15 @@ class TodoList extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/mock_data')
-            .then((res) => {
-                const initValueList = res.data.data;
-                const action = getInitListAction(initValueList);
-                store.dispatch(action);
-            })
-            .catch();
+        // axios.get('/api/mock_data')
+        //     .then((res) => {
+        //         const initValueList = res.data.data;
+        //         const action = getInitListAction(initValueList);
+        //         store.dispatch(action);
+        //     })
+        //     .catch();
+        const action = getTodoListAction();
+        store.dispatch(action);
     }
 
     handleChange(e) {
