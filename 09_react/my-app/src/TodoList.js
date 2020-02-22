@@ -12,6 +12,11 @@ import { getToListSagaAction, getChangeInputAction, getSubmitInputAction, getDel
 class TodoList extends Component {
     constructor(props) {
         super(props);
+        /*初始化state:  ???这块有疑问
+            componentWillMount() {
+                store.subscribe((state) => this.setState(state));
+            }
+        */
         this.state = store.getState();
         this.handleChange = this.handleChange.bind(this);
         this.handleStoreChange = this.handleStoreChange.bind(this);
