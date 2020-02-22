@@ -54,7 +54,7 @@ class TodoList extends Component {
         store.dispatch(action);
     }
 
-    handleStoreChange() {
+    handleStoreChange() { 
         this.setState(store.getState());
     }
 
