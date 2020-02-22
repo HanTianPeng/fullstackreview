@@ -72,7 +72,7 @@ const mapStateToProps = (state) => {
 // };
 
 //
-const mapDispatchToProps = (Dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         handleChange: (e) => ({
             type: 'change_input_value', 
@@ -87,7 +87,7 @@ const mapDispatchToProps = (Dispatch) => {
 /* 
     react-redux提供了两个重要对象, Provider和connect,前者使React组件可被连接(connectable),
     后者把React组件和store真正连接起来.
-    
+
     react-redux中的connect方法将store上的getState和dispatch包装成组件的props
 
     connect方法接受四个参数(mapStateToProps, mapDispatchToProps, mergeProps, options):
