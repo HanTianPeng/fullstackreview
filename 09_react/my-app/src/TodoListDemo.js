@@ -85,6 +85,9 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 /* 
+    参考文档:
+    https://fed.taobao.org/blog/taofed/do71ct/react-redux-connect/?spm=taofed.homepage.header.7.7eab5ac8cvVp9c
+
     react-redux提供了两个重要对象, Provider和connect,前者使React组件可被连接(connectable),
     后者把React组件和store真正连接起来.
 

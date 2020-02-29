@@ -124,7 +124,7 @@
 
     - 第三步: 安装脚手架 ``create-react-app``
 
-      - ``npm install -g create-reate-app``
+      - ``npm install -g create-react-app``
 
     - 第四步: 利用脚手架 ``create-react-app`` 创建工程
 
@@ -137,6 +137,13 @@
     - 第五步: 启动工程
 
       - ``npm start``
+
+    - 常见window命令
+      - 查找端口进程
+        ``netstat -ano | find "3000"``
+      
+      - 杀死进程
+        ``taskkill /f /pid 6356``
 
   - 項目目录结构
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    /*
+    主要原理是
+        1. 设置文本居中text-align: center;
+        2. 然后给定两个伪元素，分别绝对定位，那么此时伪元素也是跟随着水平居中的，
+        3. 设置足够的宽度，然后把左边的往左位移100%就可以了，父级记得超出隐藏。
+    */
+    .title{
+        position: relative;
+        text-align: center; /*内容,分割线都水平居中*/
+        overflow: hidden; /*因为足够的宽度造成的*/
+        font-size: 14px;
+        color: #999;
+    }
+    .title::before,.title::after{
+        content: '';
+        display: inline-block;
+        width: 100%;
+        height: 1px;
+        position: absolute;
+        background: #ccc;
+        top: 50%;  /*分割线上线剧中*/
+    }
+    .title::before{
+        /*与文本间距*/
+        margin-left: -10px;
+        /*向左平移的距离,与分割线的宽度有关(即左平移距离=分割线的宽度)*/
+        transform: translateX(-100%);
+    }
+    .title::after{
+        /*与文本间距*/
+        margin-left: 10px;
+    }
+    </style>
+</head>
+<body>
+    <div class="title">我是分割线</div>
+</body>
+</html>
