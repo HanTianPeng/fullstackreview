@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
     ListItem,
     ListInfo,
@@ -8,7 +9,7 @@ import {
 import * as actionCreators from '../store/actionCreators';
 
 
-class List extends Component {
+class List extends PureComponent {
     render() {
         const { articleList, articlePage, getMoreList, } = this.props;
         return (
@@ -16,13 +17,15 @@ class List extends Component {
                 {  
                     // 箭头函数return一个字符串,无逻辑代码可以直接一个()搞定
                     articleList.map((item, index, arr) => (
-                            <ListItem key={"文章"+index}>
-                                <img className="pic" src={item.get("imgUrl")} alt="400" />
-                                <ListInfo>
-                                    <h3 className="title">{item.get("title")}</h3>
-                                    <p className="desc">{item.get("content")}</p>
-                                </ListInfo>
-                            </ListItem>
+                            <Link key={"文章"+index} to="/detail">
+                                <ListItem>
+                                    <img className="pic" src={item.get("imgUrl")} alt="400" />
+                                    <ListInfo>
+                                        <h3 className="title">{item.get("title")}</h3>
+                                        <p className="desc">{item.get("content")}</p>
+                                    </ListInfo>
+                                </ListItem>
+                            </Link>
                         )
                     )
                 }
