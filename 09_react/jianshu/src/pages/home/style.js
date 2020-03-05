@@ -99,3 +99,27 @@ export const WriterWrapper = styled.div`
     border: 1px solid #dcdcdc;
     margin: 0 auto;
 `;
+
+export const LoadMore = styled.div`
+    width: 100%;
+    height: 40px;
+    margin: 30px 0;
+    text-align: center;
+    border-radius: 20px;
+    line-height: 40px;
+    color: #fff;
+    background: #a5a5a5;
+    cursor: pointer;
+`;
+
+export const BackUp = styled.div`
+    position: fixed;
+    right: 100px;
+    bottom: 100px;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    border-radius: 50%;
+    background: #a5a5a5;
+`;

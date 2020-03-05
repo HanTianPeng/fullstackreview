@@ -10,10 +10,14 @@ import Writer from './components/Writer';
 import List from './components/List';
 import Recommend from './components/Recommend';
 import { initHomedata } from './store/actionCreators';
-
+import {
+    BackUp
+} from './style';
+import * as actionCreator from './store/actionCreators';
 
 
 class Home extends Component {
+    
     render() {
         return (
             <HomeWrapper>
@@ -27,19 +31,45 @@ class Home extends Component {
                     <Recommend />
                     <Writer />
                 </HomeRight>
+
+                {this.props.isShow ? <BackUp onClick={this.handleScrollTop}>回到顶部</BackUp> : null}
             </HomeWrapper>
         );
     }
 
     componentDidMount() {
         this.props.getHomeData();
+        this.bindEvents();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("scroll", this.props.handleScrollTop);
+    }
+
+    handleScrollTop() {
+        window.scrollTo(0, 0);
+    }
+
+    bindEvents() {
+        window.addEventListener("scroll", this.props.handleScrollTop);
     }
 }
+
+const mapStateToProps = (state) => ({
+    isShow: state.getIn(["home", "isShow"])
+});
 
 const mapDispatchToProps = (Dispatch) => ({
     getHomeData() {
         Dispatch(initHomedata());
+    },
+    handleScrollTop() {
+        if(document.documentElement.scrollTop > 100) {
+            Dispatch(actionCreator.ChangeScrollTop(true));
+        }else{
+            Dispatch(actionCreator.ChangeScrollTop(false));
+        }
     }
 });
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

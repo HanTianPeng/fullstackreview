@@ -10,6 +10,12 @@ const changeHomeData = (homeData) => ({
     recommendList: fromJS(homeData.recommendList)
 });
 
+const getNextArticleList = (articleList, nextPage) => ({
+    type: constants.getNextList,
+    articleList: fromJS(articleList),
+    nextPage: fromJS(nextPage)
+});
+
 export const initHomedata = () => {
     return (Dispatch) => {
         axios.get("/api/homeData.json").then((res) => {
@@ -19,3 +25,18 @@ export const initHomedata = () => {
         });
     }
 };
+
+export const getMoreList = (nextPage) => {
+    return (Dispatch) => {
+        axios.get("/api/articleList.json?page=" + nextPage).then((res) => {
+            Dispatch(getNextArticleList(res.data.articleList, nextPage));
+        }).catch((error) => {
+
+        });
+    }
+};
+
+export const ChangeScrollTop = (isShow) => ({
+    type: constants.showScrollTop,
+    isShow: fromJS(isShow)
+});

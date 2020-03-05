@@ -1,0 +1,17 @@
+{
+    "success": true,
+    "articleList": [
+        {
+            "id": 3,
+            "title": "哪天我真自杀了，母亲希望您能释怀",
+            "content": "今晚和母亲说了几句。 我说人生太难，工作，婚娶，家庭等都是大问题，我太没用，不想承担这些，好像做个和尚。 要是哪天走在路上，被车撞死多好，就没有...",
+            "imgUrl": "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3085411638,2868007544&fm=26&gp=0.jpg"
+        },
+        {
+            "id": 4,
+            "title": "疫情结束了，我想去离婚:睡觉!",
+            "content": "晚上闺蜜发来消息，说过了疫情，要去办离婚手续，这回彻底心凉了。 闺蜜两口子都是事业单位职工，两人有个儿子今年上高一，日子一直过得安宁舒适，至少外...",
+            "imgUrl": "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3782948058,2269227305&fm=26&gp=0.jpg"
+        }
+    ]
+}
