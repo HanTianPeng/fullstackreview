@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { 
     HomeWrapper,
     HomeLeft,
@@ -8,6 +9,7 @@ import Topic from './components/Topic';
 import Writer from './components/Writer';
 import List from './components/List';
 import Recommend from './components/Recommend';
+import { initHomedata } from './store/actionCreators';
 
 
 
@@ -28,6 +30,16 @@ class Home extends Component {
             </HomeWrapper>
         );
     }
+
+    componentDidMount() {
+        this.props.getHomeData();
+    }
 }
 
-export default Home;
+const mapDispatchToProps = (Dispatch) => ({
+    getHomeData() {
+        Dispatch(initHomedata());
+    }
+});
+
+export default connect(null, mapDispatchToProps)(Home);
