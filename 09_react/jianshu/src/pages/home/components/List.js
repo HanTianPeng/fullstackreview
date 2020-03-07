@@ -6,7 +6,7 @@ import {
     ListInfo,
     LoadMore
 } from '../style';
-import * as actionCreators from '../store/actionCreators';
+import { actionCreators } from '../store';
 
 
 class List extends PureComponent {
@@ -17,7 +17,7 @@ class List extends PureComponent {
                 {  
                     // 箭头函数return一个字符串,无逻辑代码可以直接一个()搞定
                     articleList.map((item, index, arr) => (
-                            <Link key={"文章"+index} to="/detail">
+                            <Link key={"文章"+index} to={"/detail/" + item.get("id")}>
                                 <ListItem>
                                     <img className="pic" src={item.get("imgUrl")} alt="400" />
                                     <ListInfo>

@@ -9,11 +9,10 @@ import Topic from './components/Topic';
 import Writer from './components/Writer';
 import List from './components/List';
 import Recommend from './components/Recommend';
-import { initHomedata } from './store/actionCreators';
+import { actionCreators } from './store';
 import {
     BackUp
 } from './style';
-import * as actionCreator from './store/actionCreators';
 
 
 class Home extends Component {
@@ -61,13 +60,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (Dispatch) => ({
     getHomeData() {
-        Dispatch(initHomedata());
+        Dispatch(actionCreators.initHomedata());
     },
     handleScrollTop() {
         if(document.documentElement.scrollTop > 100) {
-            Dispatch(actionCreator.ChangeScrollTop(true));
+            Dispatch(actionCreators.ChangeScrollTop(true));
         }else{
-            Dispatch(actionCreator.ChangeScrollTop(false));
+            Dispatch(actionCreators.ChangeScrollTop(false));
         }
     }
 });
