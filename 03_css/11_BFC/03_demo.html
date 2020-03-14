@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        body{
+            margin: 0;
+        }
+        .left{
+            width: 100px;
+            height: 200px;
+            float: left;
+            background-color: antiquewhite;
+        }
+        .right{
+            width: 100px;
+            height: 200px;
+            float: right;
+            background-color: skyblue;
+        }
+        /*
+            三栏布局
+            1. bfc区域不会与float的元素区域重叠(特征2)
+        */
+        .middle{
+            height: 300px;
+            background-color: yellow;
+            overflow: hidden;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="middle"></div>
+    
+</body>
+</html>

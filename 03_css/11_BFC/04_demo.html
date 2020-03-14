@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .float{
+            float: left;
+            width: 1200px;
+            height: 100px;
+            background-color: rebeccapurple;
+        }
+        /*
+            解决文字环绕问题:
+            1. bfc区域不会与float元素区域重叠(特征2)
+        */
+        .content{
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class='float'></div>
+    <p class='content'>
+        三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市三打哈到阿大撒大撒大大大大大撒大都市 
+    </p>
+</body>
+</html>

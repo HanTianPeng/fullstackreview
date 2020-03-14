@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /*
+            bfc包含浮动元素,即bfc高度会计算浮动元素的高度:
+            1. 计算bfc高度,浮动元素也会被计算.正常情况不会被计算的(特征3)
+        */
+        .content{
+            overflow: hidden;
+        }
+        .box1{
+            height: 100px;
+            width: 100px;
+            float: left;
+            background-color: silver;
+        }
+        .box2{
+            height: 100px;
+            width: 100px;
+            float: left;
+            background-color: palegoldenrod;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="box1"></div>
+        <div class="box2"></div>
+    </div>
+    
+</body>
+</html>

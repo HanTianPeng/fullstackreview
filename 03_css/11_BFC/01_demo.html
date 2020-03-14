@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        /* 
+            形成BFC的条件:
+            1. 浮动元素: float除none以外的值
+            2. 定位元素: position(absolute, fixed)
+            3. display: inline-block, table-cell, table-caption
+            4. overflow: 除了visible以外的值(hidden, auto, scroll);
+         */
+        .content{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            overflow: hidden;  /* 创建一个BFC环境 */
+        }
+        /*
+            解决相邻盒子垂直之间的距离由margin叠加决定,而不是由最大的那个margin决定
+            1. 在常规文档流中,两个兄弟盒子之间的垂直距离是由他们的外边距所决定的,但不是他们两个外边距之和,而是以最大的为准.
+            2. bfc就是页面上的一个独立容器,容器里面的子元素不会影响外面元素(特征1)
+            3. bfc就是页面上的一个独立容器,容器里面的子元素不会影响外面元素
+        */
+        .wrapper{
+            overflow: hidden;
+        }
+        .box1{
+            height: 20px;
+            margin: 10px 0;
+            background-color: green;
+        }
+        .box2{
+           height: 20px;
+           margin: 20px 0;
+           background-color: green;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class='content'>
+        <div class='wrapper'>
+            <div class='box1'></div>
+        </div>
+        <div class='box2'></div>
+    </div>
+</body>
+</html>
