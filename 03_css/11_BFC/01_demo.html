@@ -6,11 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
         /* 
+            Box: CSS布局的基本单位
+                一个页面是由很多个Box组成的,元素的类型和display属性,决定了这个Box的类型.
+                不同类型的Box,会参与不同的Formatting Context(一个决定如何渲染文档的容器).
+                因此Box内的元素会以不同的方式渲染.
+            
+            Formatting Context:
+                页面中的一块渲染区域,并且有一套渲染规则,他决定了其子元素将如何定位,以及和其他元素的关系和相互作用.
+                常见的有两种形式: BFC(block formatting context), IFC(inline formatting context)
+
             形成BFC的条件:
             1. 浮动元素: float除none以外的值
             2. 定位元素: position(absolute, fixed)
-            3. display: inline-block, table-cell, table-caption
+            3. display: inline-block, table-cell, table-caption, flex, inline-flex 
             4. overflow: 除了visible以外的值(hidden, auto, scroll);
+            5. 根元素: 即HTML标签
          */
         .content{
             width: 100px;
