@@ -206,14 +206,6 @@
 5. 特别注意: use数组中的`style-loader`和`css-loader`顺序不能乱，否则会报错
 6. loader调用顺序是从后往前调用
 
-### webpack打包less文件
-1. 安装less-loader，同时由于内部依赖less，所以less也必须安装
-2. webpack打包less，同时依赖style-loader/css-loader/less-loader三个loader
-
-### webpack打包sass(scss)文件
-1. 安装sass-loader,同时由于内部以来node-sass，所以node-sass也必须安装
-2.webpack打包scss文件，同时依赖style-loader/css-loader/sass-loader
-
 ### webpack打包
 
 ### 安装bootstrap
@@ -241,3 +233,112 @@
     - `npm install @types/lodash`
     - `npm install @types/vue`
     - `npm install typings`, `typings install lodash`
+
+### 打包公共代码
+  - 单页面应用,不用再次下载公共代码
+  - 多页面应用,可以利用浏览器缓存,也实现了不用再次下载公共代码
+  - 插件
+    ```
+    # CommonsChunkPlugin
+    webpack.optimize.CommonsChunkPlugin
+    配置:
+    {
+      plugins: [
+        new webpack.optimize.CommonsChunkPlugin(option)
+      ]
+    }
+
+    options.name or options.names
+    options.filename
+    options.minChunks
+    options.chunks
+    options.children
+    options.deepChildren
+    options.async
+    ```
+  - 场景
+    - 单页面应用
+    - 单页面应用 + 第三方依赖
+    - 多页面应用 + 第三方依赖 + webpack生成代码
+
+### 代码分割和懒加载
+  - 代码分割的场景
+    - 分离业务代码和第三方依赖
+
+    - 分离业务代码, 业务公共代码 和 第三方依赖
+
+    - 分离首次加载 和 访问后加载的代码
+
+  - webpack methods: webpack内置的方法
+    - require.ensure: 方法
+      - 参数:
+        - []: dependencies, 依赖
+
+        - callback: 
+
+        - errorCallback: 
+
+        - chunkName:
+    
+    - require.include: 
+
+  - ES 2015 loader spec: 规范
+    - System.import() -> import()
+
+    - import() -> Promise
+
+    - import().then()
+
+    ```js
+    // webpack import function
+    import(
+      /* webpackChunkName: async-chunk-name */
+      /* webpackMode: lazy */
+      modulename
+    )
+    ```
+
+### 处理CSS
+  - 引入
+    - style-loader: 保证载入页面中创建一个style标签
+      - style-loader:
+        - options:
+          - insertAt: 插入位置
+
+          - insertInto: 插入到dom
+
+          - singleton: 是否只使用一个style标签
+
+          - transform: 转化,浏览器环境下插入页面前
+            - 需要写一个css.transform.js文件
+
+      - style-loader/url: 配合file-loader使用,比较小众
+
+
+      - style-loader/useable
+
+    - css-loader: 保证js代码中可以引入一个css文件
+      - options:
+        - alias: 别名
+
+        - importLoader: @import
+
+        - Minimize: 是否压缩
+
+        - modules: 是否启用css-modules
+
+        - localIdentName: 命名规则
+
+  - CSS modules
+
+  - 配置less / sass
+    - 1. 安装less-loader，同时由于内部依赖less，所以less也必须安装
+    - 2. webpack打包less，同时依赖style-loader/css-loader/less-loader三个loader
+
+    - 1. 安装sass-loader,同时由于内部以来node-sass，所以node-sass也必须安装
+    - 2.webpack打包scss文件，同时依赖style-loader/css-loader/sass-loader
+
+  - 提取CSS代码
+    - extract-loader
+
+    - ExtractTextWebpackPlugin

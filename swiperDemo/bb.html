@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script src="http://m.hurongclub.com/Resource/js/swiper-3.2.5.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="http://m.hurongclub.com/Resource/css/base_new.css"
+    />
+    <link
+      rel="stylesheet"
+      href="http://m.hurongclub.com/Resource/css/swiper.min.css"
+    />
+    <script></script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      #tab {
+        width: 600px;
+        height: 500px;
+        margin: 50px auto;
+        border: 2px solid blue;
+        position: relative;
+      }
+      #tab ul li {
+        float: left;
+        width: 200px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 30px;
+        color: white;
+        list-style: none;
+      }
+      #tab .swiper-container {
+        position: absolute;
+        width: 600px;
+        height: 430px;
+        top: 70px;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="tab">
+      <ul>
+        <li style="background: darkcyan;">新闻</li>
+        <li style="background: darkgoldenrod;">体育</li>
+      </ul>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" style="background: darkcyan;">
+            Slide 1
+          </div>
+          <div class="swiper-slide" style="background: darkgoldenrod;">
+            Slide 2
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var mySwiper = new Swiper(".swiper-container", {
+        direction: "vertical", // 垂直切换选项
+        //   loop: true,   // 循环模式选项     下面发现那个mySwiper.slideTo(t, 1000, false)位置不正确，点第一个显示第二个
+        //原因是loop 这个循环自动在前面多加一个，所以点第一个显示第二个，我们把这个关掉就正确了
+        simulateTouch: false, //禁止鼠标模拟
+        //effect : 'fade',   //切换效果 淡入淡出
+        effect: "cube" //切换效果 : 3D效果
+      });
+      $("#tab ul li").click(function() {
+        //	获得当前点击li的序号
+        var t = $(this).index();
+        mySwiper.slideTo(t, 1500, false); //切换到第一个slide，速度为1秒
+      });
+    </script>
+  </body>
+</html>

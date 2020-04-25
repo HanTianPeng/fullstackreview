@@ -1,0 +1,31 @@
+<!DOCTYPE html>    
+<html>    
+	<head>    
+		<meta charset="UTF-8">    
+		<title></title>    
+		<link rel="stylesheet" type="text/css" href="uu/swiper-4.4.1.min.css"/>    
+		<style type="text/css">    
+			
+		</style>    
+	</head>    
+	<body>    
+		
+		<script src="uu/swiper-4.4.1.min.js" type="text/javascript"></script>    
+		<script src="uu/jquery-1.11.3.min.js.js" type="text/javascript"></script>    
+		<script>            
+var mySwiper = new Swiper ('.swiper-container', {    
+direction: 'vertical',   // 垂直切换选项    
+//   loop: true,   // 循环模式选项     下面发现那个mySwiper.slideTo(t, 1000, false)位置不正确，点第一个显示第二个    
+//原因是loop 这个循环自动在前面多加一个，所以点第一个显示第二个，我们把这个关掉就正确了    
+simulateTouch : false,  //禁止鼠标模拟    
+//effect : 'fade',   //切换效果 淡入淡出    
+effect : "cube",   //切换效果 : 3D效果    
+})    
+$('#tab ul li').click(function(){    
+//	获得当前点击li的序号    
+ 	var t=$(this).index();    
+ 	mySwiper.slideTo(t, 1500, false);//切换到第一个slide，速度为1秒    
+})    
+</script>    
+	</body>    
+</html>
