@@ -6,7 +6,6 @@ function LList() {
     let Node = function (element) {
         this.element = element;
         this.next = null;
-    
     }
     // 初始化头节点为null
     this.head = null;
@@ -126,24 +125,39 @@ function LList() {
             beforeLoopNode = firstLoopNode;
             // 重新赋值下一个节点为当前节点
             firstLoopNode = afterLoopNode;
-            
         }
         // 重新将头节点指向最后一个节点
         this.head = beforeLoopNode;
     }
-    // 递归
+    // 尾递归函数
     this.recurive = function(beforeNode, currentNode){
         if(!currentNode){
-            return previouseNode;
+            return beforeNode;
         }
+        let nextNode = currentNode.next;
         currentNode.next = beforeNode;
-        return recurive(currentNode, beforeNode ? beforeNode.next : null)
+        return this.recurive(currentNode, nextNode);
     }
-    // 递归反转
+    // 尾递归法:反转---从头节点开始,递归反转它的每一个节点,直到null,时间复杂度O(n),空间复杂度O(n)
     this.recuiveReverse = function(){
         let currentNode = this.head,
             beforeNode = null;
-        this.recuiveReverse(beforeNode, currentNode);
+        // 重新将头节点指向最后一个节点
+        return this.head = this.recurive(beforeNode, currentNode);
+    }
+    // 递归法:反转---不断递归反转当前节点head的后继节点next,时间复杂度O(n),空间复杂度O(n)
+    this.headRecuiveReverse = function(headNode){
+        if(!headNode || !headNode.next){
+            return headNode;
+        }
+        let nextNode = headNode.next;
+        // 递归反转
+        let reverseNode = this.headRecuiveReverse(nextNode);
+        // 变更指针
+        nextNode.next = headNode;
+        headNode.next = null;
+        // 重新将头节点指向最后一个节点
+        return this.head = reverseNode;
     }
     // 遍历
     this.display = function(){
@@ -173,6 +187,7 @@ l2.append(2);
 l2.append(5);
 l2.append(6);
 console.log('-----l2----', l2);
+l1.headRecuiveReverse(l1.head);
 /*
 解题思路:
     从链表头开始比较,aList与bList为有序递增,所以比较aNode.element与bNode.element的较小值
