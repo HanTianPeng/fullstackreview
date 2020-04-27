@@ -115,6 +115,19 @@ function LList() {
         }
         return null;
     }
+    // 查找
+    this.search = function(element){
+        let firstNode = this.head;
+        // 从头节点开始遍历链表,与单向链表一致处理方案
+        while(firstNode){
+            if(firstNode.element === element){
+                return firstNode;
+            }else{
+                firstNode = firstNode.next;
+            }
+        }
+        return null;
+    }
 }
 var doubleLList1 = new LList();
 doubleLList1.insert(0, 1);
@@ -125,48 +138,3 @@ doubleLList1.insert(4, 5);
 doubleLList1.insert(5, 6);
 console.log('----doubleLList1----', doubleLList1);
 doubleLList1.remove(3);
-// 查找
-function find(item) {
-    var currentNode = this.head;
-    while(currentNode.element != item) {
-        currentNode = currentNode.next;
-    }  
-    return currentNode; 
-}
-
-// 遍历
-function display() {
-    var currentNode = this.head;
-    while(currentNode.next != null) {
-        console.log(currentNode.element);
-        currentNode = currentNode.next;
-    }
-}
-
-// 删除
-function remove(item) {
-    var currentNode = find(item);
-    if(currentNode.next != null) {
-        currentNode.next.previous = currentNode.previous;
-    }
-    currentNode.previous.next = currentNode.next;
-    currentNode.previous = null;
-    currentNode.next = null;
-}
-
-// 查找最后一个节点
-function findLast() {
-    var currentNode = this.head;
-    while(currentNode.next != null) {
-        currentNode = currentNode.next;
-    }
-    return currentNode;
-}
-
-// 反序
-function displayReverse() {
-    var currentNode = this.findLast();
-    while(currentNode.previous != null) {
-         currentNode = currentNode.previous;
-    }
-}
