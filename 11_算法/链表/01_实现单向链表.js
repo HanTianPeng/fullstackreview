@@ -177,11 +177,11 @@ function LList() {
     // 判断一个单链表是否有环: 快慢指针 === 时间复杂度O(n), 空间复杂度O(1)
     this.hasCyclePointer = function(){
         let currentNode = this.head;
-        if(!currentNode){
+        if(!currentNode || !currentNode.next){
             return false;
         }
 
-        // 创建快慢指针
+        // 创建快慢指针: 遍历单链表,快指针一次走两步,慢指针一次走一步,如果单链表中存在环,则快慢指针终会指向同一个节点,否则直到快指针指向null时,快慢指针都不可能相遇
         let slow = currentNode.next,
             fast = currentNode.next.next;
         while(fast !== slow){
@@ -203,6 +203,56 @@ function LList() {
         }catch(error) {
             return true;
         }
+    }
+
+    // 给定一个带有头节点的非空单链表,返回链表的中间节点,求链表的中间节点: 快慢指针
+    this.getMiddle = function(){
+        let currentNode = this.head;
+        if(!currentNode){
+            return [];
+        }
+        // 创建快慢指针,快指针走两步,慢指针走一步,快指针走完,慢指针则为中间值
+        let slow = currentNode,
+            fast = currentNode;
+        // 如果两个中间节点,则返回第二个中间节点 [1, 2, 3, 4, 5] 返回节点 3，序列化后[3, 4, 5]  / [1, 2, 3, 4] 返回节点 3, 序列化后 [3, 4]
+        while(fast && fast.next) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    // 给定一个带有头节点的非空单链表,返回链表的中间节点,求链表的中间节点: 遍历将节点放在数组中,然后取中间值
+    this.getMiddleFor = function(){
+        let result = [],
+            currentNode = this.head;
+        while(currentNode){
+            result.push(currentNode);
+            currentNode = currentNode.next;
+        }
+        return result[Math.ceil((result.length - 1) / 2)];
+    }
+
+    // 给定一个链表,删除链表的倒数第n个节点,并且返回链表的头节点
+    this.removeAt = function(reverseNum) {
+        let fast = this.head,
+            slow = this.head;
+        // 快指针先走reverseNum步
+        while(--reverseNum){
+            fast = fast.next;
+        }
+        // 当fast为尾节点,此时n等于链表长度时,直接返回从头节点之后的节点,这样相当于删除了头节点
+        if(!fast.next){
+            return this.head.next;  // 删除头节点
+        }
+        // 快指针优先一步慢指针
+        fast = fast.next;
+        while(fast && fast.next){
+            fast = fast.next;
+            slow = slow.next;
+        }
+        // 将慢指针的next指向慢指针的后继的后继节点,这样就删除了慢指针的next指向慢指针的后继节点关系,也相当于删除了该节点
+        slow.next = slow.next.next;
     }
 
     // 遍历
@@ -270,5 +320,16 @@ function mergeTwoLists(l1Node, l2Node){
 // console.log('---合并两个有序链表---', mergeNewList);
 
 
+var l3 = new LList();
+l3.append(1);
+l3.append(2);
+l3.append(3);
+l3.append(4);
+l3.append(5);
+l3.append(6);
+console.log('----l3---', l3);
+// 删除倒数第5个
+l3.removeAt(5);
+console.log('---删除倒数第n个节点----', l3);
 
 

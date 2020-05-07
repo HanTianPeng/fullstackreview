@@ -74,40 +74,7 @@ function CircularLinkedList(){
         return null;
     }
     // 删除
-    this.remove = function(element){
-        let firstNode = this.head,
-            beforeNode = null,
-            afterNode = firstNode ? firstNode.next : null,
-            count = 0,
-            index = 0;
-        console.log('111===', afterNode);
-        if(!firstNode){
-            return null;
-        }
-        while(count <= this.length){
-            if(firstNode.element === element){
-                if(this.length === 1){
-                    this.head = null;
-                    firstNode.next = null;
-                }else{
-                    if(count === 0){
-                        firstNode.next = afterNode;
-                    }else{
-                        beforeNode.next = afterNode;
-                    }
-                }
-                this.length -= 1;
-            }else{
-                beforeNode = firstNode;
-                firstNode = firstNode.next;
-                afterNode = firstNode.next;
-                count += 1;
-            }
-        }
-        return null;
-    }
-	
-	this.removeObj = function(element){
+	this.remove = function(element){
 		let firstNode = this.head,
 			beforeNode = null,
 			afterNode = firstNode ? firstNode.next : null,
@@ -155,9 +122,5 @@ circularLinkedList1.insert(4, 5);
 circularLinkedList1.insert(5, 6);
 circularLinkedList1.insert(6, 7);
 console.log('---circularLinedList1---', circularLinkedList1);
-
 circularLinkedList1.remove(9);
-
-console.log('--------', circularLinkedList1);
-circularLinkedList1.removeObj(1);
 console.log('---circularLinedList2---', circularLinkedList1);
