@@ -59,7 +59,7 @@ function CircularLinkedList(){
         }
         return null;
     }
-    // 查找
+    // 查找: 循环链表从任一节点开始查找目标节点,时间复杂度为O(n)
     this.search = function(element){
         let firstNode = this.head,
             count = 1;
@@ -118,4 +118,6 @@ circularLinkedList1.insert(5, 6);
 circularLinkedList1.insert(6, 7);
 console.log('---circularLinedList1---', circularLinkedList1);
 
-circularLinkedList1.remove(1);
+circularLinkedList1.remove(9);
+
+console.log('--------', circularLinkedList1);
