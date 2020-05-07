@@ -151,6 +151,7 @@ function LList() {
             return headNode;
         }
         let nextNode = headNode.next;
+		console.log(nextNode.element);
         // 递归反转
         let reverseNode = this.headRecuiveReverse(nextNode);
         // 变更指针

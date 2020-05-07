@@ -106,6 +106,44 @@ function CircularLinkedList(){
         }
         return null;
     }
+	
+	this.removeObj = function(element){
+		let firstNode = this.head,
+			beforeNode = null,
+			afterNode = firstNode ? firstNode.next : null,
+			index = 0
+			isChange = false;
+		
+		if(!firstNode){
+			return null;
+		}
+		
+		while(index < this.length) {
+			if(firstNode.element === element){
+				if(index === 0){
+					this.head = afterNode;
+					isChange = true;
+					this.length -= 1;
+					firstNode = this.head;
+					beforeNode = null;
+					afterNode = afterNode ? afterNode.next : null;
+				}else{
+					beforeNode.next = afterNode;
+					this.length -= 1;
+					return true;
+				}
+			}else{
+				if(isChange && index === this.length - 1){
+					firstNode.next = this.head;
+				}
+				beforeNode = firstNode;
+				firstNode = firstNode.next;
+				afterNode = firstNode ? firstNode.next : null;
+				index += 1;
+			}
+		}
+		return null;
+	}
 }
 
 var circularLinkedList1 = new CircularLinkedList();
@@ -121,3 +159,5 @@ console.log('---circularLinedList1---', circularLinkedList1);
 circularLinkedList1.remove(9);
 
 console.log('--------', circularLinkedList1);
+circularLinkedList1.removeObj(1);
+console.log('---circularLinedList2---', circularLinkedList1);
