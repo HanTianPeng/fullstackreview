@@ -284,41 +284,6 @@ l2.append(5);
 l2.append(6);
 console.log('-----l2----', l2);
 l1.headRecuiveReverse(l1.head);
-/*
-解题思路:
-    从链表头开始比较,aList与bList为有序递增,所以比较aNode.element与bNode.element的较小值
-    就是合并后链表的较小值(1),次小值(2)就是较小值节点的next.element与大节点的.element比较的较小值,
-    同时将步骤(1)的节点的next指向改成步骤(2)的节点.
-    依次递归,直到递归到aNode为null和bNode为null;
-*/
-// 递归函数: 比较两个节点,谁小就返回谁
-function mergeTwoLists(l1Node, l2Node){
-    // l1链表遍历完毕
-    if(l1Node === null){
-        return l2Node;
-    }
-    // l2链表遍历完毕
-    if(l2Node === null){
-        return l1Node;
-    }
-    // 节点1的元素值小于等于节点2的元素值
-    if(l1Node.element <= l2Node.element){
-        // 将节点1的next指向下一次比较的节点
-        l1Node.next = mergeTwoLists(l1Node.next, l2Node);
-        return l1Node;
-    }else{
-        // 节点1的元素值大于节点2的元素值,将节点2的next指向下一次比较的节点
-        l2Node.next = mergeTwoLists(l2Node.next, l1Node);
-        return l2Node;
-    }
-}
-// var result = mergeTwoLists(l1.head, l2.head);
-// 创建一个新的合并后的链表对象
-// var mergeNewList = new LList()
-// mergeNewList.head = result;
-// mergeNewList.length = 8;
-// console.log('---合并两个有序链表---', mergeNewList);
-
 
 var l3 = new LList();
 l3.append(1);
