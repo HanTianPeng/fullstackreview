@@ -1,10 +1,30 @@
+// 实现栈: 栈顶/栈底   进栈/出栈
 function Stack() {
     this.dataStore = [];  // 保存栈内元素
-    this.top = 0;  // 标记可以插入新元素的位置,栈内压入元素该变量变大,弹出元素该变量变小
-    this.push = push;  // 进栈
-    this.pop = pop;  // 出栈
+    // 标记可以插入新元素的位置,栈内压入元素该变量变大,弹出元素该变量变小
+    this.top = 0;  
+
+    // 进栈
+    this.push = function(element) {
+        this.dataStore.push(element);
+    };
+    // 出栈
+    this.pop = function() {
+        this.dataStore.pop();
+    };
+    // 栈的大小
+    this.size = function() {
+        this.dataStore.length;
+    }
+    // 清空栈
+    this.clear = function() {
+        this.dataStore = [];
+    };  
+    // 是否为空栈
+    this.isEmpty = function() {
+        return this.dataStore.length === 0;
+    }
     this.peek = peek;  // 返回栈顶元素
-    this.clear = clear;  // 清空栈
     this.length = length;  // 栈的长度
 }
 
