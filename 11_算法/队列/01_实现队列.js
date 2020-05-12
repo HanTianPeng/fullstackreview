@@ -1,37 +1,55 @@
+// 队列: FIFO
 function Queue() {
     this.dataStore = [];
-    this.dequeue = dequeue;
-    this.dequeue = dequeue;
-    this.front = front;
-    this.back = back;
-    this.empty = empty;
-    this.toString = toString;
-}
 
-// 插入
-function enqueue(element) {
-    this.dataStore.push(element);
-}
+    // 进队
+    this.enqueue = function(element) {
+        this.dataStore.push(element)
+    };
 
-// 删除
-function dequeue() {
-    this.dataStore.shift(element);  // 队首删除
-}
+    // 出队
+    this.dequeue = function() {
+        if(!this.dataStore.length) {
+            return null;
+        }
+        return this.dataStore.shift();
+    };
 
-function front() {
-    return this.dataStore[0];
-}
+    // 判断是否为空队
+    this.isEmpty = function() {
+        return this.dataStore.length === 0;
+    }
 
-function back() {
-    return this.dataStore[this.dataStore.length-1];
-}
+    // 获取队头元素
+    this.front = function() {
+        if(!this.dataStore.length) {
+            return null;
+        }
+        return this.dataStore[0];
+    };
 
-function empty() {
-    return this.dataStore.length === 0 ? true : false;
-}
+    // 清空队
+    this.clear = function() {
+        this.dataStore = [];
+    }
 
-function toString() {
-    return this.dataStore;
+    // 获取队列长度
+    this.size = function() {
+        return this.dataStore.length;
+    }
+    
+    // 获取队尾元素
+    this.back = function() {
+        if(!this.dataStore.length) {
+            return null;
+        }
+        return this.dataStore[this.dataStore.length - 1];
+    };
+    
+    // 序列化
+    this.toString = function() {
+        return this.dataStore;
+    };
 }
 
 // 急诊队列(通过遍历,依次替换最高优先级的元素,找到优先级最高的元素并将其删除)
