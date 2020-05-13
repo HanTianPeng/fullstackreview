@@ -1,3 +1,21 @@
+/*
+在代码中如何去表示一棵二叉树:
+    1. 链式存储法:
+        二叉树的存储很简单，在二叉树中，我们看到每个节点都包含三部分:
+            1. 当前节点的val
+            2. 左子节点left
+            3. 右子节点right
+*/
+function BinaryTree() {
+    let Node = function(val) {
+        this.val = val;
+        this.left = null;
+        this.right = right;
+    };
+
+    let root = null;
+}
+
 function Node(data, left, right) {
     this.data = data;
     this.left = left;

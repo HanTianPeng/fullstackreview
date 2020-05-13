@@ -161,50 +161,6 @@ function LList() {
         return this.head = reverseNode;
     }
 
-    // 判断一个单链表是否有环: 标志位法 === 时间复杂度O(n), 空间复杂度O(n)
-    this.hasCycle = function(){
-        let currentNode = this.head;
-        while(currentNode){
-            if(currentNode.flag){
-                return false;
-            }
-            currentNode.flag = true;
-            currentNode = currentNode.next;
-        }
-        return false;
-    }
-
-    // 判断一个单链表是否有环: 快慢指针 === 时间复杂度O(n), 空间复杂度O(1)
-    this.hasCyclePointer = function(){
-        let currentNode = this.head;
-        if(!currentNode || !currentNode.next){
-            return false;
-        }
-
-        // 创建快慢指针: 遍历单链表,快指针一次走两步,慢指针一次走一步,如果单链表中存在环,则快慢指针终会指向同一个节点,否则直到快指针指向null时,快慢指针都不可能相遇
-        let slow = currentNode.next,
-            fast = currentNode.next.next;
-        while(fast !== slow){
-            if(!fast || !fast.next){
-                return false;
-            }
-            fast = fast.next.next;
-            slow = slow.next;
-        }
-        return true;
-    }
-
-    // 判断一个单链表是否有环: 利用JSON.stringify()不能序列化含有循环引用的结构 === 时间复杂度O(n), 空间复杂度O(1)
-    this.hasCycleStringify = function(){
-        let currentNode = this.head;
-        try{
-            JSON.stringify(currentNode);
-            return false;
-        }catch(error) {
-            return true;
-        }
-    }
-
     // 给定一个带有头节点的非空单链表,返回链表的中间节点,求链表的中间节点: 快慢指针
     this.getMiddle = function(){
         let currentNode = this.head;
