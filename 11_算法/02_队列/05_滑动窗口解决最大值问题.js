@@ -34,3 +34,20 @@ function getSlideWindowMax(nums, k) {
     return result;
 }
 
+/*
+暴力破解:
+    复杂度分析:
+        时间复杂度: O(n*k)
+        空间复杂度: O(n)
+*/
+function getSlideQindowMaxForce(nums, k) {
+    let arr = [],
+        result = [];
+    for(let i=0; i<nums.length; i++) {  // 复杂度O(n)
+        arr.push(nums[i]);
+        if(i >= k - 1) {
+            result.push(Math.max(...arr));  // 复杂度O(k)
+            arr.shift();
+        }
+    }
+}
