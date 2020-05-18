@@ -189,28 +189,6 @@ function LList() {
         return result[Math.ceil((result.length - 1) / 2)];
     }
 
-    // 给定一个链表,删除链表的倒数第n个节点,并且返回链表的头节点
-    this.removeAt = function(reverseNum) {
-        let fast = this.head,
-            slow = this.head;
-        // 快指针先走reverseNum步
-        while(--reverseNum){
-            fast = fast.next;
-        }
-        // 当fast为尾节点,此时n等于链表长度时,直接返回从头节点之后的节点,这样相当于删除了头节点
-        if(!fast.next){
-            return this.head.next;  // 删除头节点
-        }
-        // 快指针优先一步慢指针
-        fast = fast.next;
-        while(fast && fast.next){
-            fast = fast.next;
-            slow = slow.next;
-        }
-        // 将慢指针的next指向慢指针的后继的后继节点,这样就删除了慢指针的next指向慢指针的后继节点关系,也相当于删除了该节点
-        slow.next = slow.next.next;
-    }
-
     // 遍历
     this.display = function(){
         let firstLoopNode = this.head;
@@ -240,17 +218,5 @@ l2.append(5);
 l2.append(6);
 console.log('-----l2----', l2);
 l1.headRecuiveReverse(l1.head);
-
-var l3 = new LList();
-l3.append(1);
-l3.append(2);
-l3.append(3);
-l3.append(4);
-l3.append(5);
-l3.append(6);
-console.log('----l3---', l3);
-// 删除倒数第5个
-l3.removeAt(5);
-console.log('---删除倒数第n个节点----', l3);
 
 
