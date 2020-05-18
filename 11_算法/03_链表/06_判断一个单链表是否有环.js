@@ -1,25 +1,14 @@
 function LList() {
-    // 节点
-    let Node = function(element) {
-        this.element = element;
-        this.next = null;
-    };
-
-    // 头节点
-    this.head = null;
-
-    // 链表的长度
-    this.length = 0;
-
     // 判断一个单链表是否有环: 标志位法: 时间复杂度O(n)  空间复杂度: O(n)
-    this.linkListHaveCycle = function() {
+    this.linkListHaveCycle = function () {
         let firstNode = this.head;
-        if(!firstNode) {
+        if (!firstNode) {
             return false;
         }
 
-        while(firstNode) {
-            if(firstNode.flag) {
+        while (firstNode) {
+            // 打标志
+            if (firstNode.flag) {
                 return true;
             }
             firstNode.flag = true;
@@ -29,34 +18,74 @@ function LList() {
     }
 
     // 判断一个单链表是否有环: 快慢指针: 时间复杂度:O(n)  空间复杂度O(1)
-    this.linkListHaveCyclePoint = function() {
+    this.linkListHaveCyclePoint = function () {
         let head = this.head;
-        if(!head || !head.next) {
+        if (!head || !head.next) {
             return false;
         }
         // 创建快慢指针: 遍历单链表,快指针一次走两步,慢指针一次走一步,如果单链表中存在环,则快慢指针终会指向同一个节点,否则直到快指针指向null时,快慢指针都不可能相遇
         let slow = head.next,
             fast = head.next.next;
-        
-        while(slow !== fast) {
-            if(!fast && !fast.next) {
+
+        while (slow !== fast) {
+            if (!fast || !fast.next) {
                 return false;
             }
             slow = slow.next;
             fast = fast.next.next;
         }
-        
+
         return true;
     }
 
     // 判断一个单链表是否有环: JSON.stringify
-    this.linkListHaveCycleJSON = function() {
+    this.linkListHaveCycleJSON = function () {
         let firstNode = this.head;
-        try{
+        try {
             JSON.stringify(firstNode);
-        }catch(e) {
+        } catch (e) {
             return true;
-        } 
+        }
         return false;
     }
 }
+
+// 如换点
+var detectCycle = function (head) {
+    // 边界问题
+    if (head === null || head.next === null) {
+        return '链表中没有环';
+    }
+
+    // 快慢指针
+    let slow = head.next,
+        fast = head.next.next;
+
+    while (slow != fast) {
+        if (fast === null || fast.next === null) {
+            return '链表中没有环';
+        }
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+}
+
+// 入环点
+var detectCycle = function (head) {
+    // 快慢指针
+    let slow = head,
+        fast = head;
+    while (fast && fast.next) {
+        fast = fast.next.next;
+        slow = slow.next;
+        if (fast === slow) {
+            let start = head;
+            while (slow !== start) {
+                slow = slow.next;
+                start = start.next;
+            }
+            return slow;
+        }
+    }
+    return null;
+};

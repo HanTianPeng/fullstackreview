@@ -1,78 +1,46 @@
-// 字节跳动: 找到两个单链表相交的起始节点
-function LList() {
-    // 节点
-    let Node = function(element) {
-        this.element = element;
-        this.next = null;
-    }
-    // 初始化头节点为null
-    this.head = null;
-    // 初始化链表长度
-    this.length = 0;
-    // 添加方法
-    this.append = function(element) {
-        let node = new Node(element),
-            firstNode = this.head;
-        // 无头节点
-        if(!firstNode){
-            this.head = node;
-        }else{
-            // 遍历
-            while(firstNode.next) {
-                firstNode = firstNode.next;
-            }
-            // 在末尾追加该节点
-            firstNode.next = node;
-        }
-        this.length += 1;
-    }
-}
-
-var linkList1 = new LList();
-linkList1.append(1);
-linkList1.append(2);
-linkList1.append(3);
-linkList1.append(4);
-linkList1.append(5);
-linkList1.append(6);
-linkList1.append(7);
-console.log('---链表1---', linkList1);
-
-var linkList2 = new LList();
-linkList2.append(10);
-linkList2.append(6);
-linkList2.append(7);
-console.log('---链表2---', linkList2);
-
-// 两个单链表相交的起始节点
 /*
-双指针法:
-    时间复杂度O(n), 空间复杂度O(1)
+面试题52. 两个链表的第一个公共节点
+输入两个链表，找出它们的第一个公共节点。
 
-解题思路:
-    如果A，B两链表相交，则A，B自相交点往后的链表是一致的。
+如下面的两个链表：
+在节点 c1 开始相交。
 
-解题步骤:
-    1. linkList1, linkList2同步遍历,由于linkList2短,所以此时linkList1到linkList1的尾节点为linkList1与linkList2的两链表长度差
-    2. linkList1继续遍历,直到遍历到尾节点;同时linkList2指向linkList1的头节点,并且同步遍历;结果: linkList1遍历到尾节点,linkList2到linkList1的头节点的长度差为两链表的长度差
-    3. 将linkList1指向linkList2的头节点,继续遍历,此时两者相遇即为相交节点
+示例 1：
+    输入：intersectVal = 8, listA = [4,1,8,4,5], listB = [5,0,1,8,4,5], skipA = 2, skipB = 3
+    输出：Reference of the node with value = 8
+    输入解释：相交节点的值为 8 （注意，如果两个列表相交则不能为 0）。从各自的表头开始算起，链表 A 为 [4,1,8,4,5]，链表 B 为 [5,0,1,8,4,5]。在 A 中，相交节点前有 2 个节点；在 B 中，相交节点前有 3 个节点。
+ 
+
+示例 2：
+    输入：intersectVal = 2, listA = [0,9,1,2,4], listB = [3,2,4], skipA = 3, skipB = 1
+    输出：Reference of the node with value = 2
+    输入解释：相交节点的值为 2 （注意，如果两个列表相交则不能为 0）。从各自的表头开始算起，链表 A 为 [0,9,1,2,4]，链表 B 为 [3,2,4]。在 A 中，相交节点前有 3 个节点；在 B 中，相交节点前有 1 个节点。
+ 
+
+示例 3：
+    输入：intersectVal = 0, listA = [2,6,4], listB = [1,5], skipA = 3, skipB = 2
+    输出：null
+    输入解释：从各自的表头开始算起，链表 A 为 [2,6,4]，链表 B 为 [1,5]。由于这两个链表不相交，所以 intersectVal 必须为 0，而 skipA 和 skipB 可以是任意值。
+    解释：这两个链表不相交，因此返回 null。
+
+注意：
+    如果两个链表没有交点，返回 null.
+    在返回结果后，两个链表仍须保持原有的结构。
+    可假定整个链表结构中没有循环。
+    程序尽量满足 O(n) 时间复杂度，且仅用 O(1) 内存。
 */
-function twoLinkListsIntersect(linkList1, linkList2) {
-    let head1 = linkList1.head,
-        firstNode1 = linkList1.head,
-        head2 = linkList2.head,
-        firstNode2 = linkList2.head;
-    // 遍历
-    while(firstNode1 || firstNode2) {
-        // 
-        if(firstNode1 && firstNode2 && firstNode1.element === firstNode2.element) {
-            return firstNode1;
+
+// 双指针法: 时间复杂度O(n), 空间复杂度O(1)
+var getIntersectionNode = function(headA, headB) {
+    let currA = headA;
+    let currB = headB;
+
+    while(currA || currB) {
+        if(currB && currA && currA === currB) {
+            return currB;
         }
-        firstNode1 = firstNode1 === null ? head2 : firstNode1.next;
-        firstNode2 = firstNode2 === null ? head1 : firstNode2.next;
+        currB = currB === null ? headA : currB.next;
+        currA = currA === null ? headB : currA.next;
     }
     return null;
-}
-
-var intersectNode = twoLinkListsIntersect(linkList1, linkList2);
-console.log('---两个单链表相交---', intersectNode);
+};
