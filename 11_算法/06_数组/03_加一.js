@@ -21,3 +21,23 @@ var plusOne = function(digits) {
     }
     digits.splice(0, 0, 1);
 };
+
+// 从个位数开始进行加法,判断是否需要进1
+var plusOneV2 = function(digits) {
+    let newDigits = [],
+        add = 0,
+        sum = 0;
+    for(let i=digits.length-1; i>=0; i--) {
+        sum = i === digits.length - 1 ? digits[i] + add + 1 : digits[i] + add;
+        if(sum >= 10) {
+            add = 1;
+        }else{
+            add = 0;
+        }
+        // 在最前面插入余数
+        newDigits.unshift(sum % 10);
+    }
+    // 判断是否进1
+    add && (newDigits.unshift(add));
+    return newDigits;
+}
