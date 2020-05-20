@@ -25,6 +25,7 @@ var longestCommonPrefix = function(strs) {
 		for(; j<targetStr.length && j<strs[i].length; j++) {
 			// 从一个字符串中返回指定的字符
 			if(targetStr.charAt(j) !== strs[i].charAt(j)) {
+				// js中break是终止当前这个循环
 				break;
 			}
 		}
