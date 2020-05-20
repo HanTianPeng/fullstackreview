@@ -16,6 +16,7 @@
     nums 的长度范围在[1, 50].
     每个 nums[i] 的整数范围在 [0, 100].
 */
+// 暴力遍历
 var dominantIndex = function(nums) {
     for(let i=0; i<nums.length; i++) {
         let maxValue = nums[i],
@@ -32,4 +33,23 @@ var dominantIndex = function(nums) {
         }
     }
     return -1;
+}
+
+// 找出最大与第二大的数字
+var dominantIndexV2 = function(nums) {
+    let max = nums[0], second = 0, maxIndex = 0;
+    for(let i=1; i<nums.length; i++) {
+        if(nums[i] > max) {
+            [max, second] = [nums[i], max];
+            maxIndex = i;
+        }else if(nums[i] > second) {
+            second = nums[i];
+        }
+    }
+
+    // 比较最大与第二大
+    if(second*2 > max) {
+        return -1;
+    }
+    return maxIndex;
 }

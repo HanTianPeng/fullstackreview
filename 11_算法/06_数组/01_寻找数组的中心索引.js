@@ -20,6 +20,7 @@
     nums 的长度范围为 [0, 10000]。
     任何一个 nums[i] 将会是一个范围在 [-1000, 1000]的整数。
 */
+// 方法一: 左边从左边遍历,右边从右边遍历
 var pivotIndex = function(nums) {
     for(let i=0; i<nums.length; i++){
         let leftSum = 0;
@@ -37,4 +38,16 @@ var pivotIndex = function(nums) {
         }
     }
     return -1;
+}
+
+// 方法二: 公式法 sum = 2*left + i
+var pivotIndexV2 = function(nums) {
+    let leftSum = 0;
+    let sum = nums.reduce((x, y) => {x+y}, 0);
+    return nums.findIndex((item, i) => {
+        if(leftSum + item + leftSum === sum) {
+            return true;
+        }
+        leftSum += item;
+    });
 }
