@@ -29,7 +29,7 @@ var longestCommonPrefix = function(strs) {
 				break;
 			}
 		}
-		// 返回一个字符串在开始所以到结束索引之间的一个子集合
+		// 返回一个字符串在开始索引到结束索引之间的一个子集合
 		targetStr = targetStr.substring(0, j);
 		if(targetStr === '') {
 			return '';

@@ -11,7 +11,7 @@ function LList() {
     this.head = null;
     // 链表长度
     this.length = 0;
-    // 追加节点---初始化一个节点(待追加节点),遍历到链尾,在尾节点后插入该节点
+    // 追加节点---初始化一个节点(待追加节点),遍历到链尾,在尾节点后插入该节点 --- 时间复杂度O(1)
     this.append = function(element) {
         let firstLoopNode = this.head,
             node = new Node(element);
@@ -28,7 +28,7 @@ function LList() {
         // 长度加1
         this.length += 1;
     }
-    // 查找---遍历单链表,判断节点值是否等于待查找值,相等则返回true,否则继续遍历下一个节点,直到遍历完整个链表还未找到,返回false
+    // 查找---遍历单链表,判断节点值是否等于待查找值,相等则返回true,否则继续遍历下一个节点,直到遍历完整个链表还未找到,返回false --- 时间复杂度O(n)
     this.search = function(element){
         let firstLoopNode = this.head;
         // 从头节点开始遍历,只要改节点不为null,则继续遍历
@@ -54,7 +54,7 @@ function LList() {
         }
         return null;
     }
-    // 插入---遍历到position前一个位置节点,在该节点后插入
+    // 插入---遍历到position前一个位置节点,在该节点后插入 --- 时间复杂度O(1)
     this.insert = function(position, element){
         let node = new Node(element),
             firstLoopNode = this.head,
@@ -85,7 +85,7 @@ function LList() {
             return null;
         }
     }
-    // 删除---
+    // 删除 --- 时间复杂度O(1)
     this.delete = function(element){
         let firstLoopNode = this.head,
             beforeLoopNode = null;
