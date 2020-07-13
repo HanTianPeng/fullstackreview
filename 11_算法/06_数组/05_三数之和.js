@@ -12,26 +12,43 @@
     [-1, -1, 2]
     ]
 */
+// 排序 + 双指针夹逼
 var threeSum = function(nums) {
+    if(!nums || nums.length < 3) return [];
+    
     let result = [],
-        targetMap = {};
-    for(let i = 0; i < nums.length; i++) {
-        let target = nums[i],
-            valueMap = {};
-        for(let j = 0; j < nums.length; j++) {
-            if(i === j) {
-                continue;
+        left,
+        right;
+    // 先从小到大排序
+    nums.sort((a, b) => a - b);
+
+    for(let i=0; i<nums.length; i++) {
+        // 已经排序好的,大于零就没有继续查找的必要
+        if(nums[i] > 0) break;
+        
+        // 因为已经排序好了,所以可以直接去重
+        if(i > 0 && nums[i] === nums[i - 1]) continue;
+
+        left = i + 1;
+        right = nums.length - 1;
+
+        // 双指针夹逼
+        while(left < right) {
+            const sum = nums[i] + nums[left] + nums[right];
+            if(!sum) {
+                // sum为0
+                result.push(nums[i], nums[left], nums[right]);
+
+                // 去重
+                while(left < right && nums[left] === nums[left + 1]) left++;
+                while(left < right && nums[right] === nums[right - 1]) right--;
+                left++;
+                right--;
+            }else if(sum > 0) {
+                right--;
+            }else{
+                left++;
             }
-            let diffValue = 0 - nums[j] - target;
-            if(diffValue in valueMap) {
-                if(target in targetMap) {
-                    
-                }else{
-                    targetMap[targetMap] = target;
-                    result.push([i, j, valueMap[diffValue]]);
-                }
-            }
-            valueMap[diffValue] = j;
         }
     }
     return result;
