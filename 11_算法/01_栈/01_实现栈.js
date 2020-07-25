@@ -71,4 +71,3 @@ function isPalindrome(word) {
     }
     return false;
 }
-console.log(isPalindrome('helloolleh'));  // true
