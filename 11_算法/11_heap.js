@@ -56,22 +56,87 @@ var swap = function(items, i, j) {
 // 定义堆
 var Heap = function() {
     let items = [,];
-
-    // 插入式创建
-    let insert = (key) => {
-        items.push(key);
-
-        // 获取存储位置
-        let i = items.length - 1;
-
-        // 遍历
-        while(Math.floor(i/2) > 0 && items[i] > items[Math.floor(i/2)]) {
-            swap(items, i, Math.floor(i/2));
-            i = i / 2;
-        }
-    };
 };
 
+// 插入式建堆
+/*
+分析插入式建堆思路:
+    1. 将节点插入到队尾
+    2. 自下而上堆化； 
+        将插入节点与其父节点比较,如果插入节点大于父节点(大顶堆),则插入节点与父节点交换位置
+    3. 一直重复上一步,直到不需要进行交换或则交换到根节点,此时插入完成
+*/
+var insert = function(items, key) {
+    items.push(key);
+    // 获取存储新元素的位置
+    let i = items.length - 1;
+    // 堆化
+    while(i/2 > 0 && items[i] > items[i/2]) {
+        // 交换
+        swap(items, i, i/2);
+        i = i/2;
+    }
+};
 
+// 堆化函数
+var heapify = function(items, heapSize, i) {
+    // 自上而下式堆化
+    while(true) {
+        var minIndex = i;
+        // left
+        if(2*i <= heapSize && items[2*i] > items[i]) minIndex = 2 * i;
+        // right
+        if(2*i+1 <=heapSize && items[2*i+1] > items[minIndex]) minIndex = 2 * i + 1;
+        // 不需要进行堆化
+        if(minIndex === i) break;
+        // 交换
+        swap(items, i, minIndex);
+        // 继续循环堆化
+        i = minIndex;
+    }
+};
 
+// 原地建堆
+var buildHeap = function(items, heapSize) {
+    // 边界处理
+    if(heapSize === 1) return;
 
+    // 从最后一个非叶子节点开始,自上而下式堆化
+    for(let i=Math.floor(heapSize / 2); i>=1; i--) {
+        heapify(items, heapSize, i);
+    }
+};
+
+// 最小的k个数 + 大顶堆 + 时间复杂度O(nlogk) + 空间复杂度O(k)
+/*
+分析利用堆求Top K问题的优势:
+    1. 动态数组可能会插入或删除元素,难道我们每次求Top K问题的时候都需要对数组进行重新排序吗？那每次的时间复杂度都为O(nlogn)
+
+    因此: 使用堆，我们可以维护一个K大小的小顶堆,当有数据被添加到数组中时,就将它与堆顶元素比较,
+        如果堆顶元素大,则将这个元素替换掉堆顶元素,然后再堆化成一个小顶堆;
+        如果比堆顶元素小,则不做处理.
+    这样求Top K的问题的时间复杂度仅仅为O(logk)
+*/
+var getLeastNumbers = function(arr, k) {
+    // 从arr中获取前k个数,构成一个大顶堆, 只要保证大顶堆中的最大值都比外面的小即可
+    let heap = [, ],
+        i = 0;
+    while(i < k) heap.push(arr[i++]);
+
+    // 构建大顶堆
+    buildHeap(heap, k);
+
+    // 从k位开始遍历数组
+    for(let i=k; i<arr.length; i++) {
+        if(heap[1] > arr[i]) {
+            // 替换
+            heap[1] = arr[i];
+            // 堆化
+            heapify(heap, k, 1);
+        }
+    }
+
+    // 删除第一个empty元素
+    heap.shift();
+    return heap;
+};
