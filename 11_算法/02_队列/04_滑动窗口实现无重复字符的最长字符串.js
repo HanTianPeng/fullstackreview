@@ -25,7 +25,6 @@ function LengthOfLongestSubString(s) {
     return max;
 }
 var result = LengthOfLongestSubString("abcabcbb");
-console.log("---滑动窗口实现无重复字符的最长字符串---", result);
 
 // 另外一种方案: 暴力破解
 function lengthOfLongestSubstringlower(s) {
@@ -49,13 +48,3 @@ function lengthOfLongestSubstringlower(s) {
     }
     return res;
 }
-
-// 小测试: 
-function testI(test) {
-    if (~test) {
-      console.log('~符号作用----', ~test);
-    } else {
-      console.log('~符号无作用--', ~test);
-    }
-}
-testI(-1);
