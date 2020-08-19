@@ -23,8 +23,6 @@
     return dp[n];
 };
 
-
-
 // 509.斐波那契数: easy + DP + 时间复杂度(n)
 var fib = function(N) {
     if(N <= 0) return 0;
