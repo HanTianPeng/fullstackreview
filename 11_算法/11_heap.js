@@ -107,7 +107,7 @@ var buildHeap = function(items, heapSize) {
     }
 };
 
-// 最小的k个数 + 大顶堆 + 时间复杂度O(nlogk) + 空间复杂度O(k)
+// 剑指Offer40(面试题17.14):最小的k个数 + 大顶堆 + 时间复杂度O(nlogk) + 空间复杂度O(k)
 /*
 分析利用堆求Top K问题的优势:
     1. 动态数组可能会插入或删除元素,难道我们每次求Top K问题的时候都需要对数组进行重新排序吗？那每次的时间复杂度都为O(nlogn)
@@ -139,4 +139,286 @@ var getLeastNumbers = function(arr, k) {
     // 删除第一个empty元素
     heap.shift();
     return heap;
+};
+
+// 交换位置函数 
+var swap = function(heap, i, j) {
+    let temp = heap[i];
+    heap[i] = heap[j];
+    heap[j] = temp;
+};
+
+// 堆化函数
+var heapify = function(heap, heapSize, i, map) {
+    while(true) {
+        let minIndex = i;
+        // left
+        if(2*i <= heapSize && map.get(heap[2*i]) < map.get(heap[i])) minIndex = 2*i;
+        // right
+        if(2*i+1 <= heapSize && map.get(heap[2*i+1]) < map.get(heap[minIndex])) minIndex = 2*i+1;
+        // 边界处理
+        if(minIndex === i) break;
+        // 交换位置
+        swap(heap, i, minIndex);
+        // 继续堆化
+        i = minIndex;
+    }
+};
+
+// 原地建堆函数: 从后往前,自上而下式建小顶堆
+var bulidHeap = function(heap, heapSize, map) {
+    // 边界处理
+    if(heapSize === 1) return ;
+    // 从最后一个非叶子节点开始,自上而下式堆化
+    for(let i=Math.floor(heapSize / 2); i>=1; i--) {
+        heapify(heap, heapSize, i, map);
+    }
+};
+
+// 347.前K个高频元素 + medium + 小顶堆
+var topKFrequent = function(nums, k) {
+    // 利用hashmap进行元素统计
+    let map = new Map();
+
+    // 遍历
+    nums.map((num) => {
+        if(map.has(num)) {
+            map.set(num, map.get(num) + 1)
+        }else {
+            map.set(num, 1);
+        }
+    });
+
+    // 边界处理: 如果元素数量小鱼等于K
+    if(map.size <= k) return [...map.keys()];
+
+    // 定义一个堆
+    let heap = [, ];
+    
+    // 遍历
+    let i = 0;
+    map.forEach((value, key) => {
+        if(i < k) {
+            // 取前k个建堆,插入堆
+            heap.push(key);
+            // 原地建立前k堆,并进行堆化
+            if(i === k - 1) bulidHeap(heap, k, map);
+        }else if(value > map.get(heap[1])) {
+            // 替换
+            heap[1] = key;
+            // 堆化
+            heapify(heap, k, 1, map);
+        }
+        i++;
+    });
+    // 删除第一个元素
+    heap.shift();
+    return heap;
+};
+
+
+// 交换函数
+var swap = function(heap, i, j) {
+    let temp = heap[i];
+    heap[i] = heap[j];
+    heap[j] = temp;
+};
+
+// 堆化函数
+var heapify = function(heap, heapSize, i) {
+    while(true) {
+        let minIndex = i;
+        // left
+        if(2*i <= heapSize && heap[2*i] < heap[i]) minIndex = 2*i;
+        // right
+        if(2*i+1 <= heapSize && heap[2*i+1] < heap[minIndex]) minIndex = 2*i+1;
+        // 边界处理
+        if(minIndex === i) break;
+        // 交换位置
+        swap(heap, i, minIndex);
+        // 继续堆化
+        i = minIndex;
+    }
+};
+
+// 原地建堆函数: 从后往前,自上而下式建小顶堆
+var bulidHeap = function(heap, heapSize) {
+    // 边界处理
+    if(heapSize === 1) return ;
+    // 从最后一个非叶子节点开始,自上而下式堆化
+    for(let i=Math.floor(heapSize/2); i>=1; i--) {
+        heapify(heap, heapSize, i);
+    }
+};
+
+// 215.数组中的第k个最大元素: medium + 小顶堆
+var findKthLargest = function(nums, k) {
+    // 从nums中取出前k个数，构建一个小顶堆
+    let heap = [, ],
+        i = 0;
+    while(i < k) heap.push(nums[i++]);
+    // 堆化
+    bulidHeap(heap, k);
+
+    // 从k位置开始遍历
+    for(let i=k; i<nums.length; i++) {
+        if(nums[i] > heap[1]) {
+            // 替换
+            heap[1] = nums[i];
+            // 堆化
+            heapify(heap, k, 1);
+        }
+    }
+    return heap[1];
+};
+
+// 小顶堆定义
+let MinHeap = function() {
+    let heap = [,];
+    // 获取堆中元素数量
+    this.getSize = () => heap.length - 1;
+    // 插入
+    this.insert = (key) => {
+        heap.push(key);
+        // 获取存储的位置
+        let i = heap.length - 1;
+        // 堆化
+        while(Math.floor(i/2) > 0 && heap[i] < heap[Math.floor(i/2)]) {
+            // 交换位置
+            this.swap(heap, i, Math.floor(i/2));
+            i = Math.floor(i/2);
+        }
+    };
+    // 删除堆头并返回
+    this.removeHead = () => {
+        if(heap.length > 1) {
+            if(heap.length === 2) return heap.pop();
+            let num = heap[1];
+            heap[1] = heap.pop();
+            // 堆化
+            this.heapify(1);
+            return num;
+        }
+        return null;
+    };
+    // 获取堆头
+    this.getHead = () => {
+        return heap.length > 1 ? heap[1] : null;
+    };
+    // 堆化
+    this.heapify = (i) => {
+        let heapSize = heap.length - 1;
+        // 自上而下堆化
+        while(true) {
+            let minIndex = i;
+            // left
+            if(2*i <= heapSize && heap[2*i] < heap[i]) minIndex = 2*i;
+            // right
+            if(2*i+1 <= heapSize && heap[2*i+1] < heap[minIndex]) minIndex = 2*i+1;
+            // 边界处理
+            if(minIndex === i) break;
+            // 交换位置
+            this.swap(heap, i, minIndex);
+            // 继续堆化
+            i = minIndex;
+        }
+    };
+    // 交换位置
+    this.swap = (heap, i, j) => {
+        let temp = heap[i];
+        heap[i] = heap[j];
+        heap[j] = temp;
+    }
+};
+// 大顶堆定义
+let MaxHeap = function() {
+    let heap = [,];
+    // 堆中元素数量
+    this.getSize = () => heap.length - 1;
+    // 插入
+    this.insert = (key) => {
+        heap.push(key);
+        // 获取存储位置
+        let i = heap.length - 1;
+        // 堆化
+        while(Math.floor(i/2) > 0 && heap[i] > heap[Math.floor(i/2)]) {
+            // 交换位置
+            this.swap(heap, i, Math.floor(i/2));
+            // 继续堆化
+            i = Math.floor(i/2);
+        }
+    };
+    // 获取堆头
+    this.getHead = () => {
+        return heap.length > 1 ? heap[1] : null;
+    };  
+    // 删除堆头并返回
+    this.removeHead = () => {
+        if(heap.length > 1) {
+            if(heap.length === 2) return heap.pop();
+            let num = heap[1];
+            heap[1] = heap.pop();
+            this.heapify(1);
+            return num;
+        }
+        return null;
+    };
+    // 堆化
+    this.heapify = (i) => {
+        let heapSize = heap.length - 1;
+        // 自上而下式堆化
+        while(true) {
+            let minIndex = i;
+            // left
+            if(2*i <= heapSize && heap[2*i] > heap[i]) minIndex = 2*i;
+            // right
+            if(2*i+1 <= heapSize && heap[2*i+1] > heap[minIndex]) minIndex = 2*i+1;
+            // 边界处理
+            if(minIndex === i) break;
+            // 交换位置
+            this.swap(heap, i, minIndex);
+            // 继续堆化
+            i = minIndex;
+        }
+    };
+    // 交换位置
+    this.swap = (heap, i, j) => {
+        let temp = heap[i];
+        heap[i] = heap[j];
+        heap[j] = temp;
+    };
+};
+var MedianFinder = function() {
+    // 大顶堆
+    this.lowHeap = new MaxHeap();
+    // 小顶堆
+    this.hightHeap = new MinHeap();
+};
+// 插入元素
+MedianFinder.prototype.addNum = function(num) {
+    // 如果大顶堆为空，或则num小于大顶堆的堆头元素,则插入大顶堆
+    if(!this.lowHeap.getSize() || num < this.lowHeap.getHead()) {
+        // 比大顶堆的堆顶小，插入到大顶堆中
+        this.lowHeap.insert(num);
+    }else {
+        // 比小顶堆的堆顶大,插入到小顶堆中
+        this.hightHeap.insert(num);
+    }
+
+    // 比较大小顶堆的是否依然保持平衡
+    if(this.lowHeap.getSize() - this.hightHeap.getSize() > 1) {
+        // 大顶堆往小顶堆迁移
+        this.hightHeap.insert(this.lowHeap.removeHead());
+    }
+    if(this.hightHeap.getSize() > this.lowHeap.getSize()) {
+        // 小顶堆往大顶堆迁移
+        this.lowHeap.insert(this.hightHeap.removeHead());
+    }
+};
+// 获取中位数
+MedianFinder.prototype.findMedian = function() {
+    if(this.lowHeap.getSize() && this.lowHeap.getSize() === this.hightHeap.getSize()) {
+        return (this.lowHeap.getHead() + this.hightHeap.getHead()) / 2;
+    }
+    return this.lowHeap.getHead();
 };
