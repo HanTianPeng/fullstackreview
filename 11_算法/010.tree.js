@@ -204,7 +204,7 @@ var leverOrder = function(root) {
     return result;
 };
 
-// 二叉树的层序遍历: 从左至右, 一层一层遍历: 广度优先搜索: BFS(采用双端队列)
+// 二叉树的层序遍历(剑指 Offer 32 - I. 从上到下打印二叉树): 从左至右, 一层一层遍历: 广度优先搜索: BFS(采用双端队列)
 var leverOrder= function(node) {
     let result = [],
         deque = [];
@@ -355,6 +355,65 @@ var constructFromPrePost = function(pre, post) {
     node.right = constructFromPrePost(preRight, postRight);
     // 返回树
     return node;
+};
+
+// 剑指 Offer 27. 二叉树的镜像: easy + 递归
+var mirrorTree = function(root) {
+    // 递归结束条件
+    if(!root) return null;
+    // 左右子树替换指向
+    let temp = root.left;
+    root.left = root.right;
+    root.right = temp;
+    // 递归左子树
+    mirrorTree(root.left);
+    // 递归右子树
+    mirrorTree(root.right);
+    // 返回镜像二叉树
+    return root;
+};
+
+// 对称二叉树: 检查它是否是镜像对称即可.
+// 101.对称二叉树: easy + 递归
+var isSymmetric = function(root) {
+    // 边界处理
+    if(!root) return true;
+    // 递归函数
+    let isEqual = function(leftNode, rightNode) {
+        // 递归结束条件: 左右子树都为null
+        if(!leftNode && !rightNode) return true;
+        // 递归结束条件: 左右有一个为null
+        if(!leftNode || rightNode) return false;
+        // 继续递归
+        return leftNode.val === rightNode.val && isEqual(leftNode.left, rightNode.right) && isEqual(leftNode.right, rightNode.left);
+    };
+};
+// 101.对称二叉树: easy + 迭代 + 栈
+var isSymmetric = function(root) {
+    // 边界处理
+    if(!root) return true;
+    // 定义一个栈
+    let stack = [root.left, root.right];
+    //遍历
+    while(stack.length) {
+        // 获取左右子树
+        let leftNode = stack.pop(),
+            rightNode = stack.pop();
+        // 左右子树均存在
+        if(leftNode && rightNode) {
+            // 比较大小
+            if(leftNode.val !== rightNode.val) return false;
+            // 下一轮入栈
+            stack.push(leftNode.left);
+            stack.push(rightNode.right);
+            stack.push(leftNode.right);
+            stack.push(rightNode.left);
+        }else if(leftNode || rightNode) {
+            // 左右子树只存在一个
+            return false;
+        }
+    }
+    return true;
 };
 
 // 二叉树的深度: 根节点到最远叶子节点的最长路径上的节点数
