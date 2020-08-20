@@ -289,6 +289,74 @@ var levelOrderBottom = function(root) {
     return result;
 };
 
+// 105.从前序与中序遍历序列构造二叉树(剑指 Offer 07. 重建二叉树): medium + 递归 + 整体思维
+var buildTree = function(preorder, inorder) {
+    // 根据前序遍历(根 -> 左 -> 右), 获取根节点--边界处理
+    if(!preorder.length) return null;
+    // 根据前序创建根节点
+    let node = new TreeNode(preorder[0]);
+    // 根据中序遍历(左 -> 根 -> 右), 获取中序遍历中根节点的索引
+    let index = inorder.indexOf(preorder[0]);
+    // 根据中序遍历(左 -> 根 -> 右), 获取中序遍历的左子树, 右子树(整体思维)
+    let inLeft = inorder.slice(0, index),
+        inRight = inorder.slice(index+1);
+    // 根据前序遍历(根 -> 左 -> 右)及与中序遍历的对称特性, 获取前序遍历的左子树,右子树(整体思维)
+    let preLeft = preorder.slice(1, index+1),
+        preRight = preorder.slice(index+1);
+    // 构建左子树
+    node.left = buildTree(preLeft, inLeft);
+    // 构建右子树
+    node.right = buildTree(preRight, inRight);
+    // 返回树
+    return node;
+};
+
+// 106.从中序与后序遍历序列构造二叉树: medium + 递归 + 整体思维
+var buildTree = function(inorder, postorder) {
+    // 根据后序遍历(左 -> 右 -> 根),获取根节点-边界判断
+    if(!postorder.length) return null;
+    // 创建根节点(js中没有-1索引)
+    let node = new TreeNode(postorder[postorder.length - 1]);
+    // 根据中序遍历(左 -> 根 -> 右), 获取中序遍历中根节点的索引
+    let index = inorder.indexOf(postorder[postorder.length - 1]);
+    // 根据中序遍历(左 -> 根 -> 右), 获取中序遍历的左子树,右子树(整体思维)
+    let inorderLeft = inorder.slice(0, index),
+        inorderRight = inorder.slice(index+1);
+    // 根据后序遍历(左 -> 右 -> 根)及 与中序遍历的对称特性, 获取后序遍历的左子树,右子树(整体思维)
+    let postorderLeft = postorder.slice(0, index),
+        postorderRight = postorder.slice(index, postorder.length-1);
+    // 构建左子树
+    node.left = buildTree(inorderLeft, postorderLeft);
+    // 构建右子树
+    node.right = buildTree(inorderRight, postorderRight);
+    // 返回树
+    return node;
+};
+
+// 889.根据前序和后序遍历构造二叉树: medium + 递归 + 整体思维
+var constructFromPrePost = function(pre, post) {
+    // 根前序遍历(根 -> 左 -> 右), 获取根节点-边界判断
+    if(!pre.length) return null;
+    // 创建根节点
+    let node = new TreeNode(pre[0]);
+    // 根据前序遍历(根 -> 左 -> 右), 获取后序遍历中根节点的左子树的索引-边界判断(js语言可以不需要边界判断)
+    if(pre.length === 1) return node;
+    // 获取后序遍历中根节点的左子树的索引
+    let index = post.indexOf(pre[1]);
+    // 根据前序遍历(根 -> 左 -> 右) 及 与后序遍历的对称性, 可获取前序遍历的左子树, 右子树(整体思维)
+    let preLeft = pre.slice(1, index+2),
+        preRight = pre.slice(index+2);
+    // 根据后序遍历(左 -> 右 -> 根),获取后序遍历的左子树,右子树(整体思维)
+    let postLeft = post.slice(0, index+1),
+        postRight = post.slice(index+1, post.length-1);
+    // 构建左子树
+    node.left = constructFromPrePost(preLeft, postLeft);
+    // 构建右子树
+    node.right = constructFromPrePost(preRight, postRight);
+    // 返回树
+    return node;
+};
+
 // 二叉树的深度: 根节点到最远叶子节点的最长路径上的节点数
 // 104.二叉树的最大深度(剑指 Offer 55 - I): easy + 递归
 var maxDepth = function(root) {
