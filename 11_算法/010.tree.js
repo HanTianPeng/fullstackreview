@@ -1,3 +1,69 @@
+/*
+什么是树？
+    树是一种非线性的数据结构,分层存储；
+    仅有唯一一个根节点，没有节点则为空树
+    除根节点外，每个节点都有并仅有唯一一个父节点
+    节点间不能形成闭环
+
+树的常见概念:
+    拥有相同父节点的节点，相互称为兄弟节点
+    节点的深度: 从根节点到该节点所经历的边的个数
+    节点的高度: 节点到叶节点的最长路径
+    树的高度: 根节点的高度
+
+二叉树:
+    最多仅有两个子节点的树(最多能分成两个叉的树)
+
+平衡二叉树:
+    二叉树中，每个节点的左右子树的高度相差不能大于1，称之为平衡二叉树
+
+满二叉树:
+    除了叶节点外每一个节点都有左右子叶且叶子节点都处在最底层的二叉树
+
+完全二叉树:
+    深度为h，除第h层外，其他各层(1~h-1)的节点数都达到最大个数，第h层所有的节点都连续集中在最左边
+
+二叉树的遍历:
+    前序遍历: 对于二叉树中的任意一个节点, 先打印该节点, 然后是它的左子树, 最后右子树
+                ---A---
+            ---B---             ---C---
+        ---D---     ---E---             ---F---
+
+        A -> B -> D -> E -> C -> F
+
+    中序遍历: 对于二叉树中的任意一个节点, 先打印它的左子树, 然后就是该节点, 最后右子树
+        D -> B -> E -> A -> C -> F
+
+    后序遍历: 对于二叉树中的任意一个节点, 先打印它的左子树, 然后是右子树, 最后该节点
+        D -> E -> B -> F -> C -> A
+
+  2. 树被用来存储具有层级关系的数据,还被用来存储有序列表
+
+  3. 二叉树进行查找特别快,二叉树的添加或删除也非常块
+
+  4. 集合中不允许相同成员存在
+  
+  - 02-最大/最小深度
+
+  - 03-LCA问题
+
+  - 04-对称二叉树
+
+  - 05-路径相关问题
+    - 二叉树直径
+
+    - 所有路径
+
+    - 最大路径和
+
+  - 06-二叉搜索树
+    - 验证二叉搜索树
+
+    - 有序数组 -> 二叉搜索树
+
+    - 不同的二叉搜索树
+*/
+
 // 二叉树的前序遍历: A -> B -> D -> E -> C -> F ： 递归方法
 var preorderTraversal = function(root) {
     let result = [];
@@ -223,6 +289,77 @@ var levelOrderBottom = function(root) {
     return result;
 };
 
+// 二叉树的深度: 根节点到最远叶子节点的最长路径上的节点数
+// 104.二叉树的最大深度(剑指 Offer 55 - I): easy + 递归
+var maxDepth = function(root) {
+    // 递归结束条件
+    if(!root) return 0;
+    // 获取左右子树的最大深度
+    let left = maxDepth(root.left),
+        right = maxDepth(root.right);
+    return 1 + Math.max(left, right);
+};
+
+// 110.平衡二叉树: easy + 递归 + 二叉树的最大深度
+var isBalanced = function(root) {
+    // 二叉树最大深度递归函数
+    let balanced = (node) => {
+        // 递归结束条件
+        if(!root) return 0;
+        // 获取左右子树的最大深度
+        let left = balanced(node.left),
+            right = balanced(node.right);
+        // 差值大于1的,直接标记为-1；后续递归就不需要进行左右减法运算，仍然直接返回-1
+        if(left === -1 || right === -1 || Math.abs(left - right) > 1) return -1;
+        // 获取左右子树最大深度
+        return 1 + Math.max(left, right);
+    };
+    // 从头节点开始
+    return balanced(node) === -1;
+};
+// 110. 平衡二叉树: easy + 递归 + 分治管理 + 二叉树的最大深度
+var isBalanced = function(root) {
+    // 当前函数递归结束条件
+    if(!root) return true;
+    // 二叉树最大深度递归函数
+    let maxDepth = (node) => {
+        // 递归结束条件
+        if(!node) return 0;
+        // 获取左右子树的最大深度
+        let left = maxDepth(node.left),
+            right = maxDepth(node.right);
+        // 返回左右子树最大深度
+        return 1 + Math.max(left, right);
+    };
+    // 获取左右子树最大深度
+    let left = maxDepth(node.left),
+        right = maxDepth(node.right);
+    // 左右子树最大深度是否大于1
+    if(Math.abs(left - right) > 1) return false;
+    // 继续递归
+    return isBalanced(root.left) && isBalanced(root.right);
+};
+
+// 二叉树的直径: 两结点之间的路径长度是以它们之间边的数目表示
+// 543.二叉树的直径: easy + 二叉树的最大深度 + 递归
+var diameterOfBinaryTree = function(root) {
+    let res = 0;
+    // 递归函数
+    let maxDepth = (node) => {
+        // 递归结束条件
+        if(!node) return 0;
+        // 获取左右子树的最大深度
+        let left = maxDepth(node.left),
+            right = maxDepth(node.right);
+        // 计算最大直径
+        res = Math.max(left + right, res);
+        // 获取根节点深度
+        return Math.max(left, right) + 1;
+    };
+    // 从根节点递归
+    maxDepth(root);
+    return res;
+};
 // 给定一个二叉树,找到该树中两个指定节点间的最短距离
 /*
 分析过程:
@@ -253,23 +390,4 @@ var lowestCommonAncestor = function(root, p, q) {
 
     // 分布在左子树,目的找到p,或则q
     return left ? left : right;
-};
-
-// 543. 二叉树的直径: easy + 二叉树的最大深度 + 递归
-var diameterOfBinaryTree = function(root) {
-
-    let res = 0;
-    
-    // 递归函数
-    let maxDepth = (node) => {
-        if(!node) return 0;
-        let left = maxDepth(node.left),
-            right = maxDepth(node.right);
-        res = Math.max(left + right, res);
-        // 获取根节点深度
-        return Math.max(left, right) + 1;
-    };
-
-    maxDepth(root);
-    return res;
 };
