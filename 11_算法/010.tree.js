@@ -223,6 +223,25 @@ var kthSmallest = function(root, k) {
     }
     return null;
 };
+// 剑指 Offer 54.二叉搜索树的第k大节点: easy + 递归 + 二叉树的中序遍历
+var kthLargest = function(root, k) {
+    let result = null;
+    // 遍历处理
+    if(k <= 0) return result;
+    // 递归函数
+    let inorderTraversalNodeReverse = (node) => {
+        if(node) {
+            inorderTraversalNodeReverse(node.right);
+            if(--k === 0) {
+                result = node.val;
+                return ;
+            }
+            inorderTraversalNodeReverse(node.left);
+        }
+    }
+    inorderTraversalNodeReverse(root);
+    return result;
+};
 
 // 二叉树的层序遍历: 从左至右，一层一层遍历: 深度优先搜索: DFS
 var leverOrder = function(root) {
