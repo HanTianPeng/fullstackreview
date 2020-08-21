@@ -357,7 +357,7 @@ var constructFromPrePost = function(pre, post) {
     return node;
 };
 
-// 剑指 Offer 27. 二叉树的镜像: easy + 递归
+// 剑指 Offer 27.二叉树的镜像: easy + 递归
 var mirrorTree = function(root) {
     // 递归结束条件
     if(!root) return null;
@@ -487,6 +487,52 @@ var diameterOfBinaryTree = function(root) {
     maxDepth(root);
     return res;
 };
+
+// 236.(剑指 Offer 68 - II)叉树的最近公共祖先: medium + 递归 + 二叉树的最大深度
+var lowestCommonAncestor = function(root, p, q) {
+    // 递归结束条件
+    if(!root || root === p || root === q) return root;
+    // 遍历左子树,右子树
+    let left = lowestCommonAncestor(root.left, p, q),
+        right = lowestCommonAncestor(root.right, p, q);
+    // 在右子树上找到目标节点
+    if(!left) return right;
+    // 在左子树上找到目标节点
+    if(!right) return left;
+    // 左右子树均找到目标元素,则返回公共祖先
+    return root;
+};
+
+// 235.二叉搜索树的最近公共祖先: easy + 递归 + 二叉搜索树特征(左节点 < 根节点 < 右节点) + 整体思维
+var lowestCommonAncestor = function(root, p, q) {
+    // p,q分布在左子树,继续寻找左子树中最近公共祖先
+    if(p.val < root.val && q.val < root.val) {
+        return lowestCommonAncestor(root.left, p, q);
+    }
+    // p,q分布在右子树,继续寻找右子树中最近公共祖先
+    if(p.val > root.val && q.val > root.val) {
+        return lowestCommonAncestor(root.right, p, q);
+    }
+    // 否则就是p,q的最近公共祖先
+    return root;
+};
+// 235.二叉搜索树的最近公共祖先: easy + 迭代方法 + 二叉搜索树特征(左节点 < 根节点 < 右节点) + 整体思维
+var lowestCommonAncestor = function(root, p, q) {
+    while(root) {
+        // p,q分布在左子树,继续寻找左子树中最近公共祖先
+        if(p.val < root.val && q.val < root.val) {
+            root = root.left;
+        }else if(p.val > root.val && q.val > root.val) {
+            // p,q分布在右子树,继续寻找右子树中最近公共祖先
+            root = root.right;
+        }else {
+            break;
+        }
+    }
+    // 否则就是p,q的最近公共祖先
+    return root;
+};
+
 // 给定一个二叉树,找到该树中两个指定节点间的最短距离
 /*
 分析过程:
