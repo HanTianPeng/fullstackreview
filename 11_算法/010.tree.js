@@ -488,7 +488,7 @@ var diameterOfBinaryTree = function(root) {
     return res;
 };
 
-// 236.(剑指 Offer 68 - II)叉树的最近公共祖先: medium + 递归 + 二叉树的最大深度
+// 236.叉树的最近公共祖先(剑指 Offer 68 - II): medium + 递归 + 二叉树的最大深度
 var lowestCommonAncestor = function(root, p, q) {
     // 递归结束条件
     if(!root || root === p || root === q) return root;
@@ -531,6 +531,29 @@ var lowestCommonAncestor = function(root, p, q) {
     }
     // 否则就是p,q的最近公共祖先
     return root;
+};
+
+// 1123.最深叶节点的最近公共祖先: medium + 递归 + 二叉树的最大深度
+var lcaDeepestLeaves = function(root) {
+    let result = root,
+        maxDepth = 0;
+    // 定义递归函数
+    let DFS = (root, depth) => {
+        // 递归结束条件
+        if(!root) return depth - 1;
+        // 获取左右子树的最大深度
+        let leftDepth = DFS(root.left, depth + 1),
+            rightDepth = DFS(root.right, depth + 1);
+        // 获取最大深度
+        maxDepth = Math.max(maxDepth, leftDepth, rightDepth);
+        // 确定返回结果
+        if(leftDepth === maxDepth && rightDepth === maxDepth) result = root;
+        // 获取左右子树中最大深度
+        return Math.max(leftDepth, rightDepth);
+    };
+    // 根节点开始
+    DFS(root, 0);
+    return result;
 };
 
 // 给定一个二叉树,找到该树中两个指定节点间的最短距离
