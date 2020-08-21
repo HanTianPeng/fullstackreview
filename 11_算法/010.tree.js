@@ -180,6 +180,50 @@ var inorderTraversal = function(root) {
     }
 };
 
+// 230.二叉搜索树中第K小的元素: medium + 递归 + 二叉树的中序遍历
+var kthSmallest = function(root, k) {
+    let result = null;
+    // 边界处理
+    if(k <= 0) return result;
+    // 递归函数
+    let inorderTraversalNode = (node) => {
+        // 递归条件
+        if(node) {
+            // 递归遍历左子树
+            inorderTraversalNode(node.left);
+            // 获取第K个最小元素
+            if(--k === 0) {
+                result = node.val;
+                return;
+            }
+            // 递归遍历右子树
+            inorderTraversalNode(node.right);
+        }
+    };
+    // 从根节点开始递归遍历
+    inorderTraversalNode(root);
+    return result;
+};
+// 230.二叉搜索树中第K小的元素: medium + 栈 + 二叉树的中序遍历
+var kthSmallest = function(root, k) {
+    // 边界处理
+    if(!root || k <= 0) return null;
+    // 定义一个栈
+    let stack = [],
+        curNode = root;
+    // 遍历
+    while(stack.length || curNode) {
+        while(curNode) {
+            stack.push(curNode);
+            curNode = curNode.left;
+        }
+        curNode = stack.pop();
+        if(--k === 0) return curNode.val;
+        curNode = curNode.right;
+    }
+    return null;
+};
+
 // 二叉树的层序遍历: 从左至右，一层一层遍历: 深度优先搜索: DFS
 var leverOrder = function(root) {
     let result = [];
@@ -555,6 +599,51 @@ var lcaDeepestLeaves = function(root) {
     DFS(root, 0);
     return result;
 };
+// 111.二叉树的最小深度: easy + 递归 + 二叉树的最大深度: 
+var minDepth = function(root) {
+    // 递归结束条件
+    if(!root) return 0;
+    // 获取左子树,右子树的最小深度
+    let left = minDepth(root.left),
+        right = minDepth(root.right);
+    // 返回值
+    if(left > 0 && right > 0) {
+        // 根节点有左右子节点
+        return 1 + Math.min(left, right);
+    }else if(left > 0) {
+        // 根节点有左节点
+        return 1 + left;
+    }else if(right > 0) {
+        // 根节点有右节点
+        return 1 + right;
+    }else {
+        // 根节点没有左右节点
+        return 1;
+    }
+};
+// 111.二叉树的最小深度: easy + 双端队列 + 二叉树的层序遍历
+var minDepth = function(root) {
+    // 边界处理
+    if(!root) return 0;
+    let result = 1;
+    // 定义一个双端队列
+    let deque = [root];
+    // 遍历
+    while(deque.length) {
+        let len = deque.length;
+        // 层序遍历
+        while(len--) {
+            let curNode = deque.shift();
+            if(!curNode.left && !curNode.right) {
+                return result;
+            }
+            if(curNode.left) deque.push(curNode.left);
+            if(curNode.right) deque.push(curNode.right);
+        }
+        result++;
+    }
+    return result;
+};
 
 // 给定一个二叉树,找到该树中两个指定节点间的最短距离
 /*
@@ -586,4 +675,14 @@ var lowestCommonAncestor = function(root, p, q) {
 
     // 分布在左子树,目的找到p,或则q
     return left ? left : right;
+};
+
+// 112.路径总和: easy + 递归
+var hasPathSum = function(root, sum) {
+    // 边界处理
+    if(!root) return false;
+    // 递归结束条件
+    if(root.val === sum && !root.left && !root.right) return true;
+    // 递归
+    return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
 };
