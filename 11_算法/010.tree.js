@@ -664,7 +664,7 @@ var minDepth = function(root) {
     return result;
 };
 
-// 给定一个二叉树,找到该树中两个指定节点间的最短距离
+// 字节面试题.给定一个二叉树,找到该树中两个指定节点间的最短距离: medium + 递归 + 二叉树的最近公共祖先 + 二叉树之间的距离
 /*
 分析过程:
     1. node1为node2的祖先节点
@@ -673,27 +673,26 @@ var minDepth = function(root) {
 延伸问题:
     二叉树的最近公共祖先
 */
-var lowestCommonAncestor = function(root, p, q) {
-    let rightNum = 0,
-        leftNum = 0;
-    // 边界判断
-    if(!root || root === p || root === q) return root;
-
-    // 左子树
-    let left = lowestCommonAncestor(root.left, p, q);
-
-    // 右子树
-    let right= lowestCommonAncestor(root.right, p, q);
-
-    // 子树最终肯定分布在祖先的左右两个不同深度的叶上,所以一直递归,直到同时找到两个叶子，就为祖先
-    if(left && right) return rightNum + leftNum;
-
-    if(left) leftNum++;
-
-    if(right) rightNum++;
-
-    // 分布在左子树,目的找到p,或则q
-    return left ? left : right;
+var Dist = function(root, p, q) {
+    // 获取p,q两个节点的最近公共祖先
+    let commonNode = lowestCommonAncestor(root, p, q);
+    return findDepth(commonNode, p) + findDepth(commonNode, q);
+};
+// 二叉树中两个节点的距离
+var findDepth = function(commonNode, node) {
+    let result = 0;
+    // 递归结束条件: 没有找到目标节点
+    if(!node) return -1;
+    // 递归结束条件: 找到目标节点
+    if(commonNode.val === node.val) return result;
+    // 递归左子树
+    let left = findDepth(root.left);
+    // 递归右子树
+    if(left === -1) result = findDepth(root.right);
+    // 找到则返回过去进行累加
+    if(result !== -1) return result++;
+    // 节点不在这棵树上
+    return -1;
 };
 
 // 112.路径总和: easy + 递归
