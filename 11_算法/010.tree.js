@@ -243,6 +243,53 @@ var kthLargest = function(root, k) {
     return result;
 };
 
+// 98.验证二叉搜索树: medium + 二叉树的中序遍历 + 递归 + 0与null的边界处理
+var isValidBST = function(root) {
+    let curVal = null,
+        result = true;
+    // 定义递归函数
+    let inorderTraversalNode = (node) => {
+        if(node) {
+            inorderTraversalNode(node.left);
+            if(curval === null || curVal < node.val) {
+                curVal = node.val;
+            }else {
+                result = false;
+                return;
+            }
+            inorderTraversalNode(node.right);
+        }
+    };
+    // 根节点递归
+    inorderTraversalNode(root);
+    return result;
+};
+// 98.验证二叉搜索树: medium + 二叉树的中序遍历 + 栈 + 0与null的边界处理
+var isValidBST = function(root) {
+    // 边界处理
+    if(!root) return true;
+    // 定义栈
+    let stack = [],
+        curNode = root,
+        curVal = null;
+    // 遍历
+    while(stack.length || curNode) {
+        while(curNode) {
+            stack.push(curNode);
+            curNode = curNode.left;
+        }
+        // 获取当前节点
+        curNode = stack.pop();
+        if(curVal === null || curVal < curNode.val) {
+            curVal = curNode.val
+        }else {
+            return false;
+        }
+        curNode = curNode.right;
+    }
+    return true;
+};
+
 // 二叉树的层序遍历: 从左至右，一层一层遍历: 深度优先搜索: DFS
 var leverOrder = function(root) {
     let result = [];
@@ -420,7 +467,7 @@ var constructFromPrePost = function(pre, post) {
     return node;
 };
 
-// 剑指 Offer 27.二叉树的镜像: easy + 递归
+// 226.翻转二叉树(剑指 Offer 27.二叉树的镜像): easy + 递归 + 二叉树指向变更
 var mirrorTree = function(root) {
     // 递归结束条件
     if(!root) return null;
@@ -665,14 +712,6 @@ var minDepth = function(root) {
 };
 
 // 字节面试题.给定一个二叉树,找到该树中两个指定节点间的最短距离: medium + 递归 + 二叉树的最近公共祖先 + 二叉树之间的距离
-/*
-分析过程:
-    1. node1为node2的祖先节点
-    2. node2为node1的祖先节点
-    3. node1与node2不是一条直线上,但存在为共同祖先节点
-延伸问题:
-    二叉树的最近公共祖先
-*/
 var Dist = function(root, p, q) {
     // 获取p,q两个节点的最近公共祖先
     let commonNode = lowestCommonAncestor(root, p, q);
@@ -682,17 +721,52 @@ var Dist = function(root, p, q) {
 var findDepth = function(commonNode, node) {
     let result = 0;
     // 递归结束条件: 没有找到目标节点
-    if(!node) return -1;
+    if(!commonNode) return -1;
     // 递归结束条件: 找到目标节点
-    if(commonNode.val === node.val) return result;
+    if(commonNode === node) return result;
     // 递归左子树
-    let left = findDepth(root.left);
+    let left = findDepth(commonNode.left, node);
     // 递归右子树
-    if(left === -1) result = findDepth(root.right);
+    if(left === -1) result = findDepth(commonNode.right, node);
     // 找到则返回过去进行累加
     if(result !== -1) return result++;
     // 节点不在这棵树上
     return -1;
+};
+// 二叉树中两个节点的距离
+var getPath = function(commonNode, node, paths) {
+    // 找到节点返回true
+    if(commonNode === node) return true;
+    let result = false;
+    // 当前节点加入路径中
+    paths.push(commonNode);
+    // 西安找左子树
+    if(commonNode) result = getPath(commonNode.left, node, paths);
+    // 右子树
+    if(!result && commonNode.right) result = getPath(commonNode.right, node, paths);
+    // 没有找到
+    if(!result) paths.pop();
+    return result;
+};
+
+// 124.二叉树中的最大路径和
+var maxPathSum = function(root) {
+    let max = Number.MIN_SAFE_INTEGER;
+    // 定义递归函数
+    let DFS = (node) => {
+        // 递归结束条件
+        if(!node) return 0;
+        // 获取左子树和右子树最大路径和
+        let left = Math.max(0, DFS(node.left)),
+            right = Math.max(0, DFS(node.right));
+        // 更新最大值
+        max = Math.max(max, left + node.val + right);
+        // 获取路径和
+        return node.val + Math.max(left, right);
+    }
+    // 根节点
+    DFS(root);
+    return max;
 };
 
 // 112.路径总和: easy + 递归
@@ -703,4 +777,54 @@ var hasPathSum = function(root, sum) {
     if(root.val === sum && !root.left && !root.right) return true;
     // 递归
     return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+};
+
+// 701.二叉搜索树中的插入操作: medium + 递归
+var insertIntoBST = function(root, val) {
+    // 递归结束条件
+    if(!root) return new TreeNode(val);
+    // 递归插入
+    if(root.val > val) {
+        root.left = insertIntoBST(root.left, val);
+    }else {
+        root.right = insertIntoBST(root.right, val);
+    }
+    return root;
+};
+
+// 450.删除二叉搜索树中的节点: medium + 递归
+var deleteNode = function(root, key) {
+    // 递归结束条件
+    if(!root) return root;
+
+    if(root.val > key) {
+        // 往左子树查找
+        root.left = deleteNode(root.left, key);
+    }else if(root.val < key) {
+        // 往右子树查找
+        root.right = deleteNode(root.right, key);
+    }else {
+        // 找到: 
+        if(!root.left && !root.right) {
+            // 左右子树均不存在
+            root = null;
+        }else if(root.left && !root.right) {
+            // 右子树不存在
+            root = root.left;
+        }else if(!root.left && root.right) {
+            // 左子树不存在
+            root = root.right;
+        }else {
+            // 左右子树均存在
+            let last = root.left;
+            // 找到比当前节点小的最大节点来替换自己
+            while(last.right) {
+                last = last.right;
+            }
+            // 删除当前节点
+            root.val = last.val;
+            root.left = deleteNode(root.left, last.val);
+        }
+    }
+    return root;
 };
