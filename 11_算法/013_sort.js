@@ -40,6 +40,26 @@ var quickSort = (arr) => {
     quick(arr, 0, arr.length - 1);
 }
 
+/* 
+冒泡排序: 
+   核心思想: 两两比较,把最大的一个数冒到最右边
+步骤；
+    1. 比较相邻的元素,如果第一个比第二个大，就交换他们两个
+    2. 对每一对相邻的元素做同样的操作，从开始第一对到结尾的最后一对，这样在最后的元素应该是最大的数
+    3. 针对所有的元素重复以上的步骤，除了最后一个
+    4. 重复1-3，直到排序结束
+*/
+var bubbleSort = (arr) => {
+    for(let i=0; i<arr.length-1; i++) {
+        for(let j=0; j<arr.length-1-i; j++) {
+            if(arr[j] > arr[j+1]) {
+                swap(arr, j, j+1);
+            }
+        }
+    }
+    return arr;
+};
+
 // 插入排序: 遍历 + 时间复杂度O(n^2) + 空间复杂度O(1) + 稳定
 var insertionSort = (arr) => {
     // 边界处理
@@ -82,5 +102,28 @@ var shellSort = (arr) => {
     return arr;
 };
 let arr = [59, 20, 17, 36, 98, 14, 23, 83, 13, 28];
-quickSort(arr);
+bubbleSort(arr);
 console.log(arr);
+
+// 384.打乱数组: 时间复杂度O(n)+ 空间复杂度O(n) + 随机数
+var Solution = function(nums) {
+    this.nums = nums;
+};
+
+Solution.prototype.reset = function() {
+    return this.nums;
+};
+
+Solution.prototype.shuffle = function() {
+    let newArr = this.nums.slice(),
+        n = newArr.length - 1,
+        i;
+    while(n > 0) {
+        // 随机生成一个数
+        i = Math.floor(Math.random() * (n + 1));
+        // 交换元素
+        swap(newArr, n, i);
+        n--;
+    }
+    return newArr;
+};
