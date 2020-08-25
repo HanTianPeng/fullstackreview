@@ -127,3 +127,28 @@ Solution.prototype.shuffle = function() {
     }
     return newArr;
 };
+
+// 611.有效三角形的个数: medium + 排序 + 双指针
+let triangleNumber = function(nums) {
+    // 边界处理
+    if(nums.length < 3) return 0;
+    // 排序
+    nums.sort((x, y) => x - y);
+    let count = 0;
+    // 遍历
+    for(let k=nums.length-1; k>1; k--) {
+        let i = 0,
+            j = k - 1;
+        while(i < j) {
+            // 两边之和大于第三边
+            if(nums[i] + nums[j] > nums[k]) {
+                // j - i个元素都满足
+                count += j - i;
+                j--;
+            }else {
+                i++;
+            }
+        }
+    }
+    return count;
+};
