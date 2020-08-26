@@ -152,3 +152,39 @@ let triangleNumber = function(nums) {
     }
     return count;
 };
+
+
+// 28.实现strStr(): easy + Sunday算法 + 时间复杂度O(m + n) + 最差时间复杂度O(m * n)
+var strStr = function(haystack, needle) {
+    // 获取主串长度,模式串长度
+    let sLen = haystack.length,
+        pLen = needle.length;
+    // 边界处理
+    if(pLen > sLen) return -1;
+    if(!pLen) return 0;
+    // 偏移量计算函数
+    let initailOffsetMap = () => {
+        const offsetMap = {};
+        // 遍历
+        for(let i=0; i<needle.length; i++) {
+            offsetMap[needle[i]] = pLen - i;
+        }
+        return x => offsetMap[x] || pLen;
+    };
+    let getOffset = initailOffsetMap();
+    // 遍历匹配
+    let s = 0;
+    while(s <= sLen - pLen) {
+        // 模式串匹配
+        let vLen = 0;
+        for(let p=0; p<pLen; p++) {
+            if(haystack[s+p] === needle[p]) vLen++;
+            else break;
+        }
+        // 是否匹配
+        if(vLen === pLen) return s;
+        // 跳跃到适合自己的位置
+        else s += getOffset(haystack[s + pLen]);
+    }
+    return -1;
+};
