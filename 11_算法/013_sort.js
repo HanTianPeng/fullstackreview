@@ -153,7 +153,6 @@ let triangleNumber = function(nums) {
     return count;
 };
 
-
 // 28.实现strStr(): easy + Sunday算法 + 时间复杂度O(m + n) + 最差时间复杂度O(m * n)
 var strStr = function(haystack, needle) {
     // 获取主串长度,模式串长度
@@ -187,4 +186,43 @@ var strStr = function(haystack, needle) {
         else s += getOffset(haystack[s + pLen]);
     }
     return -1;
+};
+
+// 28.实现strStr(): easy + KMP算法
+var strStr = function(haystack, needle) {
+    // 获取主串长度,模式串长度
+    let sLen = haystack.length,
+        pLen = needle.length;
+    // 边界处理
+    if(pLen > sLen) return -1;
+    if(!pLen) return 0;
+    // 计算部分匹配表
+    let inc = [];
+    for(let i=0; i<pLen; i++) {
+        for(let j=0; j<=i; j++) {
+            if(needle[j] !== needle[j-i]) {
+                inc[i] = j + i;
+                break;
+            }
+            if(j === i && needle[j] === needle[i - j]) {
+                inc[i] = j + 1;
+            }
+        }
+    }
+    let s = 0;
+    while(s < sLen) {
+        for(let p=0; p<pLen; p++) {
+            if(needle[p] !== haystack[s + p]) {
+                s += inc[p];
+                break;
+            }
+            if(p === pLen - 1 && needle[p] === haystack[s + p]) return i;
+        }
+    }
+    return -1;
+};
+
+// 28.实现strStr(): easy + BM算法
+var strStr = function(haystack, needle) {
+    //
 };
