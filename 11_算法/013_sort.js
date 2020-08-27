@@ -197,11 +197,38 @@ var strStr = function(haystack, needle) {
     if(pLen > sLen) return -1;
     if(!pLen) return 0;
     // 计算部分匹配表
+    let inc = [1, 1, 2, 3, 4, 4, 4, 7];
+    let s = 0;
+    while(s < sLen) {
+        let vLen = 0;
+        for(let p=0; p<pLen; p++) {
+            if(haystack[s+p] === needle[p]) vLen++;
+            else break;
+        }
+        // 是否匹配
+        if(vLen === pLen) {
+            return s;
+        }else {
+            // 跳跃到适合自己的位置
+            s += inc[vLen];
+        }
+    }
+    return -1;
+};
+// 28.实现strStr(): easy + KMP算法
+var strStr = function(haystack, needle) {
+    // 获取主串长度,模式串长度
+    let sLen = haystack.length,
+        pLen = needle.length;
+    // 边界处理
+    if(pLen > sLen) return -1;
+    if(!pLen) return 0;
+    // 计算部分匹配表
     let inc = [];
     for(let i=0; i<pLen; i++) {
         for(let j=0; j<=i; j++) {
-            if(needle[j] !== needle[j-i]) {
-                inc[i] = j + i;
+            if(needle[j] !== needle[i-j]) {
+                inc[i] = j + 1;
                 break;
             }
             if(j === i && needle[j] === needle[i - j]) {
@@ -212,17 +239,18 @@ var strStr = function(haystack, needle) {
     let s = 0;
     while(s < sLen) {
         for(let p=0; p<pLen; p++) {
-            if(needle[p] !== haystack[s + p]) {
+            if(haystack[s+p] !== needle[p]) {
                 s += inc[p];
                 break;
             }
-            if(p === pLen - 1 && needle[p] === haystack[s + p]) return i;
+            if(p === pLen - 1 && needle[p] === haystack[s + p]) return s;
         }
     }
     return -1;
 };
+console.log('结果----->', strStr('BBC ABCDAB ABCDABCDABDE', 'ABCDABD'));
 
-// 28.实现strStr(): easy + BM算法
-var strStr = function(haystack, needle) {
-    //
-};
+// // 28.实现strStr(): easy + BM算法
+// var strStr = function(haystack, needle) {
+//     //
+// };
