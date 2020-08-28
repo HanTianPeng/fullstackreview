@@ -22,6 +22,43 @@
     }
     return dp[n];
 };
+// 70. 爬楼梯: easy + 动态规划
+var climbStairs = function(n) {
+    let n0 = 1,
+        n1 = 1;
+    // 动态规划
+    for(let i=2; i<=n; i++) {
+        let temp = n1;
+        n1 = n0 + n1;
+        n0 = temp;
+    }
+    return n1;
+};
+// 746. 使用最小花费爬楼梯
+/*
+题目理解:
+    1. 第i级台阶是第i-1级台阶的阶梯顶部
+    2. 踏上第i级台阶需要花费cost[i];直接迈一大步跨过而不踏上去则不用花费
+    3. 楼梯顶部在数组之外，如果数组长度为len，那么楼梯订单就在下标为len的地方
+定义子问题:
+    踏上第i级台阶的体力消耗为到达前两个台阶的最小体力消耗再加上本层体力消耗
+        最后迈一步: dp[i-1] + dp[i]
+        最后迈两步: dp[i-2] + dp[i]
+    实现需要反复执行解决的子问题
+        dp[i] = Math.min(dp[i-2], dp[i]) + cost[i]
+*/
+var minCostClimbingStairs = function(cost) {
+    let n = cost.length,
+        n1 = cost0,
+        n2 = cost1;
+    // 遍历
+    for(let i=2; i<n; i++) {
+        let temp = n2;
+        n2 = Math.min(n1, n2) + cost[i];
+        n1 = temp;
+    }
+    return Math.min(n1, n2);
+};
 
 // 509.斐波那契数: easy + DP + 时间复杂度(n)
 var fib = function(N) {
