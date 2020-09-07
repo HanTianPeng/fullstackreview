@@ -25,5 +25,5 @@ var robCircle = function(nums) {
     // 边界处理
     if(!nums.length) return 0;
     if(nums.length === 1) return nums[0];
-    return Math.max(rob(nums.slice(0, nums.length - 1)), rob(nums.slice(1)))；
+    return Math.max(rob(nums.slice(0, nums.length - 1)), rob(nums.slice(1)));
 };

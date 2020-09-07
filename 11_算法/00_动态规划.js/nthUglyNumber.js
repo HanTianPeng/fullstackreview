@@ -19,7 +19,7 @@ var nthUglyNumber = function(n) {
     if(n < 1) return 0;
     let p2 = 0,
         p3 = 0,
-        p4 = 0,
+        p5 = 0,
         dp = new Array(n).fill(0);
     // 第一个丑数
     dp[0] = 1;
