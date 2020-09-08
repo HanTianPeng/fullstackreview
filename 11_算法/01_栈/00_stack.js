@@ -131,7 +131,7 @@ var largestRectangleArea = function(heights) {
             // 高度
             let ht = heights[stackTopIndex];
             // 宽度
-            let width = stack.length ? i - stack[stack.length - 1] : 1;
+            let width = stack.length ? i - stack[stack.length - 1] - 1 : 1;
             // 最大面积
             max = Math.max(max, ht * width);
         }
