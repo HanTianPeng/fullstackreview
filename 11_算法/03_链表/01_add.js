@@ -52,3 +52,64 @@ this.getMiddleFor = function(){
     }
     return result[Math.ceil((result.length - 1) / 2)];
 }
+// 2.两数相加: medium + 遍历 + 满10进1 + 哨兵节点
+var addTwoNumbers = function(l1, l2) {
+    // 初始化头节点
+    let node = new ListNode('head'),
+        add = 0,
+        sum = 0,
+        temp = node;
+    while(l1 || l2) {
+        // 进行加法运算
+        sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + add;
+        // 创建新节点
+        temp.next = new ListNode(sum % 10);
+        // 重置,这样才能保证下一个节点挂在temp.next的next下
+        temp = temp.next;
+        // 判断是否需要进一
+        add = sum >= 10 ? 1 : 0;
+        // 移动指针
+        l1 && (l1 = l1.next);
+        l2 && (l2 = l2.next);
+    }
+    // 最后判断是否需要进一
+    add && (temp.next = new ListNode(add));
+    return node.next;
+};
+// 138.复制带随机指针的链表: medium + 遍历 + 拷贝 + 哈希表
+var Node = function(val, next, random) {
+    this.val = val;
+    this.next = next;
+    this.random = random;
+};
+var copyRandomList = function(head) {
+    // 边界问题
+    if(head === null) return head;
+    let currentNode = head,
+        node = new Node(),
+        temp = node,
+        nodeMap = new Map();
+    // 第一次遍历,拷贝val和next
+    while(currentNode) {
+        // 复制val
+        temp.val = currentNode.val;
+        // 复制next
+        temp.next = currentNode.next ? new Node() : null;
+        // 存储映射关系
+        nodeMap.set(currentNode, temp);
+        // 重新赋值
+        temp = temp.next;
+        currentNode = currentNode.next;
+    }
+    // 第二次遍历,拷贝random
+    currentNode = head,
+    temp = node;
+    while(currentNode) {
+        // 复制random
+        temp.random = currentNode.random ? nodeMap.get(currentNode.random) : null;
+        // 重新赋值
+        temp = temp.next;
+        currentNode = currentNode.next;
+    }
+    return node;
+};
