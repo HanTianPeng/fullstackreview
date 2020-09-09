@@ -198,7 +198,7 @@ MyCircularDeque.prototype.isFull = function() {
     return (this.tail + 1) % this.cap === this.head;
 };
 
-// 339.滑动窗口最大值: hard + 双端队列 + 时间复杂度O(n)
+// 239.滑动窗口最大值: hard + 双端队列 + 时间复杂度O(n)
 var maxSlidingWindow = function(nums, k) {
     // 边界处理
     if(k === 1) return nums;
@@ -223,7 +223,7 @@ var maxSlidingWindow = function(nums, k) {
     return result;
 };
 
-// 339.滑动窗口最大值: hard + 暴力破解法 + 时间复杂度O(kn)
+// 239.滑动窗口最大值: hard + 暴力破解法 + 时间复杂度O(kn)
 var maxSlidingWindow = function(nums, k) {
     // 边界处理
     if(k === 1) return nums;
