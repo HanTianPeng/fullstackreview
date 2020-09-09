@@ -36,6 +36,31 @@ var reverseList = function(head) {
     // 重新将头节点指向最后一个节点
     return reverseNode;
 };
+// 61.旋转链表: medium + 先闭环,再拆环
+var rotateRight = function(head, k) {
+    if(!head || !head.next || !k) return head;
+    // 获取链表长度
+    let size = 1,
+        cur = head;
+    while(cur && cur.next){
+        cur = cur.next;
+        size++;
+    }
+    // 将尾节点的next指针指向头节点
+    cur.next = head;
+    // 获取最终旋转k数
+    k = k % size;
+    // 从左向右移动size - k
+    let count = 1,
+        temp = head;
+    while(count < size - k) {
+        temp = temp.next;
+        count++;
+    }
+    let newHead = temp.next;
+    temp.next = null;
+    return newHead;
+};
 // 2.两数相加: medium + 遍历 + 满10进1 + 哨兵节点
 var addTwoNumbers = function(l1, l2) {
     // 初始化头节点
