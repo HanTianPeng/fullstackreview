@@ -1,3 +1,20 @@
+// 704.二分查找: easy + 二分查找 + 遍历
+var search = function(nums, target) {
+    // 边界处理
+    if(!nums.length) return -1;
+    let low = 0,
+        high = nums.length - 1;
+    while(low <= high) {
+        let mid = Math.floor((low + high) / 2);
+        if(nums[mid] < target) {
+            low = mid + 1;
+        }else if(nums[mid] > target) {
+            high = mid - 1;
+        }else {
+            return mid;
+        }
+    }
+};
 /*
 1201.丑数Ⅲ(a, b, c)
 可能情况:
