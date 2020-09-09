@@ -122,3 +122,30 @@ var copyRandomList = function(head) {
     }
     return node;
 };
+// 234.回文链表: easy + 链表的中间节点 + 反转链表
+var isPalindrome = function(head) {
+    let fast = head,
+        slow = head;
+    while(fast && fast.next) {
+        fast = fast.next.next;
+        slow = slow.next;
+    }
+    let lastHalfList = reverseList(slow);
+    while(lastHalfList && head) {
+        if(lastHalfList.val !== head.val) return false;
+        lastHalfList = lastHalfList.next;
+        head = head.next;
+    }
+    return true;
+};
+// 234.回文链表: 递归 + 递归函数的堆栈原理
+var isPalindrome = function(head) {
+    let reverse = (node) => {
+        if(!node) return true;
+        let result = reverse(node.next);
+        result = result && head.val === node.val;
+        head = head.next;
+        return result;
+    };
+    return reverse(head);
+};
