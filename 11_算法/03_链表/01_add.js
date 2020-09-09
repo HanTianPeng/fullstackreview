@@ -10,48 +10,32 @@
   
   5. 从单向链表删除一个元素,需要将待删除的元素的前驱节点指向待删除元素的后继节点,同时将删除节点元素指向null
 */
-// 尾递归函数
-this.recurive = function(beforeNode, currentNode){
-    if(!currentNode){
-        return beforeNode;
-    }
-    let nextNode = currentNode.next;
-    currentNode.next = beforeNode;
-    return this.recurive(currentNode, nextNode);
-}
-// 尾递归法:反转---从头节点开始,递归反转它的每一个节点,直到null,时间复杂度O(n),空间复杂度O(n)
-this.recuiveReverse = function(){
-    let currentNode = this.head,
-        beforeNode = null;
+// 206.反转链表: easy + 递归
+reverseList = function(head){
+    // 边界处理
+    if(!head || !head.next) return head;
+    // 递归函数:改变链表指针方法
+    let recuseNode = (pre, cur) => {
+        if(!cur) return pre;
+        let temp = cur.next;
+        cur.next = pre;
+        return recuseNode(cur, temp);
+    };
     // 重新将头节点指向最后一个节点
-    return this.head = this.recurive(beforeNode, currentNode);
-}
-// 递归法:反转---不断递归反转当前节点head的后继节点next,时间复杂度O(n),空间复杂度O(n)
-this.headRecuiveReverse = function(headNode){
-    if(!headNode || !headNode.next){
-        return headNode;
-    }
-    let nextNode = headNode.next;
-    console.log(nextNode.element);
+    return recuseNode(null, head);
+};
+// 206.反转链表: easy + 递归
+var reverseList = function(head) {
+    if(!head || !head.next) return head;
+    let nextNode = head.next;
     // 递归反转
-    let reverseNode = this.headRecuiveReverse(nextNode);
+    let reverseNode = reverseList(nextNode);
     // 变更指针
-    nextNode.next = headNode;
-    headNode.next = null;
+    nextNode.next = head;
+    head.next = null;
     // 重新将头节点指向最后一个节点
-    return this.head = reverseNode;
-}
-
-// 给定一个带有头节点的非空单链表,返回链表的中间节点,求链表的中间节点: 遍历将节点放在数组中,然后取中间值
-this.getMiddleFor = function(){
-    let result = [],
-        currentNode = this.head;
-    while(currentNode){
-        result.push(currentNode);
-        currentNode = currentNode.next;
-    }
-    return result[Math.ceil((result.length - 1) / 2)];
-}
+    return reverseNode;
+};
 // 2.两数相加: medium + 遍历 + 满10进1 + 哨兵节点
 var addTwoNumbers = function(l1, l2) {
     // 初始化头节点
