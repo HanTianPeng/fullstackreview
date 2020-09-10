@@ -104,6 +104,23 @@ var plusOne = function(digits) {
     isAdd && newDigits.unshift(isAdd);
     return newDigits;
 };
+/*
+    66.加一: easy
+    关键点:
+        1. 个位数为9，需要在首位加一个新元素1
+        2. 个位数不为0, 需要在末尾的数字进行+1的加法运算
+*/
+var plusOne = function(digits) {
+    digits = digits + 1;
+    for(var i=digits.length -1; i>=0; i--){
+        digits[i] = digits[i] + 1;
+        digits[i] = digits[i] % 10;
+        if(num != 0){
+            return digits;
+        }
+    }
+    digits.splice(0, 0, 1);
+};
 
 // 26.删除排序数组中的重复项: easy + 排序数组 + 遍历 + 标识位 + splice
 var removeDuplicates = function(nums) {
@@ -141,7 +158,7 @@ var removeDuplicates = function(nums) {
     return nums;
 };
 
-// 189.旋转数组: medium + 占座 + do-while循环
+// 189.旋转数组: easy + 占座 + do-while循环
 var rotate = function(nums, k) {
     // 边界处理
     if(!nums) return [];
@@ -174,49 +191,67 @@ var rotate = function(nums, k) {
     }
     return nums;
 };
+// 189.旋转数组: easy + 占座 + 暴力破解
+var rotate = function(nums, k){
+    if(k <= 0) return nums;
+    k = k % nums.length;
+    // 旋转k次
+    for(var i=0; i<k; i++) {
+        var init = nums[nums.length - 1];
+        for(var j=0; j<nums.length; j++){
+            var temp = nums[j];
+            nums[j] = init;
+            init = temp;
+        }
+    }
+};
+/*
+    189.旋转数组: 时间复杂度O(n),n个元素被反转n次; 空间复杂度O(1)
+        关键点:
+            1. 元素数组 [1,2,3,4,5,6,7]
+            2. 反转所有数字[7,6,5,4,3,2,1]
+            3. 反转前k个数字[5,6,7, 4,3,2,1]
+            4. 反转后n-k个数字[5,6,7,1,2,3,4]
+*/
+function reverseNum(nums, start, end) {
+    while(start < end){
+        var temp = nums[start];
+        nums[start] = nums[end];
+        nums[end] = temp;
+        start++;
+        end--;
+    }
+}
+var rotate = function(nums, k) {
+    k = k % nums.length;
+    reverseNum(nums, 0, nums.length-1);
+    reverseNum(nums, 0, k-1);
+    reverseNum(nums, k, nums.length - 1);
+    return nums;
+};
 
 // 268.缺失数字: easy + 排序数组 + 遍历 + 边界问题
 var missingNumber = function(nums) {
     // 排序
     nums.sort((a, b) => a - b);
-
     // 判断是否以0开始
-    if(nums[0] > 0) {
-        return 0;
-    }
-
+    if(nums[0] > 0) return 0;
     // 判断序列是否断层
     for(let i=1; i<nums.length; i++) {
         if(nums[i] - nums[i-1] > 1) {
             return nums[i-1] + 1;
         }
     }
-
     // 未断层序列,边界处理
     return nums[nums.length - 1] + 1;
 };
 
-// 14.最长公共前缀: easy + 两两比较 + 遍历
-var longestCommonPrefix = function(strs) {
-    // 边界处理
-    if(!strs.length) return '';
+// 携程算法题, 腾讯算法题
+// 将数组扁平化并且去除其中重复数据，最终得到一个升序且不重复的数组
+function flatList(arr) {
+    return Array.from(new Set(arr.flat(Infinity))).sort((a, b) => {return a - b;});
+}
 
-    // 用第一个元素作为典范
-    let temp = strs[0];
-
-    for(let i=1; i<strs.length; i++) {
-        for(let j=0; j<strs[i].length; j++) {
-            // 越界索引判断
-            if (j > temp.length-1) break;
-            if(strs[i][j] !== temp[j]) {
-                temp = temp.slice(0,j);
-                break;
-            } 
-        }
-        // 针对temp的长度比遍历元素的长度大
-        if(temp.length > strs[i].length) temp = strs[i];
-        // 优化
-        if(!temp) return '';
-    }
-    return temp;
-};
+function flatListApi(arr) {
+    return Array.from(new Set(arr.toString().split(','))).sort((a, b) => {return a - b;}).map(Number);
+}
